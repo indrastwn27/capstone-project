@@ -219,6 +219,8 @@ tr:hover td{background:#f9fdfb}
 .ortu-anak-name{font-size:22px;font-family:'DM Serif Display',serif;margin-bottom:4px}
 .ortu-anak-meta{font-size:13px;opacity:.85}
 .ortu-status{display:inline-block;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;margin-top:10px}
+.mt-4{margin-top:4px}
+.mb-12{margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -238,18 +240,22 @@ tr:hover td{background:#f9fdfb}
         <button class="role-tab" onclick="setRole('bidan',this)">Bidan</button>
         <button class="role-tab" onclick="setRole('ortu',this)">Orang Tua</button>
       </div>
+      <div id="ortuInfo" class="hidden" style="background:var(--blue-light);border:1px solid #bfdbfe;border-radius:var(--radius);padding:10px 13px;margin-bottom:14px;font-size:12px;color:#1e40af;display:flex;gap:8px;align-items:flex-start">
+        <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0;margin-top:1px"></i>
+        <span>Akun orang tua dibuat oleh Admin/Bidan Puskesmas. Hubungi petugas jika belum memiliki akun.</span>
+      </div>
       <div class="form-group mb-12">
-        <label>Username / Email</label>
+        <label>Username</label>
         <input type="text" id="loginUser" placeholder="Masukkan username">
       </div>
       <div class="form-group mb-16">
         <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Masukkan password">
+        <input type="password" id="loginPass" placeholder="Masukkan password" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <button class="btn btn-primary w-full" onclick="doLogin()" style="justify-content:center">
         <i class="ti ti-login"></i> Masuk
       </button>
-      <p class="login-hint" id="loginHint">Admin: admin/admin123</p>
+      <p class="login-hint" id="loginHint" style="color:var(--text3);font-size:11px;text-align:center;margin-top:10px"></p>
     </div>
   </div>
 </div>
@@ -310,7 +316,18 @@ const DB = {
     if(!this.get('users')) this.set('users',[
       {id:1,username:'admin',password:'admin123',role:'admin',nama:'Admin Puskesmas',nip:'1234567890'},
       {id:2,username:'bidan1',password:'bidan123',role:'bidan',nama:'Bidan Sari Dewi',nip:'9876543210'},
-      {id:3,username:'ortu1',password:'ortu123',role:'ortu',nama:'Ibu Rahayu',nik:'6101234567890001',namaAnak:'Muhammad Raffa'},
+    ]);
+    if(!this.get('wilayah')) this.set('wilayah',[
+      {id:1,nama:'Sungai Durian'},
+      {id:2,nama:'Kapur'},
+      {id:3,nama:'Punggur Kecil'},
+      {id:4,nama:'Seruat'},
+      {id:5,nama:'Sei Ambawang'},
+    ]);
+    if(!this.get('posyandu')) this.set('posyandu',[
+      {id:1,nama:'Posyandu Melati',wilayah:'Sungai Durian'},
+      {id:2,nama:'Posyandu Mawar',wilayah:'Kapur'},
+      {id:3,nama:'Posyandu Anggrek',wilayah:'Punggur Kecil'},
     ]);
     if(!this.get('anak')) this.set('anak',[
       {id:1,nik:'3261202405100001',nama:'Muhammad Raffa',tglLahir:'2024-05-10',jenisKelamin:'L',namaIbu:'Ibu Rahayu',nikIbu:'6101234567890001',noHP:'08123456789',alamat:'Jl. Sungai Durian No. 12',wilayah:'Sungai Durian',posyandu:'Posyandu Melati'},
@@ -348,13 +365,20 @@ DB.init();
 // ═══════════════════════════════════════
 let currentUser = null;
 let currentRole = 'admin';
-let hints = {admin:'admin / admin123',bidan:'bidan1 / bidan123',ortu:'ortu1 / ortu123'};
 
 function setRole(r,el){
   currentRole = r;
   document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  document.getElementById('loginHint').textContent = hints[r];
+  const ortuInfo = document.getElementById('ortuInfo');
+  if(r==='ortu'){
+    ortuInfo.style.display='flex';
+  } else {
+    ortuInfo.style.display='none';
+  }
+  document.getElementById('loginHint').textContent='';
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
 }
 
 function doLogin(){
@@ -390,6 +414,8 @@ const MENUS = {
     {sec:'jadwal',icon:'ti-calendar-event',label:'Jadwal & Notifikasi'},
     {sec:'laporan',icon:'ti-chart-bar',label:'Laporan',group:'Manajemen'},
     {sec:'pengguna',icon:'ti-users',label:'Manajemen Pengguna'},
+    {sec:'pengaturan',icon:'ti-settings',label:'Pengaturan Wilayah',group:'Pengaturan'},
+    {sec:'profil',icon:'ti-user-circle',label:'Profil Saya',group:'Akun'},
   ],
   bidan:[
     {sec:'dashboard',icon:'ti-layout-dashboard',label:'Dashboard'},
@@ -399,12 +425,14 @@ const MENUS = {
     {sec:'artikel',icon:'ti-article',label:'Artikel Gizi',group:'Informasi'},
     {sec:'jadwal',icon:'ti-calendar-event',label:'Jadwal'},
     {sec:'laporan',icon:'ti-chart-bar',label:'Laporan',group:'Lainnya'},
+    {sec:'profil',icon:'ti-user-circle',label:'Profil Saya',group:'Akun'},
   ],
   ortu:[
     {sec:'home_ortu',icon:'ti-home',label:'Beranda'},
     {sec:'perkembangan',icon:'ti-trending-up',label:'Perkembangan Anak'},
     {sec:'artikel',icon:'ti-article',label:'Artikel Gizi'},
     {sec:'jadwal',icon:'ti-calendar-event',label:'Jadwal Posyandu'},
+    {sec:'profil',icon:'ti-user-circle',label:'Profil Saya',group:'Akun'},
   ]
 };
 
@@ -505,7 +533,9 @@ SECTIONS.dashboard = ()=>{
   const total=anak.length, stunting=statuses.filter(s=>s==='Stunting'||s==='Stunting Berat').length;
   const normal=statuses.filter(s=>s==='Normal').length, pantau=statuses.filter(s=>s==='Perlu Pantau').length;
   const terbaru=ukur.slice(0,5);
-  const wilayah=['Sungai Durian','Kapur','Punggur Kecil','Seruat','Sei Ambawang'];
+  const wilayah=(DB.get('wilayah')||[]).map(w=>w.nama);
+  // juga tampung wilayah dari data anak yg mungkin tidak ada di master
+  anak.forEach(a=>{if(a.wilayah&&!wilayah.includes(a.wilayah))wilayah.push(a.wilayah);});
   const wMap={};wilayah.forEach(w=>wMap[w]=0);
   anak.forEach(a=>{const u=latest[a.id];if(u&&(u.status==='Stunting'||u.status==='Stunting Berat'))wMap[a.wilayah]=(wMap[a.wilayah]||0)+1;});
   const maxW=Math.max(...Object.values(wMap),1);
@@ -601,8 +631,8 @@ function filterAnak(){
 }
 
 function formAnak(data={}){
-  const wil=['Sungai Durian','Kapur','Punggur Kecil','Seruat','Sei Ambawang'];
-  const pos=['Posyandu Melati','Posyandu Mawar','Posyandu Anggrek'];
+  const wil=(DB.get('wilayah')||[]).map(w=>w.nama);
+  const pos=(DB.get('posyandu')||[]).map(p=>p.nama);
   return `
   <div class="form-group"><label>NIK Anak</label><input id="f_nik" value="${data.nik||''}" placeholder="16 digit NIK"></div>
   <div class="grid-2">
@@ -613,9 +643,19 @@ function formAnak(data={}){
     <div class="form-group"><label>NIK Ibu</label><input id="f_nikIbu" value="${data.nikIbu||''}" placeholder="NIK ibu"></div>
     <div class="form-group"><label>No. HP</label><input id="f_hp" value="${data.noHP||''}" placeholder="08xxx"></div>
     <div class="form-group col-span-2"><label>Alamat</label><input id="f_alamat" value="${data.alamat||''}" placeholder="Alamat lengkap"></div>
-    <div class="form-group"><label>Wilayah</label><select id="f_wil">${wil.map(w=>`<option ${data.wilayah===w?'selected':''}>${w}</option>`).join('')}</select></div>
-    <div class="form-group"><label>Posyandu</label><select id="f_pos">${pos.map(p=>`<option ${data.posyandu===p?'selected':''}>${p}</option>`).join('')}</select></div>
+    <div class="form-group"><label>Wilayah</label><select id="f_wil" onchange="filterPosyanduForm()">${wil.length?wil.map(w=>`<option ${data.wilayah===w?'selected':''}>${w}</option>`).join(''):'<option>— Belum ada wilayah —</option>'}</select></div>
+    <div class="form-group"><label>Posyandu</label><select id="f_pos">${pos.length?pos.map(p=>`<option ${data.posyandu===p?'selected':''}>${p}</option>`).join(''):'<option>— Belum ada posyandu —</option>'}</select></div>
   </div>`;
+}
+
+function filterPosyanduForm(){
+  const wilVal = document.getElementById('f_wil').value;
+  const allPos = DB.get('posyandu')||[];
+  const filtered = allPos.filter(p=>!p.wilayah||p.wilayah===wilVal);
+  const sel = document.getElementById('f_pos');
+  sel.innerHTML = filtered.length
+    ? filtered.map(p=>`<option>${p.nama}</option>`).join('')
+    : '<option>— Tidak ada posyandu —</option>';
 }
 
 function tambahAnak(){
@@ -706,6 +746,49 @@ SECTIONS.pengukuran = ()=>{
   <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Anak</th><th>Usia</th><th>BB (kg)</th><th>TB (cm)</th><th>LK (cm)</th><th>LLA (cm)</th><th>Z BB/U</th><th>Z TB/U</th><th>Status</th><th>Catatan</th><th>Aksi</th></tr></thead><tbody>${rows||'<tr><td colspan=12 style="text-align:center;color:var(--text2)">Belum ada data</td></tr>'}</tbody></table></div></div>`;
 };
 
+// ── WHO TB/U & BB/U tables (simplified, key months, L & P) ──
+const WHO_TBU = {
+  L:{0:[49.9,1.9,3.8,5.7],3:[61.4,2.0,4.0,6.0],6:[67.6,2.1,4.2,6.3],9:[72.3,2.3,4.6,6.9],12:[75.7,2.6,5.2,7.8],15:[79.1,2.7,5.4,8.1],18:[82.3,2.8,5.6,8.4],24:[87.8,3.0,6.0,9.0],30:[91.9,3.2,6.4,9.6],36:[96.1,3.4,6.8,10.2],42:[99.9,3.5,7.0,10.5],48:[103.3,3.6,7.2,10.8],54:[106.4,3.7,7.4,11.1],60:[109.4,3.8,7.6,11.4]},
+  P:{0:[49.1,1.9,3.8,5.7],3:[59.8,2.0,4.0,6.0],6:[65.7,2.1,4.2,6.3],9:[70.1,2.3,4.6,6.9],12:[74.0,2.5,5.0,7.5],15:[77.5,2.7,5.4,8.1],18:[80.7,2.8,5.6,8.4],24:[86.4,3.0,6.0,9.0],30:[90.8,3.2,6.4,9.6],36:[95.1,3.4,6.8,10.2],42:[98.7,3.5,7.0,10.5],48:[102.7,3.6,7.2,10.8],54:[106.2,3.7,7.4,11.1],60:[109.4,3.8,7.6,11.4]}
+};
+const WHO_BBU = {
+  L:{0:[3.3,0.4,0.8,1.2],3:[6.4,0.7,1.4,2.1],6:[7.9,0.9,1.8,2.7],9:[9.2,1.0,2.0,3.0],12:[10.2,1.1,2.2,3.3],18:[11.3,1.2,2.4,3.6],24:[12.2,1.3,2.6,3.9],36:[14.3,1.5,3.0,4.5],48:[16.3,1.8,3.6,5.4],60:[18.3,2.0,4.0,6.0]},
+  P:{0:[3.2,0.4,0.8,1.2],3:[5.8,0.7,1.4,2.1],6:[7.3,0.9,1.8,2.7],9:[8.5,1.0,2.0,3.0],12:[9.6,1.1,2.2,3.3],18:[10.8,1.2,2.4,3.6],24:[11.5,1.3,2.6,3.9],36:[13.9,1.5,3.0,4.5],48:[15.9,1.8,3.6,5.4],60:[17.7,2.0,4.0,6.0]}
+};
+function interpolateWHO(table,jk,usia){
+  const keys=Object.keys(table[jk]).map(Number).sort((a,b)=>a-b);
+  let lo=keys[0],hi=keys[keys.length-1];
+  for(let i=0;i<keys.length-1;i++){if(usia>=keys[i]&&usia<=keys[i+1]){lo=keys[i];hi=keys[i+1];break;}}
+  if(usia<=lo)return table[jk][lo];if(usia>=hi)return table[jk][hi];
+  const t=(usia-lo)/(hi-lo);return table[jk][lo].map((v,i)=>v+t*(table[jk][hi][i]-v));
+}
+function hitungZScore(val,median,s1,s2,s3){
+  const diff=val-median;
+  if(diff>=0)return +(diff/s1).toFixed(2);
+  if(diff>=-s2)return +(diff/s1).toFixed(2);
+  if(diff>=-s3)return +((diff+s1)/s2).toFixed(2);
+  return +((diff+s1+s2)/s3).toFixed(2);
+}
+function autoHitungZScore(){
+  const idAnak=parseInt(document.getElementById('u_idAnak').value);
+  const tgl=document.getElementById('u_tgl').value;
+  const bb=parseFloat(document.getElementById('u_bb').value);
+  const tb=parseFloat(document.getElementById('u_tb').value);
+  if(!idAnak||!tgl||!tb){showToast('Isi TB dan pilih anak dahulu','error');return;}
+  const anak=DB.get('anak').find(a=>a.id===idAnak);if(!anak)return;
+  const usia=hitungUsia(anak.tglLahir);
+  const jk=anak.jenisKelamin==='L'?'L':'P';
+  const [mT,s1T,s2T,s3T]=interpolateWHO(WHO_TBU,jk,usia);
+  const zTbu=hitungZScore(tb,mT,s1T,s2T,s3T);
+  document.getElementById('u_ztbu').value=zTbu;
+  if(bb){const [mB,s1B,s2B,s3B]=interpolateWHO(WHO_BBU,jk,usia);document.getElementById('u_zbbu').value=hitungZScore(bb,mB,s1B,s2B,s3B);}
+  let status='Normal';
+  if(zTbu<-3)status='Stunting Berat';
+  else if(zTbu<-2)status='Stunting';
+  else if(zTbu<-1)status='Perlu Pantau';
+  document.getElementById('u_status').value=status;
+  showToast('Z-Score dihitung otomatis: TB/U = '+zTbu);
+}
 function formUkur(data={},anak=[]){
   return `
   <div class="form-group"><label>Pilih Anak</label><select id="u_idAnak">${anak.map(a=>`<option value="${a.id}" ${data.idAnak===a.id?'selected':''}>${a.nama} (${hitungUsia(a.tglLahir)} bln)</option>`).join('')}</select></div>
@@ -715,9 +798,10 @@ function formUkur(data={},anak=[]){
     <div class="form-group"><label>Tinggi Badan (cm)</label><input type="number" id="u_tb" step="0.1" value="${data.tb||''}" placeholder="0.0"></div>
     <div class="form-group"><label>Lingkar Kepala (cm)</label><input type="number" id="u_lk" step="0.1" value="${data.lk||''}" placeholder="0.0"></div>
     <div class="form-group"><label>Lingkar Lengan Atas (cm)</label><input type="number" id="u_lla" step="0.1" value="${data.lla||''}" placeholder="0.0"></div>
-    <div class="form-group"><label>Z-Score BB/U</label><input type="number" id="u_zbbu" step="0.1" value="${data.zscore_bbu||''}" placeholder="Isi manual / dari KMS"></div>
-    <div class="form-group"><label>Z-Score TB/U</label><input type="number" id="u_ztbu" step="0.1" value="${data.zscore_tbu||''}" placeholder="Isi manual / dari KMS"></div>
+    <div class="form-group"><label>Z-Score BB/U</label><input type="number" id="u_zbbu" step="0.01" value="${data.zscore_bbu||''}" placeholder="Otomatis / manual"></div>
+    <div class="form-group"><label>Z-Score TB/U</label><input type="number" id="u_ztbu" step="0.01" value="${data.zscore_tbu||''}" placeholder="Otomatis / manual"></div>
   </div>
+  <button type="button" class="btn btn-primary w-full mb-12" onclick="autoHitungZScore()" style="justify-content:center"><i class="ti ti-calculator"></i> Hitung Z-Score Otomatis (Standar WHO)</button>
   <div class="form-group"><label>Status Gizi</label><select id="u_status"><option ${data.status==='Normal'?'selected':''}>Normal</option><option ${data.status==='Perlu Pantau'?'selected':''}>Perlu Pantau</option><option ${data.status==='Stunting'?'selected':''}>Stunting</option><option ${data.status==='Stunting Berat'?'selected':''}>Stunting Berat</option></select></div>
   <div class="form-group"><label>Catatan</label><textarea id="u_cat">${data.catatan||''}</textarea></div>`;
 }
@@ -938,8 +1022,10 @@ SECTIONS.laporan = ()=>{
   const statuses=Object.values(latest).map(u=>u.status);
   const total=anak.length,stunt=statuses.filter(s=>s==='Stunting'||s==='Stunting Berat').length;
   const pantau=statuses.filter(s=>s==='Perlu Pantau').length,normal=statuses.filter(s=>s==='Normal').length;
-  const wil=['Sungai Durian','Kapur','Punggur Kecil','Seruat','Sei Ambawang'];
-  const wData=wil.map(w=>{
+  const wilMaster=(DB.get('wilayah')||[]).map(w=>w.nama);
+  // sertakan wilayah dari data anak yg ada
+  anak.forEach(a=>{if(a.wilayah&&!wilMaster.includes(a.wilayah))wilMaster.push(a.wilayah);});
+  const wData=wilMaster.map(w=>{
     const anakW=anak.filter(a=>a.wilayah===w);
     const stuntW=anakW.filter(a=>latest[a.id]&&(latest[a.id].status==='Stunting'||latest[a.id].status==='Stunting Berat')).length;
     return{w,total:anakW.length,stunt:stuntW,pct:anakW.length?Math.round(stuntW/anakW.length*100):0};
@@ -977,38 +1063,181 @@ SECTIONS.pengguna = ()=>{
   if(currentUser.role!=='admin')return`<div class="empty"><i class="ti ti-lock"></i><p>Akses ditolak.</p></div>`;
   const users=DB.get('users')||[];
   const rows=users.map(u=>`<tr>
-    <td>${u.id}</td><td>${u.nama}</td><td>${u.username}</td>
+    <td>${u.nama}</td><td>${u.username}</td>
     <td><span class="badge ${u.role==='admin'?'badge-blue':u.role==='bidan'?'badge-green':'badge-gray'}">${ROLE_LABELS[u.role]||u.role}</span></td>
-    <td>${u.nip||u.nik||'-'}</td>
+    <td>${u.role==='ortu'?(u.nik||'-'):(u.nip||'-')}</td>
+    ${u.role==='ortu'?`<td><span class="badge badge-gray">${u.nikAnak||u.nik||'-'}</span></td>`:`<td>-</td>`}
     <td><div class="table-action">
-      <button class="btn btn-sm btn-icon" onclick="editUser(${u.id})"><i class="ti ti-edit"></i></button>
-      ${u.id!==currentUser.id?`<button class="btn btn-sm btn-danger btn-icon" onclick="hapusUser(${u.id})"><i class="ti ti-trash"></i></button>`:''}
+      <button class="btn btn-sm btn-icon" title="Edit" onclick="editUser(${u.id})"><i class="ti ti-edit"></i></button>
+      ${u.id!==currentUser.id?`<button class="btn btn-sm btn-danger btn-icon" title="Hapus" onclick="hapusUser(${u.id})"><i class="ti ti-trash"></i></button>`:''}
     </div></td>
   </tr>`).join('');
+  const ortuCount=users.filter(u=>u.role==='ortu').length;
   return `
-  <div class="search-row" style="justify-content:flex-end">
-    <button class="btn btn-primary" onclick="tambahUser()"><i class="ti ti-plus"></i>Tambah Pengguna</button>
+  <div class="alert alert-info mb-16"><i class="ti ti-info-circle"></i><div>Akun <b>Orang Tua</b> dibuat di sini oleh admin. Username & password diberikan langsung ke orang tua. NIK Ibu digunakan untuk menghubungkan akun dengan data anak.</div></div>
+  <div class="search-row" style="justify-content:flex-end;gap:10px">
+    <button class="btn" onclick="tambahUser('bidan')"><i class="ti ti-user-plus"></i>Tambah Bidan</button>
+    <button class="btn btn-primary" onclick="tambahUser('ortu')"><i class="ti ti-user-plus"></i>Buat Akun Orang Tua</button>
   </div>
-  <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Pengguna <span class="badge badge-blue">${users.length} akun</span></div>
-  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Nama</th><th>Username</th><th>Role</th><th>NIP/NIK</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  <div class="grid-2 mb-16" style="margin-bottom:14px">
+    <div class="metric"><div class="metric-label"><i class="ti ti-users"></i>Total Akun</div><div class="metric-val">${users.length}</div></div>
+    <div class="metric"><div class="metric-label"><i class="ti ti-users"></i>Akun Orang Tua</div><div class="metric-val">${ortuCount}</div><div class="metric-sub">dari total akun</div></div>
+  </div>
+  <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Pengguna</div>
+  <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>NIP / NIK</th><th>NIK Ibu (Ortu)</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
 };
 
-function formUser(data={}){
+function formUser(data={}, defaultRole='admin'){
+  const role = data.role || defaultRole;
+  const isOrtu = role==='ortu';
+  const anak = DB.get('anak')||[];
   return `
   <div class="form-group"><label>Nama Lengkap</label><input id="p_nama" value="${data.nama||''}" placeholder="Nama lengkap"></div>
   <div class="grid-2">
-    <div class="form-group"><label>Username</label><input id="p_user" value="${data.username||''}" placeholder="Username login"></div>
-    <div class="form-group"><label>Password ${data.id?'(kosong = tidak ubah)':''}</label><input type="password" id="p_pass" placeholder="Password"></div>
-    <div class="form-group"><label>Role</label><select id="p_role"><option value="admin" ${data.role==='admin'?'selected':''}>Admin</option><option value="bidan" ${data.role==='bidan'?'selected':''}>Bidan</option><option value="ortu" ${data.role==='ortu'?'selected':''}>Orang Tua</option></select></div>
-    <div class="form-group"><label>NIP / NIK</label><input id="p_nip" value="${data.nip||data.nik||''}" placeholder="NIP/NIK"></div>
+    <div class="form-group"><label>Username</label><input id="p_user" value="${data.username||''}" placeholder="Buat username unik"></div>
+    <div class="form-group"><label>Password ${data.id?'(kosong = tidak ubah)':''}</label><input type="password" id="p_pass" placeholder="Buat password"></div>
+    <div class="form-group"><label>Role</label><select id="p_role" onchange="toggleOrtuFields()">
+      <option value="admin" ${role==='admin'?'selected':''}>Admin</option>
+      <option value="bidan" ${role==='bidan'?'selected':''}>Bidan</option>
+      <option value="ortu" ${role==='ortu'?'selected':''}>Orang Tua</option>
+    </select></div>
+    <div class="form-group" id="p_nip_wrap" ${isOrtu?'style="display:none"':''}>
+      <label>NIP</label><input id="p_nip" value="${data.nip||''}" placeholder="Nomor Induk Pegawai">
+    </div>
+  </div>
+  <div id="p_ortu_fields" ${!isOrtu?'style="display:none"':''}>
+    <div class="alert alert-info" style="margin-bottom:12px"><i class="ti ti-info-circle"></i>NIK Ibu digunakan untuk menghubungkan akun ini dengan data anak yang terdaftar.</div>
+    <div class="grid-2">
+      <div class="form-group col-span-2"><label>NIK Ibu (16 digit)</label><input id="p_nik" value="${data.nik||''}" placeholder="Contoh: 6101234567890001" maxlength="16"></div>
+    </div>
+    ${anak.length?`<div class="form-group"><label>Pilih Anak yang Dihubungkan (opsional)</label><select id="p_idAnak">
+      <option value="">— Pilih anak —</option>
+      ${anak.map(a=>`<option value="${a.id}" ${data.idAnak==a.id?'selected':''}>${a.nama} (NIK Ibu: ${a.nikIbu||'-'})</option>`).join('')}
+    </select></div>`:'<div class="alert alert-warning" style="margin-bottom:0"><i class="ti ti-alert-triangle"></i>Belum ada data anak terdaftar. Daftarkan anak terlebih dahulu di menu Registrasi Anak.</div>'}
   </div>`;
 }
-function getFormUser(){return{nama:document.getElementById('p_nama').value.trim(),username:document.getElementById('p_user').value.trim(),password:document.getElementById('p_pass').value,role:document.getElementById('p_role').value,nip:document.getElementById('p_nip').value.trim()};}
-function tambahUser(){openModal(`<div class="modal-header"><div class="modal-title">Tambah Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formUser()}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanUser()"><i class="ti ti-check"></i>Simpan</button></div>`);}
-function editUser(id){const u=DB.get('users').find(x=>x.id===id);openModal(`<div class="modal-header"><div class="modal-title">Edit Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formUser(u)}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateUser(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);}
-function simpanUser(){const d=getFormUser();if(!d.nama||!d.username||!d.password){showToast('Semua field wajib diisi','error');return;}const users=DB.get('users');users.push({...d,id:uid()});DB.set('users',users);closeModal();showToast('Pengguna ditambahkan');renderSection('pengguna');}
-function updateUser(id){const d=getFormUser();const users=DB.get('users').map(u=>{if(u.id!==id)return u;return{...u,...d,password:d.password||u.password};});DB.set('users',users);closeModal();showToast('Pengguna diperbarui');renderSection('pengguna');}
+
+function toggleOrtuFields(){
+  const role=document.getElementById('p_role').value;
+  const isOrtu=role==='ortu';
+  document.getElementById('p_ortu_fields').style.display=isOrtu?'block':'none';
+  document.getElementById('p_nip_wrap').style.display=isOrtu?'none':'block';
+}
+
+function tambahUser(defaultRole='admin'){
+  openModal(`<div class="modal-header"><div class="modal-title">Tambah Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formUser({},defaultRole)}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanUser()"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+function editUser(id){
+  const u=DB.get('users').find(x=>x.id===id);
+  openModal(`<div class="modal-header"><div class="modal-title">Edit Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formUser(u,u.role)}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateUser(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+function getFormUser(){
+  const role=document.getElementById('p_role').value;
+  const d={nama:document.getElementById('p_nama').value.trim(),username:document.getElementById('p_user').value.trim(),password:document.getElementById('p_pass').value,role};
+  if(role==='ortu'){
+    d.nik=document.getElementById('p_nik').value.trim();
+    const idAnakEl=document.getElementById('p_idAnak');
+    if(idAnakEl&&idAnakEl.value)d.idAnak=parseInt(idAnakEl.value);
+    // auto-isi NIK ibu dari anak yang dipilih
+    if(d.idAnak){const anak=DB.get('anak').find(a=>a.id===d.idAnak);if(anak)d.nik=anak.nikIbu||d.nik;}
+  } else {
+    d.nip=document.getElementById('p_nip').value.trim();
+  }
+  return d;
+}
+function simpanUser(){
+  const d=getFormUser();
+  if(!d.nama||!d.username||!d.password){showToast('Nama, username, dan password wajib diisi','error');return;}
+  if(d.role==='ortu'&&!d.nik){showToast('NIK Ibu wajib diisi untuk akun orang tua','error');return;}
+  const users=DB.get('users');
+  if(users.find(u=>u.username===d.username)){showToast('Username sudah digunakan, pilih username lain','error');return;}
+  users.push({...d,id:uid()});DB.set('users',users);
+  closeModal();showToast('Akun berhasil dibuat');renderSection('pengguna');
+}
+function updateUser(id){
+  const d=getFormUser();
+  const users=DB.get('users').map(u=>{if(u.id!==id)return u;return{...u,...d,password:d.password||u.password};});
+  DB.set('users',users);closeModal();showToast('Pengguna diperbarui');renderSection('pengguna');
+}
 function hapusUser(id){if(!confirm('Hapus akun pengguna ini?'))return;DB.set('users',DB.get('users').filter(u=>u.id!==id));showToast('Pengguna dihapus');renderSection('pengguna');}
+
+// ──────────────────────────────────────
+// PENGATURAN WILAYAH & POSYANDU (admin only)
+// ──────────────────────────────────────
+SECTIONS.pengaturan = ()=>{
+  if(currentUser.role!=='admin')return`<div class="empty"><i class="ti ti-lock"></i><p>Akses ditolak.</p></div>`;
+  const wil=DB.get('wilayah')||[];
+  const pos=DB.get('posyandu')||[];
+  const wilRows=wil.map(w=>`<tr>
+    <td>${w.nama}</td>
+    <td>${pos.filter(p=>p.wilayah===w.nama).length} posyandu</td>
+    <td><div class="table-action">
+      <button class="btn btn-sm btn-icon" onclick="editWilayah(${w.id})"><i class="ti ti-edit"></i></button>
+      <button class="btn btn-sm btn-danger btn-icon" onclick="hapusWilayah(${w.id})"><i class="ti ti-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+  const posRows=pos.map(p=>`<tr>
+    <td>${p.nama}</td>
+    <td><span class="badge badge-gray">${p.wilayah||'-'}</span></td>
+    <td><div class="table-action">
+      <button class="btn btn-sm btn-icon" onclick="editPosyandu(${p.id})"><i class="ti ti-edit"></i></button>
+      <button class="btn btn-sm btn-danger btn-icon" onclick="hapusPosyandu(${p.id})"><i class="ti ti-trash"></i></button>
+    </div></td>
+  </tr>`).join('');
+  return `
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between"><span><i class="ti ti-map-pin"></i>Daftar Wilayah <span class="badge badge-green">${wil.length}</span></span>
+        <button class="btn btn-primary btn-sm" onclick="tambahWilayah()"><i class="ti ti-plus"></i>Tambah</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Nama Wilayah</th><th>Posyandu</th><th>Aksi</th></tr></thead>
+      <tbody>${wilRows||'<tr><td colspan=3 style="text-align:center;color:var(--text2)">Belum ada wilayah</td></tr>'}</tbody></table></div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="justify-content:space-between"><span><i class="ti ti-building-hospital"></i>Daftar Posyandu <span class="badge badge-green">${pos.length}</span></span>
+        <button class="btn btn-primary btn-sm" onclick="tambahPosyandu()"><i class="ti ti-plus"></i>Tambah</button>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Nama Posyandu</th><th>Wilayah</th><th>Aksi</th></tr></thead>
+      <tbody>${posRows||'<tr><td colspan=3 style="text-align:center;color:var(--text2)">Belum ada posyandu</td></tr>'}</tbody></table></div>
+    </div>
+  </div>
+  <div class="alert alert-info mt-16"><i class="ti ti-info-circle"></i>Perubahan wilayah & posyandu akan langsung berpengaruh pada form registrasi anak baru. Data anak yang sudah ada tidak berubah.</div>`;
+};
+
+function formWilayah(data={}){
+  return `<div class="form-group"><label>Nama Wilayah</label><input id="w_nama" value="${data.nama||''}" placeholder="Contoh: Sungai Durian"></div>`;
+}
+function tambahWilayah(){openModal(`<div class="modal-header"><div class="modal-title">Tambah Wilayah</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formWilayah()}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanWilayah()"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function editWilayah(id){const w=DB.get('wilayah').find(x=>x.id===id);openModal(`<div class="modal-header"><div class="modal-title">Edit Wilayah</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formWilayah(w)}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateWilayah(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function simpanWilayah(){const nama=document.getElementById('w_nama').value.trim();if(!nama){showToast('Nama wilayah wajib diisi','error');return;}const wil=DB.get('wilayah');wil.push({id:uid(),nama});DB.set('wilayah',wil);closeModal();showToast('Wilayah ditambahkan');renderSection('pengaturan');}
+function updateWilayah(id){const nama=document.getElementById('w_nama').value.trim();if(!nama){showToast('Nama wilayah wajib diisi','error');return;}DB.set('wilayah',DB.get('wilayah').map(w=>w.id===id?{...w,nama}:w));closeModal();showToast('Wilayah diperbarui');renderSection('pengaturan');}
+function hapusWilayah(id){
+  const w=DB.get('wilayah').find(x=>x.id===id);
+  const pos=DB.get('posyandu')||[];
+  if(pos.some(p=>p.wilayah===w.nama)){showToast('Hapus posyandu di wilayah ini terlebih dahulu','error');return;}
+  if(!confirm(`Hapus wilayah "${w.nama}"?`))return;
+  DB.set('wilayah',DB.get('wilayah').filter(x=>x.id!==id));showToast('Wilayah dihapus');renderSection('pengaturan');
+}
+
+function formPosyandu(data={}){
+  const wil=(DB.get('wilayah')||[]).map(w=>w.nama);
+  return `
+  <div class="form-group"><label>Nama Posyandu</label><input id="ps_nama" value="${data.nama||''}" placeholder="Contoh: Posyandu Melati"></div>
+  <div class="form-group"><label>Wilayah</label><select id="ps_wil">
+    <option value="">— Pilih Wilayah —</option>
+    ${wil.map(w=>`<option ${data.wilayah===w?'selected':''}>${w}</option>`).join('')}
+  </select></div>`;
+}
+function tambahPosyandu(){if(!(DB.get('wilayah')||[]).length){showToast('Tambahkan wilayah terlebih dahulu','error');return;}openModal(`<div class="modal-header"><div class="modal-title">Tambah Posyandu</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formPosyandu()}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanPosyandu()"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function editPosyandu(id){const p=DB.get('posyandu').find(x=>x.id===id);openModal(`<div class="modal-header"><div class="modal-title">Edit Posyandu</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formPosyandu(p)}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updatePosyandu(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function getPosyanduForm(){return{nama:document.getElementById('ps_nama').value.trim(),wilayah:document.getElementById('ps_wil').value};}
+function simpanPosyandu(){const d=getPosyanduForm();if(!d.nama){showToast('Nama posyandu wajib diisi','error');return;}const pos=DB.get('posyandu');pos.push({...d,id:uid()});DB.set('posyandu',pos);closeModal();showToast('Posyandu ditambahkan');renderSection('pengaturan');}
+function updatePosyandu(id){const d=getPosyanduForm();if(!d.nama){showToast('Nama posyandu wajib diisi','error');return;}DB.set('posyandu',DB.get('posyandu').map(p=>p.id===id?{...p,...d}:p));closeModal();showToast('Posyandu diperbarui');renderSection('pengaturan');}
+function hapusPosyandu(id){const p=DB.get('posyandu').find(x=>x.id===id);if(!confirm(`Hapus posyandu "${p.nama}"?`))return;DB.set('posyandu',DB.get('posyandu').filter(x=>x.id!==id));showToast('Posyandu dihapus');renderSection('pengaturan');}
 
 // ──────────────────────────────────────
 // HOME ORTU
@@ -1057,6 +1286,174 @@ SECTIONS.perkembangan = ()=>{
   <tbody>${rows||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Belum ada data pengukuran</td></tr>'}</tbody></table></div></div>
   <div class="alert alert-info"><i class="ti ti-info-circle"></i>Data pengukuran diinput oleh bidan pada setiap kegiatan posyandu. Bawa Buku KIA saat posyandu.</div>`;
 };
+
+// ──────────────────────────────────────
+// PROFIL PENGGUNA
+// ──────────────────────────────────────
+SECTIONS.profil = ()=>{
+  const u=currentUser;
+  return `
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title"><i class="ti ti-user-circle"></i>Informasi Akun</div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
+        <div style="width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:700;flex-shrink:0">${u.nama.charAt(0).toUpperCase()}</div>
+        <div><div style="font-size:17px;font-weight:600">${u.nama}</div><div class="text-muted text-sm">${ROLE_LABELS[u.role]||u.role}</div></div>
+      </div>
+      <div class="info-row"><div class="info-label">Username</div><div class="info-val">${u.username}</div></div>
+      <div class="info-row"><div class="info-label">Role</div><div class="info-val"><span class="badge ${u.role==='admin'?'badge-blue':u.role==='bidan'?'badge-green':'badge-gray'}">${ROLE_LABELS[u.role]}</span></div></div>
+      <div class="info-row"><div class="info-label">NIP / NIK</div><div class="info-val">${u.nip||u.nik||'-'}</div></div>
+    </div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-edit"></i>Edit Profil</div>
+      <div class="form-group mb-12"><label>Nama Lengkap</label><input id="pr_nama" value="${u.nama}" placeholder="Nama lengkap"></div>
+      <div class="form-group mb-12"><label>Username</label><input id="pr_user" value="${u.username}" placeholder="Username"></div>
+      <div class="form-group mb-12"><label>NIP / NIK</label><input id="pr_nip" value="${u.nip||u.nik||''}" placeholder="NIP atau NIK"></div>
+      <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
+        <div style="font-size:12px;font-weight:500;color:var(--text2);margin-bottom:10px">Ganti Password (kosongkan jika tidak ingin ubah)</div>
+        <div class="form-group mb-12"><label>Password Baru</label><input type="password" id="pr_pass" placeholder="Password baru"></div>
+        <div class="form-group mb-16"><label>Konfirmasi Password</label><input type="password" id="pr_pass2" placeholder="Ulangi password baru"></div>
+      </div>
+      <button class="btn btn-primary w-full" onclick="simpanProfil()" style="justify-content:center"><i class="ti ti-check"></i>Simpan Perubahan</button>
+    </div>
+  </div>`;
+};
+
+function simpanProfil(){
+  const nama=document.getElementById('pr_nama').value.trim();
+  const username=document.getElementById('pr_user').value.trim();
+  const nip=document.getElementById('pr_nip').value.trim();
+  const pass=document.getElementById('pr_pass').value;
+  const pass2=document.getElementById('pr_pass2').value;
+  if(!nama||!username){showToast('Nama dan username wajib diisi','error');return;}
+  if(pass&&pass!==pass2){showToast('Konfirmasi password tidak cocok','error');return;}
+  const users=DB.get('users').map(u=>{
+    if(u.id!==currentUser.id)return u;
+    const updated={...u,nama,username,nip};
+    if(pass)updated.password=pass;
+    return updated;
+  });
+  DB.set('users',users);
+  currentUser={...currentUser,nama,username,nip};
+  if(pass)currentUser.password=pass;
+  document.getElementById('userName').textContent=nama;
+  document.getElementById('userAvatar').textContent=nama.charAt(0).toUpperCase();
+  showToast('Profil berhasil diperbarui');
+  renderSection('profil');
+}
+
+// ──────────────────────────────────────
+// GRAFIK PERKEMBANGAN (SVG Chart)
+// ──────────────────────────────────────
+function buatGrafikSVG(ukurList, field, label, color, unit){
+  if(ukurList.length<2)return`<div class="empty" style="padding:20px"><i class="ti ti-chart-line"></i><p>Butuh minimal 2 data pengukuran untuk menampilkan grafik.</p></div>`;
+  const W=480,H=160,padL=40,padR=10,padT=14,padB=30;
+  const vals=ukurList.map(u=>u[field]);
+  const minV=Math.min(...vals)*0.97, maxV=Math.max(...vals)*1.03;
+  const xScale=(i)=>padL+(i/(ukurList.length-1))*(W-padL-padR);
+  const yScale=(v)=>padT+(1-(v-minV)/(maxV-minV))*(H-padT-padB);
+  const pts=ukurList.map((u,i)=>`${xScale(i)},${yScale(u[field])}`).join(' ');
+  const dots=ukurList.map((u,i)=>`<circle cx="${xScale(i)}" cy="${yScale(u[field])}" r="4" fill="${color}" stroke="#fff" stroke-width="2"><title>${fmtDate(u.tanggal)}: ${u[field]} ${unit}</title></circle>`).join('');
+  const xLabels=ukurList.map((u,i)=>`<text x="${xScale(i)}" y="${H-4}" text-anchor="middle" font-size="10" fill="#8aad9f">${fmtDate(u.tanggal).slice(0,6)}</text>`).join('');
+  const yLabels=[minV,(minV+maxV)/2,maxV].map((v,i)=>{const y=yScale(v);return`<text x="${padL-4}" y="${y+4}" text-anchor="end" font-size="10" fill="#8aad9f">${v.toFixed(1)}</text><line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#e2ebe7" stroke-dasharray="3,3"/>`;}).join('');
+  return`<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto;overflow:visible">
+    ${yLabels}
+    <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linejoin="round"/>
+    <polyline points="${pts}" fill="${color}" fill-opacity="0.08" stroke="none"/>
+    ${dots}
+    ${xLabels}
+    <text x="${padL}" y="11" font-size="11" font-weight="600" fill="${color}">${label} (${unit})</text>
+  </svg>`;
+}
+
+// Override SECTIONS.perkembangan untuk tambah grafik
+SECTIONS.perkembangan = ()=>{
+  const anak=DB.get('anak')||[];
+  const a=anak.find(x=>x.nikIbu===currentUser.nik)||anak[0];
+  if(!a)return`<div class="empty"><i class="ti ti-baby"></i><p>Data tidak ditemukan.</p></div>`;
+  const ukur=DB.get('pengukuran').filter(u=>u.idAnak===a.id).sort((x,y)=>x.tanggal.localeCompare(y.tanggal));
+  const rows=ukur.map(u=>`<tr><td>${fmtDate(u.tanggal)}</td><td>${u.bb} kg</td><td>${u.tb} cm</td><td>${u.lk||'-'}</td><td>${u.lla||'-'}</td><td>${u.zscore_tbu}</td><td>${statusBadge(u.status)}</td><td>${u.catatan||'-'}</td></tr>`).join('');
+  return `
+  <div class="grid-2 mb-16">
+    <div class="card"><div class="card-title"><i class="ti ti-trending-up"></i>Grafik Berat Badan</div>${buatGrafikSVG(ukur,'bb','Berat Badan','#16a37f','kg')}</div>
+    <div class="card"><div class="card-title"><i class="ti ti-trending-up"></i>Grafik Tinggi Badan</div>${buatGrafikSVG(ukur,'tb','Tinggi Badan','#2563eb','cm')}</div>
+  </div>
+  <div class="card mb-16"><div class="card-title"><i class="ti ti-table"></i>Riwayat Perkembangan — ${a.nama}</div>
+  <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>BB</th><th>TB</th><th>LK</th><th>LLA</th><th>Z TB/U</th><th>Status</th><th>Catatan</th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Belum ada data pengukuran</td></tr>'}</tbody></table></div></div>
+  <div class="alert alert-info"><i class="ti ti-info-circle"></i>Data pengukuran diinput oleh bidan pada setiap kegiatan posyandu. Bawa Buku KIA saat posyandu.</div>`;
+};
+
+// ──────────────────────────────────────
+// GRAFIK di DETAIL ANAK (untuk admin/bidan)
+// ──────────────────────────────────────
+function grafikAnak(id){
+  const a=DB.get('anak').find(x=>x.id===id);
+  const ukur=DB.get('pengukuran').filter(u=>u.idAnak===id).sort((x,y)=>x.tanggal.localeCompare(y.tanggal));
+  openModal(`<div class="modal-header"><div class="modal-title"><i class="ti ti-chart-line" style="color:var(--green)"></i> Grafik — ${a.nama}</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  <div class="mb-12"><div class="card-title" style="margin-bottom:8px"><i class="ti ti-trending-up"></i>Berat Badan (kg)</div>${buatGrafikSVG(ukur,'bb','Berat Badan','#16a37f','kg')}</div>
+  <div class="mb-12"><div class="card-title" style="margin-bottom:8px"><i class="ti ti-trending-up"></i>Tinggi Badan (cm)</div>${buatGrafikSVG(ukur,'tb','Tinggi Badan','#2563eb','cm')}</div>
+  <div class="mb-12"><div class="card-title" style="margin-bottom:8px"><i class="ti ti-trending-up"></i>Z-Score TB/U</div>${buatGrafikSVG(ukur,'zscore_tbu','Z-Score TB/U','#d97706','SD')}</div>
+  <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal()">Tutup</button></div>`);
+}
+
+// ──────────────────────────────────────
+// PRINT / EXPORT LAPORAN
+// ──────────────────────────────────────
+function printLaporan(){
+  const anak=DB.get('anak')||[];
+  const ukur=DB.get('pengukuran')||[];
+  const latest={};ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const tanggal=new Date().toLocaleDateString('id-ID',{day:'2-digit',month:'long',year:'numeric'});
+  const rows=anak.map(a=>{const u=latest[a.id];return`<tr><td>${a.nama}</td><td>${a.jenisKelamin==='L'?'L':'P'}</td><td>${hitungUsia(a.tglLahir)} bln</td><td>${a.wilayah}</td><td>${u?u.bb+' kg':'-'}</td><td>${u?u.tb+' cm':'-'}</td><td>${u?u.zscore_tbu:'-'}</td><td>${u?u.status:'-'}</td></tr>`;}).join('');
+  const stunt=Object.values(latest).filter(u=>u.status==='Stunting'||u.status==='Stunting Berat').length;
+  const win=window.open('','_blank');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Laporan SiGizi</title>
+  <style>body{font-family:Arial,sans-serif;margin:24px;font-size:12px;color:#222}h1{font-size:18px;margin-bottom:2px}h2{font-size:13px;margin-bottom:16px;color:#555;font-weight:normal}
+  table{width:100%;border-collapse:collapse;margin-top:16px}th{background:#16a37f;color:#fff;padding:7px 9px;text-align:left;font-size:11px}td{padding:6px 9px;border-bottom:1px solid #ddd;font-size:11px}tr:last-child td{border-bottom:none}
+  .meta{display:flex;gap:32px;margin-bottom:16px;padding:10px;background:#f4f7f5;border-radius:6px}.meta-item{font-size:12px}.meta-val{font-size:18px;font-weight:700;color:#16a37f}
+  @media print{button{display:none}}</style></head><body>
+  <h1>LAPORAN REKAP GIZI BALITA</h1><h2>Puskesmas Sungai Durian — Dicetak: ${tanggal}</h2>
+  <div class="meta">
+    <div class="meta-item"><div>Total Balita</div><div class="meta-val">${anak.length}</div></div>
+    <div class="meta-item"><div>Stunting</div><div class="meta-val" style="color:#dc2626">${stunt}</div></div>
+    <div class="meta-item"><div>Prevalensi</div><div class="meta-val">${anak.length?Math.round(stunt/anak.length*100):0}%</div></div>
+  </div>
+  <button onclick="window.print()" style="padding:8px 16px;background:#16a37f;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:13px;margin-bottom:10px">🖨️ Cetak / Simpan PDF</button>
+  <table><thead><tr><th>Nama Anak</th><th>JK</th><th>Usia</th><th>Wilayah</th><th>BB</th><th>TB</th><th>Z TB/U</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table>
+  </body></html>`);
+  win.document.close();
+}
+
+// Override SECTIONS.laporan to add print button
+const _oldLaporan = SECTIONS.laporan;
+SECTIONS.laporan = ()=>{
+  const base = _oldLaporan();
+  return `<div class="search-row" style="justify-content:flex-end;margin-bottom:16px">
+    <button class="btn btn-primary" onclick="printLaporan()"><i class="ti ti-printer"></i> Cetak / Export PDF</button>
+  </div>`+base;
+};
+
+// Override detailAnak to add grafik button
+const _oldDetailAnak = detailAnak;
+function detailAnak(id){
+  const a=DB.get('anak').find(x=>x.id===id);
+  const ukur=DB.get('pengukuran').filter(u=>u.idAnak===id).sort((a,b)=>b.tanggal.localeCompare(a.tanggal));
+  const last=ukur[0];
+  openModal(`<div class="modal-header"><div class="modal-title">Profil — ${a.nama}</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  <div class="info-row"><div class="info-label">NIK</div><div class="info-val">${fmt(a.nik)}</div></div>
+  <div class="info-row"><div class="info-label">Jenis Kelamin</div><div class="info-val">${a.jenisKelamin==='L'?'Laki-laki':'Perempuan'}</div></div>
+  <div class="info-row"><div class="info-label">Tanggal Lahir</div><div class="info-val">${fmtDate(a.tglLahir)} (${hitungUsia(a.tglLahir)} bulan)</div></div>
+  <div class="info-row"><div class="info-label">Nama Ibu</div><div class="info-val">${fmt(a.namaIbu)}</div></div>
+  <div class="info-row"><div class="info-label">No. HP</div><div class="info-val">${fmt(a.noHP)}</div></div>
+  <div class="info-row"><div class="info-label">Alamat</div><div class="info-val">${fmt(a.alamat)}</div></div>
+  <div class="info-row"><div class="info-label">Wilayah / Posyandu</div><div class="info-val">${fmt(a.wilayah)} / ${fmt(a.posyandu)}</div></div>
+  ${last?`<div style="margin-top:14px"><b>Pengukuran Terakhir</b> (${fmtDate(last.tanggal)})</div>
+  <div class="info-row"><div class="info-label">BB / TB</div><div class="info-val">${last.bb} kg / ${last.tb} cm</div></div>
+  <div class="info-row"><div class="info-label">Z-Score TB/U</div><div class="info-val">${last.zscore_tbu}</div></div>
+  <div class="info-row"><div class="info-label">Status Gizi</div><div class="info-val">${statusBadge(last.status)}</div></div>`:'<div class="alert alert-info mt-12"><i class="ti ti-info-circle"></i>Belum ada data pengukuran.</div>'}
+  <div class="modal-footer"><button class="btn" onclick="grafikAnak(${id})" style="gap:6px"><i class="ti ti-chart-line"></i>Lihat Grafik</button><button class="btn btn-primary" onclick="closeModal()">Tutup</button></div>`);
+}
 
 // ──────────────────────────────────────
 // ATTACH HANDLERS
