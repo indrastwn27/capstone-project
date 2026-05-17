@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiGizi — Puskesmas Sungai Durian</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#16a37f;--green-dark:#0e7a60;--green-light:#e8f8f3;--green-mid:#b7ead9;
+  --amber:#d97706;--amber-light:#fef3c7;
+  --red:#dc2626;--red-light:#fee2e2;
+  --blue:#2563eb;--blue-light:#eff6ff;
+  --bg:#f4f7f5;--surface:#ffffff;--border:#e2ebe7;
+  --text:#1a2e25;--text2:#4a6358;--text3:#8aad9f;
+  --shadow:0 1px 4px rgba(22,163,127,.08);
+  --shadow-md:0 4px 16px rgba(22,163,127,.12);
+  --radius:10px;--radius-lg:16px;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
+h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
+
+/* ── UTILS ── */
+.hidden{display:none!important}
+.flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}
+.gap-8{gap:8px}.gap-12{gap:12px}.gap-16{gap:16px}
+.mt-8{margin-top:8px}.mt-12{margin-top:12px}.mt-16{margin-top:16px}.mt-20{margin-top:20px}
+.mb-4{margin-bottom:4px}.mb-8{margin-bottom:8px}.mb-12{margin-bottom:12px}.mb-16{margin-bottom:16px}
+.text-sm{font-size:12px}.text-xs{font-size:11px}.text-muted{color:var(--text2)}.fw-500{font-weight:500}
+.w-full{width:100%}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.col-span-2{grid-column:span 2}
+
+/* ── BADGE / PILL ── */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px}
+.badge-green{background:var(--green-light);color:var(--green-dark)}
+.badge-amber{background:var(--amber-light);color:#92400e}
+.badge-red{background:var(--red-light);color:#991b1b}
+.badge-blue{background:var(--blue-light);color:#1e40af}
+.badge-gray{background:#f1f5f2;color:var(--text2)}
+
+/* ── BUTTON ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:.15s all}
+.btn:hover{background:#f0f7f4;border-color:var(--green)}
+.btn-primary{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-primary:hover{background:var(--green-dark);border-color:var(--green-dark)}
+.btn-danger{background:var(--red-light);color:var(--red);border-color:#fca5a5}
+.btn-danger:hover{background:#fecaca}
+.btn-sm{padding:5px 11px;font-size:12px}
+.btn-icon{padding:6px;border-radius:8px}
+
+/* ── CARD ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow)}
+.card-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title i{font-size:18px;color:var(--green)}
+
+/* ── METRIC CARD ── */
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;box-shadow:var(--shadow)}
+.metric-label{font-size:12px;color:var(--text2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.metric-label i{font-size:15px}
+.metric-val{font-size:26px;font-weight:600;color:var(--text)}
+.metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{font-size:12px;font-weight:600;color:var(--text2);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;background:#f9fdfb}
+td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:13px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f9fdfb}
+.table-action{display:flex;gap:6px}
+
+/* ── FORM ── */
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group label{font-size:12px;font-weight:500;color:var(--text2)}
+.form-group input,.form-group select,.form-group textarea{
+  padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius);
+  font-size:13px;font-family:inherit;color:var(--text);background:var(--surface);
+  outline:none;transition:.15s border-color
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,127,.1)}
+.form-group textarea{resize:vertical;min-height:80px}
+
+/* ── LOGIN PAGE ── */
+#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0e7a60 0%,#16a37f 50%,#1dd9a3 100%)}
+.login-wrap{width:380px}
+.login-card{background:#fff;border-radius:20px;padding:36px 32px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.login-logo{text-align:center;margin-bottom:24px}
+.login-logo-icon{width:60px;height:60px;background:var(--green-light);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:28px;color:var(--green)}
+.login-logo h1{font-size:26px;color:var(--text)}
+.login-logo p{font-size:12px;color:var(--text2);margin-top:2px}
+.login-card h2{font-size:18px;font-weight:600;margin-bottom:18px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif}
+.login-role-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:18px}
+.role-tab{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);background:#f9fdfb;border:none;transition:.15s all}
+.role-tab.active{background:var(--green);color:#fff}
+.login-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
+
+/* ── APP SHELL ── */
+#app{display:flex;height:100vh}
+.sidebar{width:240px;min-width:240px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
+.sidebar-brand{padding:20px 18px 16px;border-bottom:1px solid var(--border)}
+.brand-row{display:flex;align-items:center;gap:10px}
+.brand-icon{width:38px;height:38px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px}
+.brand-name{font-size:15px;font-weight:600;color:var(--text)}
+.brand-sub{font-size:10px;color:var(--text2);line-height:1.3}
+.sidebar-role{margin:10px 14px;padding:8px 12px;background:var(--green-light);border-radius:8px;font-size:12px;color:var(--green-dark);font-weight:500;display:flex;align-items:center;gap:6px}
+.sidebar-role i{font-size:15px}
+.nav-section{font-size:10px;font-weight:600;color:var(--text3);padding:10px 18px 4px;letter-spacing:.07em;text-transform:uppercase}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:13px;color:var(--text2);cursor:pointer;border-left:3px solid transparent;transition:.15s all}
+.nav-item:hover{background:var(--green-light);color:var(--text)}
+.nav-item.active{background:var(--green-light);color:var(--green-dark);border-left-color:var(--green);font-weight:500}
+.nav-item i{font-size:18px}
+.sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border)}
+.logout-btn{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);cursor:pointer;padding:8px 10px;border-radius:8px;transition:.15s}
+.logout-btn:hover{background:var(--red-light);color:var(--red)}
+
+.main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.topbar-title{font-size:17px;font-weight:600;color:var(--text)}
+.topbar-right{display:flex;align-items:center;gap:12px}
+.notif-btn{width:36px;height:36px;border-radius:9px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;font-size:18px;color:var(--text2)}
+.notif-dot{position:absolute;top:7px;right:7px;width:7px;height:7px;border-radius:50%;background:var(--red)}
+.user-chip{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--bg);border:1px solid var(--border);border-radius:20px;cursor:pointer}
+.user-avatar{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600}
+.user-name{font-size:13px;font-weight:500}
+.main-content{flex:1;overflow-y:auto;padding:24px}
+
+/* ── SECTIONS ── */
+.section{display:none}
+.section.active{display:block}
+
+/* ── MODAL ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal-bg.hidden{display:none}
+.modal{background:#fff;border-radius:var(--radius-lg);padding:28px;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.modal-title{font-size:16px;font-weight:600;color:var(--text)}
+.modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text2)}
+.modal-close:hover{background:var(--red-light);color:var(--red);border-color:#fca5a5}
+.modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast-item{padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);animation:slideIn .3s ease;display:flex;align-items:center;gap:8px}
+.toast-success{background:var(--green);color:#fff}
+.toast-error{background:var(--red);color:#fff}
+@keyframes slideIn{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+/* ── ALERT BOX ── */
+.alert{padding:12px 16px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
+.alert i{font-size:17px;flex-shrink:0;margin-top:1px}
+.alert-warning{background:var(--amber-light);color:#92400e;border:1px solid #fde68a}
+.alert-danger{background:var(--red-light);color:#991b1b;border:1px solid #fca5a5}
+.alert-info{background:var(--blue-light);color:#1e40af;border:1px solid #bfdbfe}
+
+/* ── PROFIL INFO ── */
+.info-row{display:flex;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
+.info-row:last-child{border-bottom:none}
+.info-label{width:160px;color:var(--text2);flex-shrink:0}
+.info-val{color:var(--text);font-weight:500}
+
+/* ── EMPTY STATE ── */
+.empty{text-align:center;padding:48px 24px;color:var(--text2)}
+.empty i{font-size:48px;color:var(--text3);margin-bottom:12px}
+.empty p{font-size:14px;margin-bottom:14px}
+
+/* ── SEARCH BAR ── */
+.search-row{display:flex;gap:10px;margin-bottom:16px;align-items:center}
+.search-input-wrap{position:relative;flex:1}
+.search-input-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:17px;color:var(--text3)}
+.search-input-wrap input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none;font-family:inherit}
+.search-input-wrap input:focus{border-color:var(--green)}
+
+/* ── CHART (simple CSS bar) ── */
+.chart-bar-wrap{display:flex;flex-direction:column;gap:10px}
+.chart-bar-item{display:flex;align-items:center;gap:10px;font-size:12px}
+.chart-bar-label{width:130px;color:var(--text2);text-align:right;flex-shrink:0}
+.chart-bar-track{flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:5px;transition:width .5s ease}
+.chart-bar-val{width:40px;color:var(--text);font-weight:500;text-align:right;flex-shrink:0}
+
+/* ── TABS ── */
+.tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:18px}
+.tab{padding:9px 18px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab:hover{color:var(--text)}
+
+/* ── ARTIKEL ── */
+.artikel-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.artikel-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;background:var(--surface);cursor:pointer;transition:.15s}
+.artikel-card:hover{border-color:var(--green);box-shadow:var(--shadow-md)}
+.artikel-cat{font-size:10px;padding:2px 9px;border-radius:20px;background:var(--green-light);color:var(--green-dark);font-weight:500;display:inline-block;margin-bottom:8px}
+.artikel-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:6px}
+.artikel-meta{font-size:12px;color:var(--text2)}
+.artikel-body{font-size:13px;color:var(--text2);line-height:1.7;margin-top:10px}
+
+/* ── JADWAL ── */
+.jadwal-item{display:flex;gap:14px;align-items:flex-start;padding:14px;background:var(--bg);border-radius:var(--radius);border-left:3px solid var(--green);margin-bottom:10px}
+.jadwal-date-box{min-width:46px;text-align:center;background:var(--green);color:#fff;border-radius:8px;padding:6px 4px;font-size:12px;font-weight:600;line-height:1.3}
+.jadwal-info-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.jadwal-info-meta{font-size:12px;color:var(--text2)}
+
+/* ── STUNTING RISK ── */
+.risk-card{border-radius:var(--radius-lg);padding:16px;border:1px solid}
+.risk-normal{background:#f0fdf4;border-color:#86efac}
+.risk-watch{background:var(--amber-light);border-color:#fcd34d}
+.risk-stunt{background:var(--red-light);border-color:#fca5a5}
+.risk-title{font-size:13px;font-weight:600;margin-bottom:4px}
+.risk-val{font-size:28px;font-weight:700}
+.risk-sub{font-size:12px;margin-top:4px}
+
+/* ── ORTU HOME ── */
+.anak-profile-banner{background:linear-gradient(135deg,var(--green),var(--green-dark));border-radius:var(--radius-lg);padding:22px 24px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
+.anak-profile-banner::after{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)}
+.ortu-anak-name{font-size:22px;font-family:'DM Serif Display',serif;margin-bottom:4px}
+.ortu-anak-meta{font-size:13px;opacity:.85}
+.ortu-status{display:inline-block;background:rgba(255,255,255,.2);padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500;margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN PAGE ══════════ -->
+<div id="loginPage">
+  <div class="login-wrap">
+    <div class="login-logo">
+      <div class="login-logo-icon"><i class="ti ti-heart-rate-monitor"></i></div>
+      <h1>SiGizi</h1>
+      <p>Sistem Informasi Gizi — Puskesmas Sungai Durian</p>
+    </div>
+    <div class="login-card">
+      <h2>Masuk ke Akun</h2>
+      <div class="login-role-tabs">
+        <button class="role-tab active" onclick="setRole('admin',this)">Admin</button>
+        <button class="role-tab" onclick="setRole('bidan',this)">Bidan</button>
+        <button class="role-tab" onclick="setRole('ortu',this)">Orang Tua</button>
+      </div>
+      <div class="form-group mb-12">
+        <label>Username / Email</label>
+        <input type="text" id="loginUser" placeholder="Masukkan username">
+      </div>
+      <div class="form-group mb-16">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Masukkan password">
+      </div>
+      <button class="btn btn-primary w-full" onclick="doLogin()" style="justify-content:center">
+        <i class="ti ti-login"></i> Masuk
+      </button>
+      <p class="login-hint" id="loginHint">Admin: admin/admin123</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ APP SHELL ══════════ -->
+<div id="app" class="hidden">
+  <!-- SIDEBAR -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-row">
+        <div class="brand-icon"><i class="ti ti-heart-rate-monitor"></i></div>
+        <div>
+          <div class="brand-name">SiGizi</div>
+          <div class="brand-sub">Pkm. Sungai Durian</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-role" id="sidebarRole"><i class="ti ti-shield"></i> <span id="roleLabel">Admin</span></div>
+    <nav id="navMenu"></nav>
+    <div class="sidebar-footer">
+      <div class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i> Keluar</div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-area">
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Dashboard</div>
+      <div class="topbar-right">
+        <div class="notif-btn" onclick="showSection('jadwal')" title="Notifikasi"><i class="ti ti-bell"></i><div class="notif-dot"></div></div>
+        <div class="user-chip">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <span class="user-name" id="userName">Admin</span>
+        </div>
+      </div>
+    </div>
+    <div class="main-content" id="mainContent">
+      <!-- sections injected here -->
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ MODALS ══════════ -->
+<div class="modal-bg hidden" id="modalBg">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+<script>
+// ═══════════════════════════════════════
+// DATA STORE (localStorage)
+// ═══════════════════════════════════════
+const DB = {
+  get(k){try{return JSON.parse(localStorage.getItem('sigizi_'+k)||'null')}catch{return null}},
+  set(k,v){localStorage.setItem('sigizi_'+k,JSON.stringify(v))},
+  init(){
+    if(!this.get('users')) this.set('users',[
+      {id:1,username:'admin',password:'admin123',role:'admin',nama:'Admin Puskesmas',nip:'1234567890'},
+      {id:2,username:'bidan1',password:'bidan123',role:'bidan',nama:'Bidan Sari Dewi',nip:'9876543210'},
+      {id:3,username:'ortu1',password:'ortu123',role:'ortu',nama:'Ibu Rahayu',nik:'6101234567890001',namaAnak:'Muhammad Raffa'},
+    ]);
+    if(!this.get('anak')) this.set('anak',[
+      {id:1,nik:'3261202405100001',nama:'Muhammad Raffa',tglLahir:'2024-05-10',jenisKelamin:'L',namaIbu:'Ibu Rahayu',nikIbu:'6101234567890001',noHP:'08123456789',alamat:'Jl. Sungai Durian No. 12',wilayah:'Sungai Durian',posyandu:'Posyandu Melati'},
+      {id:2,nik:'3261202104152222',nama:'Siti Aisyah',tglLahir:'2024-11-20',jenisKelamin:'P',namaIbu:'Ibu Fatimah',nikIbu:'6101111222333444',noHP:'08234567890',alamat:'Jl. Kapur No. 3',wilayah:'Kapur',posyandu:'Posyandu Mawar'},
+      {id:3,nik:'3261202201103333',nama:'Ahmad Fauzi',tglLahir:'2023-05-15',jenisKelamin:'L',namaIbu:'Ibu Nurhasanah',nikIbu:'6102333444555666',noHP:'08345678901',alamat:'Jl. Punggur No. 7',wilayah:'Punggur Kecil',posyandu:'Posyandu Anggrek'},
+      {id:4,nik:'3261202302044444',nama:'Nurul Hidayah',tglLahir:'2025-02-10',jenisKelamin:'P',namaIbu:'Ibu Sari',nikIbu:'6103444555666777',noHP:'08456789012',alamat:'Jl. Seruat No. 5',wilayah:'Seruat',posyandu:'Posyandu Melati'},
+      {id:5,nik:'3261202112125555',nama:'Budi Santoso',tglLahir:'2023-11-10',jenisKelamin:'L',namaIbu:'Ibu Wati',nikIbu:'6104555666777888',noHP:'08567890123',alamat:'Jl. Ambawang No. 2',wilayah:'Sei Ambawang',posyandu:'Posyandu Mawar'},
+    ]);
+    if(!this.get('pengukuran')) this.set('pengukuran',[
+      {id:1,idAnak:1,tanggal:'2026-05-15',bb:10.2,tb:82.5,lk:47.0,lla:15.2,zscore_bbu:-0.8,zscore_tbu:-1.1,status:'Normal',catatan:'Tumbuh baik'},
+      {id:2,idAnak:2,tanggal:'2026-05-15',bb:7.8,tb:73.2,lk:44.5,lla:13.5,zscore_bbu:-1.8,zscore_tbu:-2.6,status:'Stunting',catatan:'Perlu intervensi gizi'},
+      {id:3,idAnak:3,tanggal:'2026-05-14',bb:12.1,tb:88.0,lk:48.5,lla:15.8,zscore_bbu:-0.5,zscore_tbu:-2.1,status:'Perlu Pantau',catatan:'Tinggi sedikit di bawah standar'},
+      {id:4,idAnak:4,tanggal:'2026-05-14',bb:9.0,tb:74.5,lk:44.0,lla:14.0,zscore_bbu:0.4,zscore_tbu:0.2,status:'Normal',catatan:''},
+      {id:5,idAnak:5,tanggal:'2026-05-13',bb:11.5,tb:85.0,lk:48.0,lla:15.0,zscore_bbu:-1.2,zscore_tbu:-3.0,status:'Stunting',catatan:'Stunting berat, sudah dirujuk'},
+      {id:6,idAnak:1,tanggal:'2026-04-15',bb:9.8,tb:80.0,lk:46.8,lla:15.0,zscore_bbu:-0.9,zscore_tbu:-1.0,status:'Normal',catatan:''},
+      {id:7,idAnak:1,tanggal:'2026-03-15',bb:9.2,tb:76.0,lk:46.5,lla:14.8,zscore_bbu:-0.7,zscore_tbu:-0.8,status:'Normal',catatan:''},
+    ]);
+    if(!this.get('artikel')) this.set('artikel',[
+      {id:1,judul:'Mengenal Stunting: Penyebab dan Pencegahan',kategori:'Stunting',penulis:'dr. Ani Kusuma',tanggal:'2026-05-10',isi:'Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis. Anak yang mengalami stunting memiliki tinggi badan di bawah standar usianya. Pencegahan dapat dilakukan dengan pemenuhan gizi sejak 1000 Hari Pertama Kehidupan (HPK).'},
+      {id:2,judul:'Menu MPASI Bergizi untuk Bayi 6-12 Bulan',kategori:'Gizi',penulis:'Bidan Sari Dewi',tanggal:'2026-05-08',isi:'MPASI (Makanan Pendamping ASI) harus mengandung karbohidrat, protein, lemak, vitamin dan mineral. Mulai dari tekstur halus hingga bertahap padat sesuai kemampuan bayi. Contoh: bubur beras merah + ikan + sayuran.'},
+      {id:3,judul:'1000 Hari Pertama Kehidupan yang Menentukan',kategori:'Tumbuh Kembang',penulis:'dr. Budi Hartono',tanggal:'2026-05-05',isi:'Periode 1000 HPK dimulai dari masa kehamilan hingga anak berusia 2 tahun. Gizi ibu hamil dan menyusui sangat berpengaruh terhadap tumbuh kembang optimal anak.'},
+    ]);
+    if(!this.get('jadwal')) this.set('jadwal',[
+      {id:1,judul:'Posyandu Rutin — Posyandu Melati',tanggal:'2026-05-20',waktu:'08:00 - 11:00',lokasi:'Balai Desa Sungai Durian',petugas:'Bidan Sari Dewi',keterangan:'Penimbangan, imunisasi, PMT'},
+      {id:2,judul:'Posyandu Rutin — Posyandu Mawar',tanggal:'2026-05-22',waktu:'08:00 - 11:00',lokasi:'Balai Desa Kapur',petugas:'Bidan Rina',keterangan:'Penimbangan rutin'},
+      {id:3,judul:'Penyuluhan Gizi Balita',tanggal:'2026-05-25',waktu:'09:00 - 12:00',lokasi:'Aula Puskesmas Sungai Durian',petugas:'dr. Ani Kusuma',keterangan:'Edukasi gizi seimbang untuk ibu balita'},
+      {id:4,judul:'Kunjungan Rumah — Kasus Stunting',tanggal:'2026-05-28',waktu:'09:00',lokasi:'Wilayah Sungai Durian',petugas:'Bidan Sari Dewi',keterangan:'Follow-up kasus stunting berat'},
+    ]);
+  }
+};
+DB.init();
+
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
+let currentUser = null;
+let currentRole = 'admin';
+let hints = {admin:'admin / admin123',bidan:'bidan1 / bidan123',ortu:'ortu1 / ortu123'};
+
+function setRole(r,el){
+  currentRole = r;
+  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('loginHint').textContent = hints[r];
+}
+
+function doLogin(){
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  const users = DB.get('users');
+  const user = users.find(x=>x.username===u&&x.password===p&&x.role===currentRole);
+  if(!user){showToast('Username atau password salah','error');return;}
+  currentUser = user;
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  initApp();
+}
+
+function doLogout(){
+  currentUser = null;
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('loginPage').classList.remove('hidden');
+  document.getElementById('loginUser').value='';
+  document.getElementById('loginPass').value='';
+}
+
+// ═══════════════════════════════════════
+// APP INIT
+// ═══════════════════════════════════════
+const MENUS = {
+  admin:[
+    {sec:'dashboard',icon:'ti-layout-dashboard',label:'Dashboard'},
+    {sec:'registrasi',icon:'ti-user-plus',label:'Registrasi Anak',group:'Data'},
+    {sec:'pengukuran',icon:'ti-ruler-measure',label:'Pengukuran Fisik'},
+    {sec:'deteksi',icon:'ti-stethoscope',label:'Deteksi Stunting'},
+    {sec:'artikel',icon:'ti-article',label:'Artikel Gizi',group:'Informasi'},
+    {sec:'jadwal',icon:'ti-calendar-event',label:'Jadwal & Notifikasi'},
+    {sec:'laporan',icon:'ti-chart-bar',label:'Laporan',group:'Manajemen'},
+    {sec:'pengguna',icon:'ti-users',label:'Manajemen Pengguna'},
+  ],
+  bidan:[
+    {sec:'dashboard',icon:'ti-layout-dashboard',label:'Dashboard'},
+    {sec:'registrasi',icon:'ti-user-plus',label:'Registrasi Anak',group:'Data'},
+    {sec:'pengukuran',icon:'ti-ruler-measure',label:'Pengukuran Fisik'},
+    {sec:'deteksi',icon:'ti-stethoscope',label:'Deteksi Stunting'},
+    {sec:'artikel',icon:'ti-article',label:'Artikel Gizi',group:'Informasi'},
+    {sec:'jadwal',icon:'ti-calendar-event',label:'Jadwal'},
+    {sec:'laporan',icon:'ti-chart-bar',label:'Laporan',group:'Lainnya'},
+  ],
+  ortu:[
+    {sec:'home_ortu',icon:'ti-home',label:'Beranda'},
+    {sec:'perkembangan',icon:'ti-trending-up',label:'Perkembangan Anak'},
+    {sec:'artikel',icon:'ti-article',label:'Artikel Gizi'},
+    {sec:'jadwal',icon:'ti-calendar-event',label:'Jadwal Posyandu'},
+  ]
+};
+
+const ROLE_LABELS = {admin:'Administrator',bidan:'Bidan',ortu:'Orang Tua'};
+const ROLE_ICONS = {admin:'ti-shield-check',bidan:'ti-heart-handshake',ortu:'ti-users'};
+
+function initApp(){
+  const r = currentUser.role;
+  document.getElementById('roleLabel').textContent = ROLE_LABELS[r];
+  document.querySelector('#sidebarRole i').className = 'ti '+ROLE_ICONS[r];
+  document.getElementById('userName').textContent = currentUser.nama;
+  document.getElementById('userAvatar').textContent = currentUser.nama.charAt(0).toUpperCase();
+  buildNav(r);
+  const first = MENUS[r][0].sec;
+  showSection(first);
+}
+
+function buildNav(r){
+  const nav = document.getElementById('navMenu');
+  nav.innerHTML='';
+  let lastGroup='';
+  MENUS[r].forEach(m=>{
+    if(m.group && m.group!==lastGroup){
+      nav.insertAdjacentHTML('beforeend',`<div class="nav-section">${m.group}</div>`);
+      lastGroup=m.group;
+    }
+    nav.insertAdjacentHTML('beforeend',
+      `<div class="nav-item" id="nav-${m.sec}" onclick="showSection('${m.sec}')">
+        <i class="ti ${m.icon}"></i>${m.label}
+      </div>`);
+  });
+}
+
+function showSection(sec){
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+sec);
+  if(navEl) navEl.classList.add('active');
+  const label = (MENUS[currentUser.role].find(m=>m.sec===sec)||{}).label||sec;
+  document.getElementById('topbarTitle').textContent = label;
+  renderSection(sec);
+}
+
+function renderSection(sec){
+  const mc = document.getElementById('mainContent');
+  mc.innerHTML='';
+  const fn = SECTIONS[sec];
+  if(fn) mc.innerHTML = fn();
+  else mc.innerHTML = `<div class="empty"><i class="ti ti-hammer"></i><p>Halaman <b>${sec}</b> dalam pengembangan.</p></div>`;
+  attachHandlers(sec);
+}
+
+// ═══════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════
+function uid(){return Date.now()+Math.floor(Math.random()*1000)}
+function fmt(v){return v||'-'}
+function fmtDate(d){if(!d)return'-';const dt=new Date(d);return dt.toLocaleDateString('id-ID',{day:'2-digit',month:'short',year:'numeric'})}
+function hitungUsia(tgl){
+  const now=new Date(),b=new Date(tgl);
+  let m=(now.getFullYear()-b.getFullYear())*12+(now.getMonth()-b.getMonth());
+  return m<0?0:m;
+}
+function statusBadge(s){
+  const map={Normal:'badge-green','Perlu Pantau':'badge-amber',Stunting:'badge-red','Stunting Berat':'badge-red',Baik:'badge-green'};
+  return `<span class="badge ${map[s]||'badge-gray'}">${s}</span>`;
+}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  const el=document.createElement('div');
+  el.className=`toast-item toast-${type}`;
+  el.innerHTML=`<i class="ti ${type==='success'?'ti-check':'ti-x'}"></i>${msg}`;
+  t.appendChild(el);
+  setTimeout(()=>el.remove(),3000);
+}
+
+function openModal(html){
+  document.getElementById('modalBox').innerHTML=html;
+  document.getElementById('modalBg').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modalBg').classList.add('hidden')}
+document.getElementById('modalBg').addEventListener('click',e=>{if(e.target===document.getElementById('modalBg'))closeModal()});
+
+// ═══════════════════════════════════════
+// SECTION RENDERERS
+// ═══════════════════════════════════════
+const SECTIONS = {};
+
+// ──────────────────────────────────────
+// DASHBOARD (admin & bidan)
+// ──────────────────────────────────────
+SECTIONS.dashboard = ()=>{
+  const anak = DB.get('anak')||[];
+  const ukur = DB.get('pengukuran')||[];
+  const latest = {};
+  ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const statuses = Object.values(latest).map(u=>u.status);
+  const total=anak.length, stunting=statuses.filter(s=>s==='Stunting'||s==='Stunting Berat').length;
+  const normal=statuses.filter(s=>s==='Normal').length, pantau=statuses.filter(s=>s==='Perlu Pantau').length;
+  const terbaru=ukur.slice(0,5);
+  const wilayah=['Sungai Durian','Kapur','Punggur Kecil','Seruat','Sei Ambawang'];
+  const wMap={};wilayah.forEach(w=>wMap[w]=0);
+  anak.forEach(a=>{const u=latest[a.id];if(u&&(u.status==='Stunting'||u.status==='Stunting Berat'))wMap[a.wilayah]=(wMap[a.wilayah]||0)+1;});
+  const maxW=Math.max(...Object.values(wMap),1);
+  const wBars=wilayah.map(w=>`
+    <div class="chart-bar-item">
+      <div class="chart-bar-label">${w}</div>
+      <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${(wMap[w]/maxW*100)}%;background:${wMap[w]>5?'var(--red)':wMap[w]>2?'var(--amber)':'var(--green)'}"></div></div>
+      <div class="chart-bar-val">${wMap[w]}</div>
+    </div>`).join('');
+
+  const rows=terbaru.map(u=>{
+    const a=anak.find(x=>x.id===u.idAnak)||{};
+    return `<tr>
+      <td>${fmt(a.nama)}</td>
+      <td>${hitungUsia(a.tglLahir)} bln</td>
+      <td>${u.bb}</td><td>${u.tb}</td><td>${u.zscore_tbu}</td>
+      <td>${statusBadge(u.status)}</td>
+      <td>${fmtDate(u.tanggal)}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <div class="grid-4 mb-16">
+    <div class="metric"><div class="metric-label"><i class="ti ti-users"></i>Total Balita</div><div class="metric-val">${total}</div><div class="metric-sub">Terdaftar</div></div>
+    <div class="metric"><div class="metric-label"><i class="ti ti-alert-triangle" style="color:var(--red)"></i>Stunting</div><div class="metric-val" style="color:var(--red)">${stunting}</div><div class="metric-sub">${total?Math.round(stunting/total*100):0}% dari total</div></div>
+    <div class="metric"><div class="metric-label"><i class="ti ti-eye" style="color:var(--amber)"></i>Perlu Pantau</div><div class="metric-val" style="color:var(--amber)">${pantau}</div><div class="metric-sub">Risiko</div></div>
+    <div class="metric"><div class="metric-label"><i class="ti ti-check" style="color:var(--green)"></i>Gizi Baik</div><div class="metric-val" style="color:var(--green)">${normal}</div><div class="metric-sub">${total?Math.round(normal/total*100):0}% dari total</div></div>
+  </div>
+  <div class="grid-2 mb-16">
+    <div class="card"><div class="card-title"><i class="ti ti-map-pin"></i>Sebaran Stunting per Wilayah</div><div class="chart-bar-wrap">${wBars}</div></div>
+    <div class="card">
+      <div class="card-title"><i class="ti ti-chart-pie"></i>Status Gizi (Terakhir Diukur)</div>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:4px">
+        ${[['Normal',normal,'var(--green)'],['Perlu Pantau',pantau,'var(--amber)'],['Stunting',stunting,'var(--red)']].map(([l,v,c])=>`
+          <div style="display:flex;align-items:center;gap:10px">
+            <div style="width:12px;height:12px;border-radius:3px;background:${c};flex-shrink:0"></div>
+            <div style="flex:1;font-size:13px;color:var(--text2)">${l}</div>
+            <div style="font-weight:600;font-size:13px">${v}</div>
+            <div style="width:90px;height:8px;background:var(--bg);border-radius:4px;overflow:hidden"><div style="height:100%;width:${total?Math.round(v/total*100):0}%;background:${c};border-radius:4px"></div></div>
+            <div style="font-size:12px;color:var(--text2);width:32px;text-align:right">${total?Math.round(v/total*100):0}%</div>
+          </div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="card-title"><i class="ti ti-clock"></i>Pengukuran Terbaru</div>
+  <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Usia</th><th>BB (kg)</th><th>TB (cm)</th><th>Z-Score TB/U</th><th>Status</th><th>Tanggal</th></tr></thead><tbody>${rows||'<tr><td colspan=7 style="text-align:center;color:var(--text2)">Belum ada data</td></tr>'}</tbody></table></div></div>`;
+};
+
+// ──────────────────────────────────────
+// REGISTRASI ANAK
+// ──────────────────────────────────────
+SECTIONS.registrasi = ()=>{
+  const anak = DB.get('anak')||[];
+  const rows=anak.map(a=>`<tr>
+    <td>${fmt(a.nama)}</td>
+    <td>${fmt(a.nik)}</td>
+    <td>${a.jenisKelamin==='L'?'Laki-laki':'Perempuan'}</td>
+    <td>${fmtDate(a.tglLahir)} <span class="text-muted">(${hitungUsia(a.tglLahir)} bln)</span></td>
+    <td>${fmt(a.namaIbu)}</td>
+    <td>${fmt(a.wilayah)}</td>
+    <td>${fmt(a.posyandu)}</td>
+    <td><div class="table-action">
+      <button class="btn btn-sm btn-icon" title="Detail" onclick="detailAnak(${a.id})"><i class="ti ti-eye"></i></button>
+      <button class="btn btn-sm btn-icon" title="Edit" onclick="editAnak(${a.id})"><i class="ti ti-edit"></i></button>
+      ${currentUser.role==='admin'?`<button class="btn btn-sm btn-danger btn-icon" title="Hapus" onclick="hapusAnak(${a.id})"><i class="ti ti-trash"></i></button>`:''}
+    </div></td>
+  </tr>`).join('');
+  return `
+  <div class="search-row">
+    <div class="search-input-wrap"><i class="ti ti-search"></i><input id="searchAnak" placeholder="Cari nama, NIK, wilayah..." oninput="filterAnak()"></div>
+    <button class="btn btn-primary" onclick="tambahAnak()"><i class="ti ti-plus"></i>Tambah Anak</button>
+  </div>
+  <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Balita <span class="badge badge-green">${anak.length} anak</span></div>
+  <div class="table-wrap"><table id="tblAnak"><thead><tr><th>Nama</th><th>NIK</th><th>JK</th><th>Tgl Lahir</th><th>Nama Ibu</th><th>Wilayah</th><th>Posyandu</th><th>Aksi</th></tr></thead><tbody>${rows||'<tr><td colspan=8 class="text-muted" style="text-align:center">Belum ada data</td></tr>'}</tbody></table></div></div>`;
+};
+
+function filterAnak(){
+  const q=document.getElementById('searchAnak').value.toLowerCase();
+  const anak=DB.get('anak')||[];
+  const filtered=anak.filter(a=>(a.nama+a.nik+a.wilayah+a.namaIbu).toLowerCase().includes(q));
+  const tbody=document.querySelector('#tblAnak tbody');
+  tbody.innerHTML=filtered.map(a=>`<tr>
+    <td>${fmt(a.nama)}</td><td>${fmt(a.nik)}</td>
+    <td>${a.jenisKelamin==='L'?'Laki-laki':'Perempuan'}</td>
+    <td>${fmtDate(a.tglLahir)} <span class="text-muted">(${hitungUsia(a.tglLahir)} bln)</span></td>
+    <td>${fmt(a.namaIbu)}</td><td>${fmt(a.wilayah)}</td><td>${fmt(a.posyandu)}</td>
+    <td><div class="table-action">
+      <button class="btn btn-sm btn-icon" onclick="detailAnak(${a.id})"><i class="ti ti-eye"></i></button>
+      <button class="btn btn-sm btn-icon" onclick="editAnak(${a.id})"><i class="ti ti-edit"></i></button>
+      ${currentUser.role==='admin'?`<button class="btn btn-sm btn-danger btn-icon" onclick="hapusAnak(${a.id})"><i class="ti ti-trash"></i></button>`:''}
+    </div></td>
+  </tr>`).join('')||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Tidak ditemukan</td></tr>';
+}
+
+function formAnak(data={}){
+  const wil=['Sungai Durian','Kapur','Punggur Kecil','Seruat','Sei Ambawang'];
+  const pos=['Posyandu Melati','Posyandu Mawar','Posyandu Anggrek'];
+  return `
+  <div class="form-group"><label>NIK Anak</label><input id="f_nik" value="${data.nik||''}" placeholder="16 digit NIK"></div>
+  <div class="grid-2">
+    <div class="form-group col-span-2"><label>Nama Lengkap Anak</label><input id="f_nama" value="${data.nama||''}" placeholder="Nama lengkap"></div>
+    <div class="form-group"><label>Tanggal Lahir</label><input type="date" id="f_tgl" value="${data.tglLahir||''}"></div>
+    <div class="form-group"><label>Jenis Kelamin</label><select id="f_jk"><option value="L" ${data.jenisKelamin==='L'?'selected':''}>Laki-laki</option><option value="P" ${data.jenisKelamin==='P'?'selected':''}>Perempuan</option></select></div>
+    <div class="form-group col-span-2"><label>Nama Ibu</label><input id="f_namaIbu" value="${data.namaIbu||''}" placeholder="Nama ibu kandung"></div>
+    <div class="form-group"><label>NIK Ibu</label><input id="f_nikIbu" value="${data.nikIbu||''}" placeholder="NIK ibu"></div>
+    <div class="form-group"><label>No. HP</label><input id="f_hp" value="${data.noHP||''}" placeholder="08xxx"></div>
+    <div class="form-group col-span-2"><label>Alamat</label><input id="f_alamat" value="${data.alamat||''}" placeholder="Alamat lengkap"></div>
+    <div class="form-group"><label>Wilayah</label><select id="f_wil">${wil.map(w=>`<option ${data.wilayah===w?'selected':''}>${w}</option>`).join('')}</select></div>
+    <div class="form-group"><label>Posyandu</label><select id="f_pos">${pos.map(p=>`<option ${data.posyandu===p?'selected':''}>${p}</option>`).join('')}</select></div>
+  </div>`;
+}
+
+function tambahAnak(){
+  openModal(`<div class="modal-header"><div class="modal-title">Tambah Data Anak</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formAnak()}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanAnak()"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+
+function editAnak(id){
+  const a=DB.get('anak').find(x=>x.id===id);
+  openModal(`<div class="modal-header"><div class="modal-title">Edit Data Anak</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formAnak(a)}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateAnak(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+
+function detailAnak(id){
+  const a=DB.get('anak').find(x=>x.id===id);
+  const ukur=DB.get('pengukuran').filter(u=>u.idAnak===id).sort((a,b)=>b.tanggal.localeCompare(a.tanggal));
+  const last=ukur[0];
+  openModal(`<div class="modal-header"><div class="modal-title">Profil — ${a.nama}</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  <div class="info-row"><div class="info-label">NIK</div><div class="info-val">${fmt(a.nik)}</div></div>
+  <div class="info-row"><div class="info-label">Jenis Kelamin</div><div class="info-val">${a.jenisKelamin==='L'?'Laki-laki':'Perempuan'}</div></div>
+  <div class="info-row"><div class="info-label">Tanggal Lahir</div><div class="info-val">${fmtDate(a.tglLahir)} (${hitungUsia(a.tglLahir)} bulan)</div></div>
+  <div class="info-row"><div class="info-label">Nama Ibu</div><div class="info-val">${fmt(a.namaIbu)}</div></div>
+  <div class="info-row"><div class="info-label">No. HP</div><div class="info-val">${fmt(a.noHP)}</div></div>
+  <div class="info-row"><div class="info-label">Alamat</div><div class="info-val">${fmt(a.alamat)}</div></div>
+  <div class="info-row"><div class="info-label">Wilayah / Posyandu</div><div class="info-val">${fmt(a.wilayah)} / ${fmt(a.posyandu)}</div></div>
+  ${last?`<div style="margin-top:14px"><b>Pengukuran Terakhir</b> (${fmtDate(last.tanggal)})</div>
+  <div class="info-row"><div class="info-label">BB / TB</div><div class="info-val">${last.bb} kg / ${last.tb} cm</div></div>
+  <div class="info-row"><div class="info-label">Z-Score TB/U</div><div class="info-val">${last.zscore_tbu}</div></div>
+  <div class="info-row"><div class="info-label">Status Gizi</div><div class="info-val">${statusBadge(last.status)}</div></div>`:'<div class="alert alert-info mt-12"><i class="ti ti-info-circle"></i>Belum ada data pengukuran.</div>'}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Tutup</button></div>`);
+}
+
+function getFormAnak(){
+  return {nik:document.getElementById('f_nik').value.trim(),nama:document.getElementById('f_nama').value.trim(),
+    tglLahir:document.getElementById('f_tgl').value,jenisKelamin:document.getElementById('f_jk').value,
+    namaIbu:document.getElementById('f_namaIbu').value.trim(),nikIbu:document.getElementById('f_nikIbu').value.trim(),
+    noHP:document.getElementById('f_hp').value.trim(),alamat:document.getElementById('f_alamat').value.trim(),
+    wilayah:document.getElementById('f_wil').value,posyandu:document.getElementById('f_pos').value};
+}
+
+function simpanAnak(){
+  const d=getFormAnak();if(!d.nama||!d.tglLahir){showToast('Nama dan tanggal lahir wajib diisi','error');return;}
+  const anak=DB.get('anak');anak.push({...d,id:uid()});DB.set('anak',anak);
+  closeModal();showToast('Data anak berhasil disimpan');renderSection('registrasi');
+}
+function updateAnak(id){
+  const d=getFormAnak();if(!d.nama){showToast('Nama wajib diisi','error');return;}
+  const anak=DB.get('anak').map(a=>a.id===id?{...a,...d}:a);DB.set('anak',anak);
+  closeModal();showToast('Data berhasil diperbarui');renderSection('registrasi');
+}
+function hapusAnak(id){
+  if(!confirm('Hapus data anak ini?'))return;
+  DB.set('anak',DB.get('anak').filter(a=>a.id!==id));
+  DB.set('pengukuran',DB.get('pengukuran').filter(u=>u.idAnak!==id));
+  showToast('Data dihapus');renderSection('registrasi');
+}
+
+// ──────────────────────────────────────
+// PENGUKURAN FISIK
+// ──────────────────────────────────────
+SECTIONS.pengukuran = ()=>{
+  const ukur=DB.get('pengukuran')||[];
+  const anak=DB.get('anak')||[];
+  const rows=ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).map(u=>{
+    const a=anak.find(x=>x.id===u.idAnak)||{};
+    return `<tr>
+      <td>${fmtDate(u.tanggal)}</td>
+      <td>${fmt(a.nama)}</td>
+      <td>${hitungUsia(a.tglLahir)} bln</td>
+      <td>${u.bb}</td><td>${u.tb}</td><td>${u.lk||'-'}</td><td>${u.lla||'-'}</td>
+      <td>${u.zscore_bbu}</td><td>${u.zscore_tbu}</td>
+      <td>${statusBadge(u.status)}</td>
+      <td>${fmt(u.catatan)}</td>
+      <td><div class="table-action">
+        <button class="btn btn-sm btn-icon" onclick="editUkur(${u.id})"><i class="ti ti-edit"></i></button>
+        <button class="btn btn-sm btn-danger btn-icon" onclick="hapusUkur(${u.id})"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`;}).join('');
+  return `
+  <div class="search-row">
+    <div class="search-input-wrap"><i class="ti ti-search"></i><input placeholder="Cari nama anak..."></div>
+    <button class="btn btn-primary" onclick="tambahUkur()"><i class="ti ti-plus"></i>Input Pengukuran</button>
+  </div>
+  <div class="alert alert-info mb-12"><i class="ti ti-info-circle"></i>Z-score dihitung otomatis berdasarkan standar WHO. Status: Normal (>-2SD), Perlu Pantau (-2 s/d -3SD), Stunting (&lt;-3SD untuk TB/U).</div>
+  <div class="card"><div class="card-title"><i class="ti ti-ruler-measure"></i>Riwayat Pengukuran <span class="badge badge-green">${ukur.length} data</span></div>
+  <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Anak</th><th>Usia</th><th>BB (kg)</th><th>TB (cm)</th><th>LK (cm)</th><th>LLA (cm)</th><th>Z BB/U</th><th>Z TB/U</th><th>Status</th><th>Catatan</th><th>Aksi</th></tr></thead><tbody>${rows||'<tr><td colspan=12 style="text-align:center;color:var(--text2)">Belum ada data</td></tr>'}</tbody></table></div></div>`;
+};
+
+function formUkur(data={},anak=[]){
+  return `
+  <div class="form-group"><label>Pilih Anak</label><select id="u_idAnak">${anak.map(a=>`<option value="${a.id}" ${data.idAnak===a.id?'selected':''}>${a.nama} (${hitungUsia(a.tglLahir)} bln)</option>`).join('')}</select></div>
+  <div class="form-group"><label>Tanggal Pengukuran</label><input type="date" id="u_tgl" value="${data.tanggal||new Date().toISOString().split('T')[0]}"></div>
+  <div class="grid-2">
+    <div class="form-group"><label>Berat Badan (kg)</label><input type="number" id="u_bb" step="0.1" value="${data.bb||''}" placeholder="0.0"></div>
+    <div class="form-group"><label>Tinggi Badan (cm)</label><input type="number" id="u_tb" step="0.1" value="${data.tb||''}" placeholder="0.0"></div>
+    <div class="form-group"><label>Lingkar Kepala (cm)</label><input type="number" id="u_lk" step="0.1" value="${data.lk||''}" placeholder="0.0"></div>
+    <div class="form-group"><label>Lingkar Lengan Atas (cm)</label><input type="number" id="u_lla" step="0.1" value="${data.lla||''}" placeholder="0.0"></div>
+    <div class="form-group"><label>Z-Score BB/U</label><input type="number" id="u_zbbu" step="0.1" value="${data.zscore_bbu||''}" placeholder="Isi manual / dari KMS"></div>
+    <div class="form-group"><label>Z-Score TB/U</label><input type="number" id="u_ztbu" step="0.1" value="${data.zscore_tbu||''}" placeholder="Isi manual / dari KMS"></div>
+  </div>
+  <div class="form-group"><label>Status Gizi</label><select id="u_status"><option ${data.status==='Normal'?'selected':''}>Normal</option><option ${data.status==='Perlu Pantau'?'selected':''}>Perlu Pantau</option><option ${data.status==='Stunting'?'selected':''}>Stunting</option><option ${data.status==='Stunting Berat'?'selected':''}>Stunting Berat</option></select></div>
+  <div class="form-group"><label>Catatan</label><textarea id="u_cat">${data.catatan||''}</textarea></div>`;
+}
+
+function getFormUkur(){
+  return {idAnak:parseInt(document.getElementById('u_idAnak').value),tanggal:document.getElementById('u_tgl').value,
+    bb:parseFloat(document.getElementById('u_bb').value)||0,tb:parseFloat(document.getElementById('u_tb').value)||0,
+    lk:parseFloat(document.getElementById('u_lk').value)||0,lla:parseFloat(document.getElementById('u_lla').value)||0,
+    zscore_bbu:parseFloat(document.getElementById('u_zbbu').value)||0,zscore_tbu:parseFloat(document.getElementById('u_ztbu').value)||0,
+    status:document.getElementById('u_status').value,catatan:document.getElementById('u_cat').value};
+}
+
+function tambahUkur(){
+  const anak=DB.get('anak')||[];
+  openModal(`<div class="modal-header"><div class="modal-title">Input Pengukuran Fisik</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formUkur({},anak)}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanUkur()"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+function editUkur(id){
+  const u=DB.get('pengukuran').find(x=>x.id===id),anak=DB.get('anak')||[];
+  openModal(`<div class="modal-header"><div class="modal-title">Edit Pengukuran</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formUkur(u,anak)}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateUkur(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+function simpanUkur(){
+  const d=getFormUkur();if(!d.idAnak||!d.tanggal){showToast('Pilih anak dan tanggal','error');return;}
+  const ukur=DB.get('pengukuran');ukur.push({...d,id:uid()});DB.set('pengukuran',ukur);
+  closeModal();showToast('Pengukuran berhasil disimpan');renderSection('pengukuran');
+}
+function updateUkur(id){
+  const d=getFormUkur();
+  DB.set('pengukuran',DB.get('pengukuran').map(u=>u.id===id?{...u,...d}:u));
+  closeModal();showToast('Data diperbarui');renderSection('pengukuran');
+}
+function hapusUkur(id){
+  if(!confirm('Hapus data pengukuran ini?'))return;
+  DB.set('pengukuran',DB.get('pengukuran').filter(u=>u.id!==id));
+  showToast('Data dihapus');renderSection('pengukuran');
+}
+
+// ──────────────────────────────────────
+// DETEKSI STUNTING
+// ──────────────────────────────────────
+SECTIONS.deteksi = ()=>{
+  const anak=DB.get('anak')||[];
+  const ukur=DB.get('pengukuran')||[];
+  const latest={};
+  ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const stunt=anak.filter(a=>latest[a.id]&&(latest[a.id].status==='Stunting'||latest[a.id].status==='Stunting Berat'));
+  const pantau=anak.filter(a=>latest[a.id]&&latest[a.id].status==='Perlu Pantau');
+  const normal=anak.filter(a=>latest[a.id]&&latest[a.id].status==='Normal');
+  const rows=(s,cls)=>s.map(a=>{const u=latest[a.id];return `<tr>
+    <td>${fmt(a.nama)}</td><td>${hitungUsia(a.tglLahir)} bln</td><td>${a.jenisKelamin==='L'?'L':'P'}</td>
+    <td>${u.tb} cm</td><td class="${cls}">${u.zscore_tbu}</td>
+    <td>${statusBadge(u.status)}</td><td>${fmt(a.wilayah)}</td>
+    <td>${fmtDate(u.tanggal)}</td>
+    <td><button class="btn btn-sm" onclick="detailAnak(${a.id})"><i class="ti ti-eye"></i>Detail</button></td>
+  </tr>`;}).join('');
+  return `
+  <div class="grid-3 mb-16">
+    <div class="risk-card risk-stunt"><div class="risk-title" style="color:#991b1b">Stunting</div><div class="risk-val" style="color:var(--red)">${stunt.length}</div><div class="risk-sub" style="color:#991b1b">Z-Score TB/U &lt; -2 SD</div></div>
+    <div class="risk-card risk-watch"><div class="risk-title" style="color:#92400e">Perlu Dipantau</div><div class="risk-val" style="color:var(--amber)">${pantau.length}</div><div class="risk-sub" style="color:#92400e">Z-Score -1 s/d -2 SD</div></div>
+    <div class="risk-card risk-normal"><div class="risk-title" style="color:#166534">Normal</div><div class="risk-val" style="color:var(--green)">${normal.length}</div><div class="risk-sub" style="color:#166534">Z-Score &gt; -1 SD</div></div>
+  </div>
+  <div class="card mb-16">
+    <div class="alert alert-warning" style="margin-bottom:0"><i class="ti ti-alert-triangle"></i><div><b>Perhatian:</b> Terdapat <b>${stunt.length} balita terdeteksi stunting</b> yang memerlukan tindak lanjut segera. Silakan koordinasi dengan dokter dan tim gizi puskesmas.</div></div>
+  </div>
+  <div class="card">
+    <div class="tabs">
+      <div class="tab active" onclick="switchDeteksiTab('stunting',this)">Stunting (${stunt.length})</div>
+      <div class="tab" onclick="switchDeteksiTab('pantau',this)">Perlu Pantau (${pantau.length})</div>
+      <div class="tab" onclick="switchDeteksiTab('normal',this)">Normal (${normal.length})</div>
+    </div>
+    <div id="deteksiTabContent">
+      <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Usia</th><th>JK</th><th>TB</th><th>Z TB/U</th><th>Status</th><th>Wilayah</th><th>Ukur Terakhir</th><th>Aksi</th></tr></thead>
+      <tbody id="deteksiBody">${rows(stunt,'')}</tbody></table></div>
+    </div>
+  </div>`;
+};
+
+function switchDeteksiTab(tab,el){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  const anak=DB.get('anak')||[];const ukur=DB.get('pengukuran')||[];
+  const latest={};ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const filterMap={stunting:['Stunting','Stunting Berat'],pantau:['Perlu Pantau'],normal:['Normal']};
+  const filtered=anak.filter(a=>latest[a.id]&&filterMap[tab].includes(latest[a.id].status));
+  document.getElementById('deteksiBody').innerHTML=filtered.map(a=>{const u=latest[a.id];return `<tr>
+    <td>${fmt(a.nama)}</td><td>${hitungUsia(a.tglLahir)} bln</td><td>${a.jenisKelamin==='L'?'L':'P'}</td>
+    <td>${u.tb} cm</td><td>${u.zscore_tbu}</td><td>${statusBadge(u.status)}</td>
+    <td>${fmt(a.wilayah)}</td><td>${fmtDate(u.tanggal)}</td>
+    <td><button class="btn btn-sm" onclick="detailAnak(${a.id})"><i class="ti ti-eye"></i>Detail</button></td>
+  </tr>`;}).join('')||'<tr><td colspan=9 style="text-align:center;color:var(--text2)">Tidak ada data</td></tr>';
+}
+
+// ──────────────────────────────────────
+// ARTIKEL
+// ──────────────────────────────────────
+SECTIONS.artikel = ()=>{
+  const art=DB.get('artikel')||[];
+  const cards=art.map(a=>`
+    <div class="artikel-card" onclick="bacaArtikel(${a.id})">
+      <div class="artikel-cat">${a.kategori}</div>
+      <div class="artikel-title">${a.judul}</div>
+      <div class="artikel-meta"><i class="ti ti-user" style="font-size:13px"></i> ${a.penulis} · ${fmtDate(a.tanggal)}</div>
+    </div>`).join('');
+  const canEdit = currentUser.role==='admin'||currentUser.role==='bidan';
+  return `
+  <div class="search-row">
+    <div class="search-input-wrap"><i class="ti ti-search"></i><input placeholder="Cari artikel..."></div>
+    ${canEdit?`<button class="btn btn-primary" onclick="tambahArtikel()"><i class="ti ti-plus"></i>Tulis Artikel</button>`:''}
+  </div>
+  <div class="artikel-grid">${cards||'<div class="empty"><i class="ti ti-article"></i><p>Belum ada artikel.</p></div>'}</div>`;
+};
+
+function bacaArtikel(id){
+  const a=DB.get('artikel').find(x=>x.id===id);
+  const canEdit=currentUser.role==='admin'||currentUser.role==='bidan';
+  openModal(`<div class="modal-header"><div class="modal-title">${a.judul}</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  <div style="margin-bottom:10px"><span class="badge badge-green">${a.kategori}</span></div>
+  <div class="artikel-meta mb-12"><i class="ti ti-user" style="font-size:13px"></i> ${a.penulis} · ${fmtDate(a.tanggal)}</div>
+  <div class="artikel-body">${a.isi}</div>
+  <div class="modal-footer">${canEdit?`<button class="btn" onclick="editArtikel(${a.id})"><i class="ti ti-edit"></i>Edit</button><button class="btn btn-danger" onclick="hapusArtikel(${a.id})"><i class="ti ti-trash"></i>Hapus</button>`:''}
+  <button class="btn btn-primary" onclick="closeModal()">Tutup</button></div>`);
+}
+
+function formArtikel(data={}){
+  return `
+  <div class="form-group"><label>Judul Artikel</label><input id="a_judul" value="${data.judul||''}" placeholder="Judul..."></div>
+  <div class="grid-2">
+    <div class="form-group"><label>Kategori</label><select id="a_kat">${['Stunting','Gizi','Tumbuh Kembang','Ibu Hamil','MPASI'].map(k=>`<option ${data.kategori===k?'selected':''}>${k}</option>`).join('')}</select></div>
+    <div class="form-group"><label>Penulis</label><input id="a_penulis" value="${data.penulis||currentUser.nama}" placeholder="Nama penulis"></div>
+    <div class="form-group"><label>Tanggal</label><input type="date" id="a_tgl" value="${data.tanggal||new Date().toISOString().split('T')[0]}"></div>
+  </div>
+  <div class="form-group"><label>Isi Artikel</label><textarea id="a_isi" style="min-height:140px">${data.isi||''}</textarea></div>`;
+}
+
+function tambahArtikel(){
+  openModal(`<div class="modal-header"><div class="modal-title">Tulis Artikel Baru</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formArtikel()}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanArtikel()"><i class="ti ti-check"></i>Publish</button></div>`);
+}
+function editArtikel(id){
+  const a=DB.get('artikel').find(x=>x.id===id);
+  openModal(`<div class="modal-header"><div class="modal-title">Edit Artikel</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
+  ${formArtikel(a)}
+  <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateArtikel(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);
+}
+function getFormArtikel(){return{judul:document.getElementById('a_judul').value.trim(),kategori:document.getElementById('a_kat').value,penulis:document.getElementById('a_penulis').value.trim(),tanggal:document.getElementById('a_tgl').value,isi:document.getElementById('a_isi').value.trim()};}
+function simpanArtikel(){
+  const d=getFormArtikel();if(!d.judul||!d.isi){showToast('Judul dan isi wajib diisi','error');return;}
+  const art=DB.get('artikel');art.push({...d,id:uid()});DB.set('artikel',art);
+  closeModal();showToast('Artikel berhasil dipublish');renderSection('artikel');
+}
+function updateArtikel(id){
+  const d=getFormArtikel();
+  DB.set('artikel',DB.get('artikel').map(a=>a.id===id?{...a,...d}:a));
+  closeModal();showToast('Artikel diperbarui');renderSection('artikel');
+}
+function hapusArtikel(id){
+  if(!confirm('Hapus artikel ini?'))return;
+  DB.set('artikel',DB.get('artikel').filter(a=>a.id!==id));
+  closeModal();showToast('Artikel dihapus');renderSection('artikel');
+}
+
+// ──────────────────────────────────────
+// JADWAL & NOTIFIKASI
+// ──────────────────────────────────────
+SECTIONS.jadwal = ()=>{
+  const jdwl=DB.get('jadwal')||[];
+  const sorted=jdwl.sort((a,b)=>a.tanggal.localeCompare(b.tanggal));
+  const canEdit=currentUser.role==='admin'||currentUser.role==='bidan';
+  const items=sorted.map(j=>{
+    const d=new Date(j.tanggal),day=d.getDate(),mon=d.toLocaleDateString('id-ID',{month:'short'});
+    return `<div class="jadwal-item">
+      <div class="jadwal-date-box">${day}<br>${mon}</div>
+      <div style="flex:1">
+        <div class="jadwal-info-title">${j.judul}</div>
+        <div class="jadwal-info-meta"><i class="ti ti-clock" style="font-size:13px"></i> ${j.waktu} &nbsp;·&nbsp; <i class="ti ti-map-pin" style="font-size:13px"></i> ${j.lokasi}</div>
+        <div class="jadwal-info-meta mt-4"><i class="ti ti-user" style="font-size:13px"></i> ${j.petugas}</div>
+        ${j.keterangan?`<div class="jadwal-info-meta mt-4" style="font-style:italic">${j.keterangan}</div>`:''}
+      </div>
+      ${canEdit?`<div style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-sm btn-icon" onclick="editJadwal(${j.id})"><i class="ti ti-edit"></i></button>
+        <button class="btn btn-sm btn-danger btn-icon" onclick="hapusJadwal(${j.id})"><i class="ti ti-trash"></i></button>
+      </div>`:''}
+    </div>`;}).join('');
+  return `
+  ${canEdit?`<div class="search-row" style="justify-content:flex-end"><button class="btn btn-primary" onclick="tambahJadwal()"><i class="ti ti-plus"></i>Tambah Jadwal</button></div>`:''}
+  <div class="card"><div class="card-title"><i class="ti ti-calendar-event"></i>Jadwal Kegiatan <span class="badge badge-blue">${jdwl.length} kegiatan</span></div>
+  ${items||'<div class="empty"><i class="ti ti-calendar-x"></i><p>Belum ada jadwal.</p></div>'}</div>`;
+};
+
+function formJadwal(data={}){
+  return `
+  <div class="form-group"><label>Nama Kegiatan</label><input id="j_judul" value="${data.judul||''}" placeholder="Nama kegiatan posyandu..."></div>
+  <div class="grid-2">
+    <div class="form-group"><label>Tanggal</label><input type="date" id="j_tgl" value="${data.tanggal||''}"></div>
+    <div class="form-group"><label>Waktu</label><input id="j_waktu" value="${data.waktu||''}" placeholder="08:00 - 11:00"></div>
+    <div class="form-group"><label>Lokasi</label><input id="j_lok" value="${data.lokasi||''}" placeholder="Nama tempat"></div>
+    <div class="form-group"><label>Petugas</label><input id="j_pet" value="${data.petugas||''}" placeholder="Nama petugas"></div>
+  </div>
+  <div class="form-group"><label>Keterangan</label><textarea id="j_ket">${data.keterangan||''}</textarea></div>`;
+}
+function getFormJadwal(){return{judul:document.getElementById('j_judul').value.trim(),tanggal:document.getElementById('j_tgl').value,waktu:document.getElementById('j_waktu').value.trim(),lokasi:document.getElementById('j_lok').value.trim(),petugas:document.getElementById('j_pet').value.trim(),keterangan:document.getElementById('j_ket').value.trim()};}
+function tambahJadwal(){openModal(`<div class="modal-header"><div class="modal-title">Tambah Jadwal</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formJadwal()}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanJadwal()"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function editJadwal(id){const j=DB.get('jadwal').find(x=>x.id===id);openModal(`<div class="modal-header"><div class="modal-title">Edit Jadwal</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formJadwal(j)}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateJadwal(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function simpanJadwal(){const d=getFormJadwal();if(!d.judul||!d.tanggal){showToast('Nama dan tanggal wajib diisi','error');return;}const jdwl=DB.get('jadwal');jdwl.push({...d,id:uid()});DB.set('jadwal',jdwl);closeModal();showToast('Jadwal ditambahkan');renderSection('jadwal');}
+function updateJadwal(id){const d=getFormJadwal();DB.set('jadwal',DB.get('jadwal').map(j=>j.id===id?{...j,...d}:j));closeModal();showToast('Jadwal diperbarui');renderSection('jadwal');}
+function hapusJadwal(id){if(!confirm('Hapus jadwal ini?'))return;DB.set('jadwal',DB.get('jadwal').filter(j=>j.id!==id));showToast('Jadwal dihapus');renderSection('jadwal');}
+
+// ──────────────────────────────────────
+// LAPORAN
+// ──────────────────────────────────────
+SECTIONS.laporan = ()=>{
+  const anak=DB.get('anak')||[];const ukur=DB.get('pengukuran')||[];
+  const latest={};ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const statuses=Object.values(latest).map(u=>u.status);
+  const total=anak.length,stunt=statuses.filter(s=>s==='Stunting'||s==='Stunting Berat').length;
+  const pantau=statuses.filter(s=>s==='Perlu Pantau').length,normal=statuses.filter(s=>s==='Normal').length;
+  const wil=['Sungai Durian','Kapur','Punggur Kecil','Seruat','Sei Ambawang'];
+  const wData=wil.map(w=>{
+    const anakW=anak.filter(a=>a.wilayah===w);
+    const stuntW=anakW.filter(a=>latest[a.id]&&(latest[a.id].status==='Stunting'||latest[a.id].status==='Stunting Berat')).length;
+    return{w,total:anakW.length,stunt:stuntW,pct:anakW.length?Math.round(stuntW/anakW.length*100):0};
+  });
+  const maxS=Math.max(...wData.map(d=>d.stunt),1);
+  return `
+  <div class="grid-4 mb-16">
+    <div class="metric"><div class="metric-label">Total Balita</div><div class="metric-val">${total}</div></div>
+    <div class="metric"><div class="metric-label" style="color:var(--red)">Stunting</div><div class="metric-val" style="color:var(--red)">${stunt} (${total?Math.round(stunt/total*100):0}%)</div></div>
+    <div class="metric"><div class="metric-label" style="color:var(--amber)">Perlu Pantau</div><div class="metric-val" style="color:var(--amber)">${pantau}</div></div>
+    <div class="metric"><div class="metric-label" style="color:var(--green)">Normal</div><div class="metric-val" style="color:var(--green)">${normal}</div></div>
+  </div>
+  <div class="grid-2">
+    <div class="card"><div class="card-title"><i class="ti ti-chart-bar"></i>Prevalensi Stunting per Wilayah</div>
+    <div class="chart-bar-wrap">${wData.map(d=>`<div class="chart-bar-item">
+      <div class="chart-bar-label">${d.w}</div>
+      <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${d.stunt/maxS*100}%;background:${d.pct>20?'var(--red)':d.pct>10?'var(--amber)':'var(--green)'}"></div></div>
+      <div class="chart-bar-val">${d.stunt}/${d.total}</div>
+    </div>`).join('')}</div></div>
+    <div class="card"><div class="card-title"><i class="ti ti-table"></i>Rekap per Wilayah</div>
+    <table><thead><tr><th>Wilayah</th><th>Total Balita</th><th>Stunting</th><th>Prevalensi</th></tr></thead>
+    <tbody>${wData.map(d=>`<tr><td>${d.w}</td><td>${d.total}</td><td><span class="badge ${d.stunt>0?'badge-red':'badge-green'}">${d.stunt}</span></td><td>${d.pct}%</td></tr>`).join('')}</tbody>
+    </table></div>
+  </div>
+  <div class="card mt-16"><div class="card-title"><i class="ti ti-list"></i>Rekap Lengkap — Semua Pengukuran</div>
+  <div class="table-wrap"><table><thead><tr><th>Nama Anak</th><th>Usia</th><th>Wilayah</th><th>BB</th><th>TB</th><th>Z TB/U</th><th>Status</th><th>Tgl Ukur</th></tr></thead>
+  <tbody>${anak.map(a=>{const u=latest[a.id];if(!u)return'';return`<tr><td>${a.nama}</td><td>${hitungUsia(a.tglLahir)} bln</td><td>${a.wilayah}</td><td>${u.bb}</td><td>${u.tb}</td><td>${u.zscore_tbu}</td><td>${statusBadge(u.status)}</td><td>${fmtDate(u.tanggal)}</td></tr>`;}).join('')}</tbody>
+  </table></div></div>`;
+};
+
+// ──────────────────────────────────────
+// MANAJEMEN PENGGUNA (admin only)
+// ──────────────────────────────────────
+SECTIONS.pengguna = ()=>{
+  if(currentUser.role!=='admin')return`<div class="empty"><i class="ti ti-lock"></i><p>Akses ditolak.</p></div>`;
+  const users=DB.get('users')||[];
+  const rows=users.map(u=>`<tr>
+    <td>${u.id}</td><td>${u.nama}</td><td>${u.username}</td>
+    <td><span class="badge ${u.role==='admin'?'badge-blue':u.role==='bidan'?'badge-green':'badge-gray'}">${ROLE_LABELS[u.role]||u.role}</span></td>
+    <td>${u.nip||u.nik||'-'}</td>
+    <td><div class="table-action">
+      <button class="btn btn-sm btn-icon" onclick="editUser(${u.id})"><i class="ti ti-edit"></i></button>
+      ${u.id!==currentUser.id?`<button class="btn btn-sm btn-danger btn-icon" onclick="hapusUser(${u.id})"><i class="ti ti-trash"></i></button>`:''}
+    </div></td>
+  </tr>`).join('');
+  return `
+  <div class="search-row" style="justify-content:flex-end">
+    <button class="btn btn-primary" onclick="tambahUser()"><i class="ti ti-plus"></i>Tambah Pengguna</button>
+  </div>
+  <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Pengguna <span class="badge badge-blue">${users.length} akun</span></div>
+  <div class="table-wrap"><table><thead><tr><th>ID</th><th>Nama</th><th>Username</th><th>Role</th><th>NIP/NIK</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+};
+
+function formUser(data={}){
+  return `
+  <div class="form-group"><label>Nama Lengkap</label><input id="p_nama" value="${data.nama||''}" placeholder="Nama lengkap"></div>
+  <div class="grid-2">
+    <div class="form-group"><label>Username</label><input id="p_user" value="${data.username||''}" placeholder="Username login"></div>
+    <div class="form-group"><label>Password ${data.id?'(kosong = tidak ubah)':''}</label><input type="password" id="p_pass" placeholder="Password"></div>
+    <div class="form-group"><label>Role</label><select id="p_role"><option value="admin" ${data.role==='admin'?'selected':''}>Admin</option><option value="bidan" ${data.role==='bidan'?'selected':''}>Bidan</option><option value="ortu" ${data.role==='ortu'?'selected':''}>Orang Tua</option></select></div>
+    <div class="form-group"><label>NIP / NIK</label><input id="p_nip" value="${data.nip||data.nik||''}" placeholder="NIP/NIK"></div>
+  </div>`;
+}
+function getFormUser(){return{nama:document.getElementById('p_nama').value.trim(),username:document.getElementById('p_user').value.trim(),password:document.getElementById('p_pass').value,role:document.getElementById('p_role').value,nip:document.getElementById('p_nip').value.trim()};}
+function tambahUser(){openModal(`<div class="modal-header"><div class="modal-title">Tambah Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formUser()}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanUser()"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function editUser(id){const u=DB.get('users').find(x=>x.id===id);openModal(`<div class="modal-header"><div class="modal-title">Edit Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formUser(u)}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateUser(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);}
+function simpanUser(){const d=getFormUser();if(!d.nama||!d.username||!d.password){showToast('Semua field wajib diisi','error');return;}const users=DB.get('users');users.push({...d,id:uid()});DB.set('users',users);closeModal();showToast('Pengguna ditambahkan');renderSection('pengguna');}
+function updateUser(id){const d=getFormUser();const users=DB.get('users').map(u=>{if(u.id!==id)return u;return{...u,...d,password:d.password||u.password};});DB.set('users',users);closeModal();showToast('Pengguna diperbarui');renderSection('pengguna');}
+function hapusUser(id){if(!confirm('Hapus akun pengguna ini?'))return;DB.set('users',DB.get('users').filter(u=>u.id!==id));showToast('Pengguna dihapus');renderSection('pengguna');}
+
+// ──────────────────────────────────────
+// HOME ORTU
+// ──────────────────────────────────────
+SECTIONS.home_ortu = ()=>{
+  const anak=DB.get('anak')||[];
+  const a=anak.find(x=>x.nikIbu===currentUser.nik)||anak[0];
+  if(!a)return`<div class="empty"><i class="ti ti-baby"></i><p>Belum ada data anak terdaftar.</p></div>`;
+  const ukur=DB.get('pengukuran').filter(u=>u.idAnak===a.id).sort((x,y)=>y.tanggal.localeCompare(x.tanggal));
+  const last=ukur[0];
+  const jadwal=DB.get('jadwal').sort((x,y)=>x.tanggal.localeCompare(y.tanggal)).slice(0,2);
+  const jItems=jadwal.map(j=>{const d=new Date(j.tanggal),day=d.getDate(),mon=d.toLocaleDateString('id-ID',{month:'short'});return`<div class="jadwal-item"><div class="jadwal-date-box">${day}<br>${mon}</div><div><div class="jadwal-info-title">${j.judul}</div><div class="jadwal-info-meta">${j.waktu} · ${j.lokasi}</div></div></div>`;}).join('');
+  return `
+  <div class="anak-profile-banner">
+    <div class="ortu-anak-name">${a.nama}</div>
+    <div class="ortu-anak-meta"><i class="ti ti-cake"></i> ${fmtDate(a.tglLahir)} · ${hitungUsia(a.tglLahir)} bulan · ${a.jenisKelamin==='L'?'Laki-laki':'Perempuan'}</div>
+    <div class="ortu-anak-meta mt-8"><i class="ti ti-map-pin"></i> ${a.wilayah} · ${a.posyandu}</div>
+    ${last?`<div class="ortu-status">${last.status}</div>`:''}
+  </div>
+  <div class="grid-2 mb-16">
+    <div class="card">${last?`
+      <div class="card-title"><i class="ti ti-ruler-measure"></i>Pengukuran Terakhir <span class="text-sm text-muted">${fmtDate(last.tanggal)}</span></div>
+      <div class="info-row"><div class="info-label">Berat Badan</div><div class="info-val">${last.bb} kg</div></div>
+      <div class="info-row"><div class="info-label">Tinggi Badan</div><div class="info-val">${last.tb} cm</div></div>
+      <div class="info-row"><div class="info-label">Z-Score TB/U</div><div class="info-val">${last.zscore_tbu}</div></div>
+      <div class="info-row"><div class="info-label">Status Gizi</div><div class="info-val">${statusBadge(last.status)}</div></div>
+      ${last.catatan?`<div class="info-row"><div class="info-label">Catatan Bidan</div><div class="info-val">${last.catatan}</div></div>`:''}
+    `:`<div class="empty" style="padding:20px"><i class="ti ti-ruler-measure"></i><p>Belum ada data pengukuran.</p></div>`}</div>
+    <div class="card"><div class="card-title"><i class="ti ti-calendar-event"></i>Jadwal Posyandu Terdekat</div>${jItems}</div>
+  </div>
+  <div class="alert alert-info"><i class="ti ti-info-circle"></i>Jika ada pertanyaan tentang tumbuh kembang anak Anda, silakan hubungi bidan puskesmas di ${a.posyandu}.</div>`;
+};
+
+// ──────────────────────────────────────
+// PERKEMBANGAN (ortu)
+// ──────────────────────────────────────
+SECTIONS.perkembangan = ()=>{
+  const anak=DB.get('anak')||[];
+  const a=anak.find(x=>x.nikIbu===currentUser.nik)||anak[0];
+  if(!a)return`<div class="empty"><i class="ti ti-baby"></i><p>Data tidak ditemukan.</p></div>`;
+  const ukur=DB.get('pengukuran').filter(u=>u.idAnak===a.id).sort((x,y)=>x.tanggal.localeCompare(y.tanggal));
+  const rows=ukur.map(u=>`<tr><td>${fmtDate(u.tanggal)}</td><td>${u.bb} kg</td><td>${u.tb} cm</td><td>${u.lk||'-'}</td><td>${u.lla||'-'}</td><td>${u.zscore_tbu}</td><td>${statusBadge(u.status)}</td><td>${u.catatan||'-'}</td></tr>`).join('');
+  return `
+  <div class="card mb-16"><div class="card-title"><i class="ti ti-trending-up"></i>Riwayat Perkembangan — ${a.nama}</div>
+  <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>BB</th><th>TB</th><th>LK</th><th>LLA</th><th>Z TB/U</th><th>Status</th><th>Catatan</th></tr></thead>
+  <tbody>${rows||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Belum ada data pengukuran</td></tr>'}</tbody></table></div></div>
+  <div class="alert alert-info"><i class="ti ti-info-circle"></i>Data pengukuran diinput oleh bidan pada setiap kegiatan posyandu. Bawa Buku KIA saat posyandu.</div>`;
+};
+
+// ──────────────────────────────────────
+// ATTACH HANDLERS
+// ──────────────────────────────────────
+function attachHandlers(sec){
+  // nothing special needed beyond inline handlers
+}
+</script>
+</body>
+</html>
