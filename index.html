@@ -240,15 +240,15 @@ tr:hover td{background:#f9fdfb}
         <button class="role-tab" onclick="setRole('bidan',this)">Bidan</button>
         <button class="role-tab" onclick="setRole('ortu',this)">Orang Tua</button>
       </div>
-      <div id="ortuInfo" class="hidden" style="background:var(--blue-light);border:1px solid #bfdbfe;border-radius:var(--radius);padding:10px 13px;margin-bottom:14px;font-size:12px;color:#1e40af;display:flex;gap:8px;align-items:flex-start">
+      <div id="roleInfoBox" style="border-radius:var(--radius);padding:10px 13px;margin-bottom:14px;font-size:12px;display:flex;gap:8px;align-items:flex-start;background:var(--blue-light);border:1px solid #bfdbfe;color:#1e40af">
         <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0;margin-top:1px"></i>
-        <span>Akun orang tua dibuat oleh Admin/Bidan Puskesmas. Hubungi petugas jika belum memiliki akun.</span>
+        <span id="roleInfoText">Masuk dengan username dan password akun admin.</span>
       </div>
       <div class="form-group mb-12">
-        <label>Username</label>
-        <input type="text" id="loginUser" placeholder="Masukkan username">
+        <label id="loginUserLabel">Username</label>
+        <input type="text" id="loginUser" placeholder="Masukkan username" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
-      <div class="form-group mb-16">
+      <div class="form-group mb-16" id="loginPassWrap">
         <label>Password</label>
         <input type="password" id="loginPass" placeholder="Masukkan password" onkeydown="if(event.key==='Enter')doLogin()">
       </div>
@@ -256,6 +256,9 @@ tr:hover td{background:#f9fdfb}
         <i class="ti ti-login"></i> Masuk
       </button>
       <p class="login-hint" id="loginHint" style="color:var(--text3);font-size:11px;text-align:center;margin-top:10px"></p>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);text-align:center">
+        <b style="color:var(--text2)">Demo:</b> Admin → user: <code>admin</code> / pass: <code>admin123</code> &nbsp;|&nbsp; Bidan → NIP: <code>9876543210</code> &nbsp;|&nbsp; Ortu → NIK: <code>6101234567890001</code>
+      </div>
     </div>
   </div>
 </div>
@@ -315,7 +318,10 @@ const DB = {
   init(){
     if(!this.get('users')) this.set('users',[
       {id:1,username:'admin',password:'admin123',role:'admin',nama:'Admin Puskesmas',nip:'1234567890'},
-      {id:2,username:'bidan1',password:'bidan123',role:'bidan',nama:'Bidan Sari Dewi',nip:'9876543210'},
+      {id:2,username:'9876543210',password:'9876543210',role:'bidan',nama:'Bidan Sari Dewi',nip:'9876543210'},
+      // Akun ortu demo — login hanya dengan NIK
+      {id:3,username:'6101234567890001',password:'6101234567890001',role:'ortu',nama:'Ibu Rahayu',nik:'6101234567890001'},
+      {id:4,username:'6101111222333444',password:'6101111222333444',role:'ortu',nama:'Ibu Fatimah',nik:'6101111222333444'},
     ]);
     if(!this.get('wilayah')) this.set('wilayah',[
       {id:1,nama:'Sungai Durian'},
@@ -366,27 +372,40 @@ DB.init();
 let currentUser = null;
 let currentRole = 'admin';
 
+const ROLE_LOGIN_INFO = {
+  admin: {label:'Username', placeholder:'Masukkan username', hint:'Masuk menggunakan username dan password akun admin.', showPass:true},
+  bidan: {label:'NIP (Nomor Induk Pegawai)', placeholder:'Masukkan NIP Anda', hint:'Bidan masuk menggunakan NIP. Password diberikan oleh admin.', showPass:true},
+  ortu: {label:'NIK (Nomor Induk Kependudukan)', placeholder:'Masukkan 16 digit NIK', hint:'Orang tua cukup masuk dengan NIK — akun dibuat otomatis saat bidan mendaftarkan anak.', showPass:false},
+};
 function setRole(r,el){
   currentRole = r;
   document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
-  const ortuInfo = document.getElementById('ortuInfo');
-  if(r==='ortu'){
-    ortuInfo.style.display='flex';
-  } else {
-    ortuInfo.style.display='none';
-  }
-  document.getElementById('loginHint').textContent='';
-  document.getElementById('loginUser').value='';
-  document.getElementById('loginPass').value='';
+  const cfg = ROLE_LOGIN_INFO[r];
+  document.getElementById('loginUserLabel').textContent = cfg.label;
+  document.getElementById('loginUser').placeholder = cfg.placeholder;
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  document.getElementById('loginHint').textContent = '';
+  document.getElementById('roleInfoText').textContent = cfg.hint;
+  document.getElementById('loginPassWrap').style.display = cfg.showPass ? '' : 'none';
 }
 
 function doLogin(){
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value.trim();
   const users = DB.get('users');
-  const user = users.find(x=>x.username===u&&x.password===p&&x.role===currentRole);
-  if(!user){showToast('Username atau password salah','error');return;}
+  let user = null;
+  if(currentRole === 'admin'){
+    user = users.find(x=>x.username===u && x.password===p && x.role==='admin');
+  } else if(currentRole === 'bidan'){
+    // Bidan login pakai NIP + password
+    user = users.find(x=>x.nip===u && x.password===p && x.role==='bidan');
+  } else if(currentRole === 'ortu'){
+    // Ortu login hanya pakai NIK (tanpa password)
+    user = users.find(x=>x.nik===u && x.role==='ortu');
+  }
+  if(!user){showToast('Data login tidak ditemukan','error');return;}
   currentUser = user;
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
@@ -701,7 +720,21 @@ function getFormAnak(){
 function simpanAnak(){
   const d=getFormAnak();if(!d.nama||!d.tglLahir){showToast('Nama dan tanggal lahir wajib diisi','error');return;}
   const anak=DB.get('anak');anak.push({...d,id:uid()});DB.set('anak',anak);
-  closeModal();showToast('Data anak berhasil disimpan');renderSection('registrasi');
+  // Auto-buat/link akun orang tua berdasarkan NIK Ibu
+  if(d.nikIbu){
+    const users=DB.get('users');
+    const existingOrtu=users.find(u=>u.nik===d.nikIbu&&u.role==='ortu');
+    if(!existingOrtu){
+      users.push({id:uid(),username:d.nikIbu,password:d.nikIbu,role:'ortu',nama:d.namaIbu||'Orang Tua',nik:d.nikIbu,noHP:d.noHP||''});
+      DB.set('users',users);
+      showToast(`✅ Anak disimpan & akun orang tua dibuat (NIK: ${d.nikIbu})`,'success');
+    } else {
+      showToast('Data anak berhasil disimpan (akun ortu sudah ada)','success');
+    }
+  } else {
+    showToast('Data anak berhasil disimpan','success');
+  }
+  closeModal();renderSection('registrasi');
 }
 function updateAnak(id){
   const d=getFormAnak();if(!d.nama){showToast('Nama wajib diisi','error');return;}
@@ -1063,10 +1096,10 @@ SECTIONS.pengguna = ()=>{
   if(currentUser.role!=='admin')return`<div class="empty"><i class="ti ti-lock"></i><p>Akses ditolak.</p></div>`;
   const users=DB.get('users')||[];
   const rows=users.map(u=>`<tr>
-    <td>${u.nama}</td><td>${u.username}</td>
+    <td>${u.nama}</td>
     <td><span class="badge ${u.role==='admin'?'badge-blue':u.role==='bidan'?'badge-green':'badge-gray'}">${ROLE_LABELS[u.role]||u.role}</span></td>
-    <td>${u.role==='ortu'?(u.nik||'-'):(u.nip||'-')}</td>
-    ${u.role==='ortu'?`<td><span class="badge badge-gray">${u.nikAnak||u.nik||'-'}</span></td>`:`<td>-</td>`}
+    <td style="font-family:monospace;font-size:12px">${u.role==='ortu'?`<span class="badge badge-gray">NIK: ${u.nik||'-'}</span>`:u.role==='bidan'?`<span class="badge badge-green">NIP: ${u.nip||'-'}</span>`:`<span class="badge badge-blue">user: ${u.username||'-'}</span>`}</td>
+    <td style="color:var(--text3);font-size:12px">${u.role==='ortu'?'Login: NIK saja':u.role==='bidan'?`Login: NIP + password`:'Login: username + password'}</td>
     <td><div class="table-action">
       <button class="btn btn-sm btn-icon" title="Edit" onclick="editUser(${u.id})"><i class="ti ti-edit"></i></button>
       ${u.id!==currentUser.id?`<button class="btn btn-sm btn-danger btn-icon" title="Hapus" onclick="hapusUser(${u.id})"><i class="ti ti-trash"></i></button>`:''}
@@ -1074,7 +1107,7 @@ SECTIONS.pengguna = ()=>{
   </tr>`).join('');
   const ortuCount=users.filter(u=>u.role==='ortu').length;
   return `
-  <div class="alert alert-info mb-16"><i class="ti ti-info-circle"></i><div>Akun <b>Orang Tua</b> dibuat di sini oleh admin. Username & password diberikan langsung ke orang tua. NIK Ibu digunakan untuk menghubungkan akun dengan data anak.</div></div>
+  <div class="alert alert-info mb-16"><i class="ti ti-info-circle"></i><div><b>Sistem Login:</b> <b>Bidan</b> login dengan <b>NIP + Password</b> (default password = NIP). <b>Orang Tua</b> login hanya dengan <b>NIK</b> — akun dibuat <i>otomatis</i> saat bidan mendaftarkan anak, atau tambahkan manual di sini.</div></div>
   <div class="search-row" style="justify-content:flex-end;gap:10px">
     <button class="btn" onclick="tambahUser('bidan')"><i class="ti ti-user-plus"></i>Tambah Bidan</button>
     <button class="btn btn-primary" onclick="tambahUser('ortu')"><i class="ti ti-user-plus"></i>Buat Akun Orang Tua</button>
@@ -1084,44 +1117,58 @@ SECTIONS.pengguna = ()=>{
     <div class="metric"><div class="metric-label"><i class="ti ti-users"></i>Akun Orang Tua</div><div class="metric-val">${ortuCount}</div><div class="metric-sub">dari total akun</div></div>
   </div>
   <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Pengguna</div>
-  <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>NIP / NIK</th><th>NIK Ibu (Ortu)</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+  <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Role</th><th>Identitas Login</th><th>Metode Login</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
 };
 
 function formUser(data={}, defaultRole='admin'){
   const role = data.role || defaultRole;
   const isOrtu = role==='ortu';
+  const isBidan = role==='bidan';
   const anak = DB.get('anak')||[];
   return `
   <div class="form-group"><label>Nama Lengkap</label><input id="p_nama" value="${data.nama||''}" placeholder="Nama lengkap"></div>
   <div class="grid-2">
-    <div class="form-group"><label>Username</label><input id="p_user" value="${data.username||''}" placeholder="Buat username unik"></div>
-    <div class="form-group"><label>Password ${data.id?'(kosong = tidak ubah)':''}</label><input type="password" id="p_pass" placeholder="Buat password"></div>
     <div class="form-group"><label>Role</label><select id="p_role" onchange="toggleOrtuFields()">
       <option value="admin" ${role==='admin'?'selected':''}>Admin</option>
       <option value="bidan" ${role==='bidan'?'selected':''}>Bidan</option>
       <option value="ortu" ${role==='ortu'?'selected':''}>Orang Tua</option>
     </select></div>
     <div class="form-group" id="p_nip_wrap" ${isOrtu?'style="display:none"':''}>
-      <label>NIP</label><input id="p_nip" value="${data.nip||''}" placeholder="Nomor Induk Pegawai">
+      <label>NIP <span style="color:var(--text3);font-size:11px">(digunakan untuk login)</span></label>
+      <input id="p_nip" value="${data.nip||''}" placeholder="Nomor Induk Pegawai">
+    </div>
+  </div>
+  <div id="p_bidan_info" ${!isBidan?'style="display:none"':''}>
+    <div class="alert alert-info" style="margin-bottom:12px"><i class="ti ti-info-circle"></i>Bidan login menggunakan <b>NIP</b>. Password default = NIP (bidan dapat mengubah di profil).</div>
+    <div class="form-group"><label>Password <span style="color:var(--text3);font-size:11px">(kosong = gunakan NIP)</span></label><input type="password" id="p_pass" placeholder="Biarkan kosong untuk default NIP"></div>
+  </div>
+  <div id="p_admin_fields" ${(isOrtu||isBidan)?'style="display:none"':''}>
+    <div class="grid-2">
+      <div class="form-group"><label>Username</label><input id="p_user" value="${data.username||''}" placeholder="Username unik"></div>
+      <div class="form-group"><label>Password ${data.id?'(kosong = tidak ubah)':''}</label><input type="password" id="p_pass_admin" placeholder="Buat password"></div>
     </div>
   </div>
   <div id="p_ortu_fields" ${!isOrtu?'style="display:none"':''}>
-    <div class="alert alert-info" style="margin-bottom:12px"><i class="ti ti-info-circle"></i>NIK Ibu digunakan untuk menghubungkan akun ini dengan data anak yang terdaftar.</div>
+    <div class="alert alert-info" style="margin-bottom:12px"><i class="ti ti-info-circle"></i>Orang tua login hanya menggunakan <b>NIK</b> — tanpa password. Akun dibuat otomatis saat bidan mendaftarkan anak. Tambahkan manual di sini jika diperlukan.</div>
     <div class="grid-2">
-      <div class="form-group col-span-2"><label>NIK Ibu (16 digit)</label><input id="p_nik" value="${data.nik||''}" placeholder="Contoh: 6101234567890001" maxlength="16"></div>
+      <div class="form-group col-span-2"><label>NIK Ibu (16 digit) <span style="color:var(--text3);font-size:11px">(digunakan untuk login)</span></label><input id="p_nik" value="${data.nik||''}" placeholder="Contoh: 6101234567890001" maxlength="16"></div>
     </div>
     ${anak.length?`<div class="form-group"><label>Pilih Anak yang Dihubungkan (opsional)</label><select id="p_idAnak">
       <option value="">— Pilih anak —</option>
       ${anak.map(a=>`<option value="${a.id}" ${data.idAnak==a.id?'selected':''}>${a.nama} (NIK Ibu: ${a.nikIbu||'-'})</option>`).join('')}
-    </select></div>`:'<div class="alert alert-warning" style="margin-bottom:0"><i class="ti ti-alert-triangle"></i>Belum ada data anak terdaftar. Daftarkan anak terlebih dahulu di menu Registrasi Anak.</div>'}
+    </select></div>`:'<div class="alert alert-warning" style="margin-bottom:0"><i class="ti ti-alert-triangle"></i>Belum ada data anak. Daftarkan anak terlebih dahulu.</div>'}
   </div>`;
 }
 
 function toggleOrtuFields(){
   const role=document.getElementById('p_role').value;
   const isOrtu=role==='ortu';
+  const isBidan=role==='bidan';
+  const isAdmin=role==='admin';
   document.getElementById('p_ortu_fields').style.display=isOrtu?'block':'none';
   document.getElementById('p_nip_wrap').style.display=isOrtu?'none':'block';
+  document.getElementById('p_bidan_info').style.display=isBidan?'block':'none';
+  document.getElementById('p_admin_fields').style.display=isAdmin?'block':'none';
 }
 
 function tambahUser(defaultRole='admin'){
@@ -1137,30 +1184,58 @@ function editUser(id){
 }
 function getFormUser(){
   const role=document.getElementById('p_role').value;
-  const d={nama:document.getElementById('p_nama').value.trim(),username:document.getElementById('p_user').value.trim(),password:document.getElementById('p_pass').value,role};
+  const d={nama:document.getElementById('p_nama').value.trim(),role};
   if(role==='ortu'){
     d.nik=document.getElementById('p_nik').value.trim();
+    d.username=d.nik; // username = NIK untuk ortu
+    d.password=d.nik; // password = NIK untuk ortu (login tanpa password)
     const idAnakEl=document.getElementById('p_idAnak');
     if(idAnakEl&&idAnakEl.value)d.idAnak=parseInt(idAnakEl.value);
-    // auto-isi NIK ibu dari anak yang dipilih
     if(d.idAnak){const anak=DB.get('anak').find(a=>a.id===d.idAnak);if(anak)d.nik=anak.nikIbu||d.nik;}
+  } else if(role==='bidan'){
+    d.nip=document.getElementById('p_nip').value.trim();
+    d.username=d.nip; // username = NIP untuk bidan
+    const passEl=document.getElementById('p_pass');
+    d.password=passEl&&passEl.value?passEl.value:d.nip; // default password = NIP
   } else {
+    // admin
+    const userEl=document.getElementById('p_user');
+    const passEl=document.getElementById('p_pass_admin');
+    d.username=userEl?userEl.value.trim():'';
+    d.password=passEl?passEl.value:'';
     d.nip=document.getElementById('p_nip').value.trim();
   }
   return d;
 }
 function simpanUser(){
   const d=getFormUser();
-  if(!d.nama||!d.username||!d.password){showToast('Nama, username, dan password wajib diisi','error');return;}
+  if(!d.nama){showToast('Nama wajib diisi','error');return;}
   if(d.role==='ortu'&&!d.nik){showToast('NIK Ibu wajib diisi untuk akun orang tua','error');return;}
+  if(d.role==='bidan'&&!d.nip){showToast('NIP wajib diisi untuk akun bidan','error');return;}
+  if(d.role==='admin'&&(!d.username||!d.password)){showToast('Username dan password wajib diisi untuk admin','error');return;}
   const users=DB.get('users');
-  if(users.find(u=>u.username===d.username)){showToast('Username sudah digunakan, pilih username lain','error');return;}
+  // Cek duplikat: NIK untuk ortu, NIP untuk bidan, username untuk admin
+  if(d.role==='ortu'&&users.find(u=>u.nik===d.nik&&u.role==='ortu')){showToast('Akun dengan NIK ini sudah ada','error');return;}
+  if(d.role==='bidan'&&users.find(u=>u.nip===d.nip&&u.role==='bidan')){showToast('Akun dengan NIP ini sudah ada','error');return;}
+  if(d.role==='admin'&&users.find(u=>u.username===d.username)){showToast('Username sudah digunakan','error');return;}
   users.push({...d,id:uid()});DB.set('users',users);
-  closeModal();showToast('Akun berhasil dibuat');renderSection('pengguna');
+  closeModal();
+  if(d.role==='bidan') showToast(`Akun bidan dibuat. Login: NIP ${d.nip}, Password: ${d.password}`,'success');
+  else if(d.role==='ortu') showToast(`Akun orang tua dibuat. Login cukup dengan NIK: ${d.nik}`,'success');
+  else showToast('Akun berhasil dibuat','success');
+  renderSection('pengguna');
 }
 function updateUser(id){
   const d=getFormUser();
-  const users=DB.get('users').map(u=>{if(u.id!==id)return u;return{...u,...d,password:d.password||u.password};});
+  const users=DB.get('users').map(u=>{
+    if(u.id!==id)return u;
+    const updated={...u,...d};
+    // password: jika bidan dan password kosong, pertahankan password lama
+    if(d.role==='bidan'){const passEl=document.getElementById('p_pass');if(!passEl||!passEl.value)updated.password=u.password;}
+    // admin: jika password kosong, pertahankan
+    if(d.role==='admin'){const passEl=document.getElementById('p_pass_admin');if(!passEl||!passEl.value)updated.password=u.password;}
+    return updated;
+  });
   DB.set('users',users);closeModal();showToast('Pengguna diperbarui');renderSection('pengguna');
 }
 function hapusUser(id){if(!confirm('Hapus akun pengguna ini?'))return;DB.set('users',DB.get('users').filter(u=>u.id!==id));showToast('Pengguna dihapus');renderSection('pengguna');}
@@ -1300,9 +1375,10 @@ SECTIONS.profil = ()=>{
         <div style="width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:700;flex-shrink:0">${u.nama.charAt(0).toUpperCase()}</div>
         <div><div style="font-size:17px;font-weight:600">${u.nama}</div><div class="text-muted text-sm">${ROLE_LABELS[u.role]||u.role}</div></div>
       </div>
-      <div class="info-row"><div class="info-label">Username</div><div class="info-val">${u.username}</div></div>
-      <div class="info-row"><div class="info-label">Role</div><div class="info-val"><span class="badge ${u.role==='admin'?'badge-blue':u.role==='bidan'?'badge-green':'badge-gray'}">${ROLE_LABELS[u.role]}</span></div></div>
-      <div class="info-row"><div class="info-label">NIP / NIK</div><div class="info-val">${u.nip||u.nik||'-'}</div></div>
+      <div class="info-row"><div class="info-label">Identitas Login</div><div class="info-val">
+        ${u.role==='ortu'?`<span class="badge badge-gray">NIK: ${u.nik||'-'}</span>`:u.role==='bidan'?`<span class="badge badge-green">NIP: ${u.nip||'-'}</span>`:`<span class="badge badge-blue">Username: ${u.username||'-'}</span>`}
+      </div></div>
+      <div class="info-row"><div class="info-label">Metode Login</div><div class="info-val text-muted" style="font-size:12px">${u.role==='ortu'?'NIK saja (tanpa password)':u.role==='bidan'?'NIP + Password':'Username + Password'}</div></div>
     </div>
     <div class="card">
       <div class="card-title"><i class="ti ti-edit"></i>Edit Profil</div>
