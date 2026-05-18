@@ -21,7 +21,7 @@
 }
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6}
 h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
-
+ 
 /* ── UTILS ── */
 .hidden{display:none!important}
 .flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}
@@ -34,7 +34,7 @@ h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 .grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .col-span-2{grid-column:span 2}
-
+ 
 /* ── BADGE / PILL ── */
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:2px 9px;border-radius:20px}
 .badge-green{background:var(--green-light);color:var(--green-dark)}
@@ -42,7 +42,7 @@ h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 .badge-red{background:var(--red-light);color:#991b1b}
 .badge-blue{background:var(--blue-light);color:#1e40af}
 .badge-gray{background:#f1f5f2;color:var(--text2)}
-
+ 
 /* ── BUTTON ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:.15s all}
 .btn:hover{background:#f0f7f4;border-color:var(--green)}
@@ -52,19 +52,19 @@ h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 .btn-danger:hover{background:#fecaca}
 .btn-sm{padding:5px 11px;font-size:12px}
 .btn-icon{padding:6px;border-radius:8px}
-
+ 
 /* ── CARD ── */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow)}
 .card-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .card-title i{font-size:18px;color:var(--green)}
-
+ 
 /* ── METRIC CARD ── */
 .metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;box-shadow:var(--shadow)}
 .metric-label{font-size:12px;color:var(--text2);margin-bottom:4px;display:flex;align-items:center;gap:6px}
 .metric-label i{font-size:15px}
 .metric-val{font-size:26px;font-weight:600;color:var(--text)}
 .metric-sub{font-size:11px;color:var(--text3);margin-top:2px}
-
+ 
 /* ── TABLE ── */
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
@@ -73,7 +73,7 @@ td{padding:11px 12px;border-bottom:1px solid var(--border);font-size:13px;vertic
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f9fdfb}
 .table-action{display:flex;gap:6px}
-
+ 
 /* ── FORM ── */
 .form-group{display:flex;flex-direction:column;gap:5px}
 .form-group label{font-size:12px;font-weight:500;color:var(--text2)}
@@ -84,7 +84,7 @@ tr:hover td{background:#f9fdfb}
 }
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,127,.1)}
 .form-group textarea{resize:vertical;min-height:80px}
-
+ 
 /* ── LOGIN PAGE — Split Screen ── */
 #loginPage{
   min-height:100vh;display:flex;
@@ -116,7 +116,7 @@ tr:hover td{background:#f9fdfb}
 }
 .login-brand-name{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:.5px}
 .login-brand-sub{font-size:12px;opacity:.75;margin-top:2px}
-
+ 
 .login-hero{margin:auto 0}
 .login-hero-tag{
   display:inline-block;background:rgba(255,255,255,.15);
@@ -130,7 +130,7 @@ tr:hover td{background:#f9fdfb}
 }
 .login-hero h1 span{color:#a7f3d0}
 .login-hero p{font-size:14px;opacity:.85;line-height:1.7;max-width:360px}
-
+ 
 .login-stats{
   display:grid;grid-template-columns:1fr 1fr;gap:10px;
 }
@@ -141,13 +141,13 @@ tr:hover td{background:#f9fdfb}
 }
 .login-stat-val{font-size:22px;font-weight:700;color:#fff}
 .login-stat-label{font-size:11px;opacity:.75;margin-top:2px}
-
+ 
 .login-footer-loc{
   display:flex;align-items:center;gap:8px;font-size:12px;opacity:.7;
   padding-top:16px;border-top:1px solid rgba(255,255,255,.15);margin-top:16px;
 }
 .login-footer-loc i{font-size:16px}
-
+ 
 /* Sisi kanan: form */
 .login-right{
   width:440px;min-width:380px;
@@ -159,7 +159,7 @@ tr:hover td{background:#f9fdfb}
   font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);margin-bottom:6px;
 }
 .login-form-wrap > p{font-size:13px;color:var(--text2);margin-bottom:28px}
-
+ 
 /* Role pilih — card style */
 .login-roles-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;letter-spacing:.05em;text-transform:uppercase}
 .login-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
@@ -174,17 +174,17 @@ tr:hover td{background:#f9fdfb}
 .role-card.active i{color:var(--green)}
 .role-card span{font-size:12px;font-weight:500;color:var(--text2)}
 .role-card.active span{color:var(--green-dark)}
-
+ 
 .login-role-info{
   background:var(--blue-light);border:1px solid #bfdbfe;border-radius:var(--radius);
   padding:10px 13px;font-size:12px;color:#1e40af;
   display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;
 }
 .login-role-info i{font-size:16px;flex-shrink:0;margin-top:1px}
-
+ 
 .login-card h2{font-size:18px;font-weight:600;margin-bottom:18px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif}
 .login-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
-
+ 
 /* Legacy (keep for compat) */
 .login-wrap{width:380px}
 .login-card{background:#fff;border-radius:20px;padding:36px 32px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
@@ -195,7 +195,7 @@ tr:hover td{background:#f9fdfb}
 .login-role-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:18px}
 .role-tab{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);background:#f9fdfb;border:none;transition:.15s all}
 .role-tab.active{background:var(--green);color:#fff}
-
+ 
 /* ── APP SHELL ── */
 #app{display:flex;height:100vh}
 .sidebar{width:240px;min-width:240px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;overflow-y:auto}
@@ -214,7 +214,7 @@ tr:hover td{background:#f9fdfb}
 .sidebar-footer{margin-top:auto;padding:14px 18px;border-top:1px solid var(--border)}
 .logout-btn{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text2);cursor:pointer;padding:8px 10px;border-radius:8px;transition:.15s}
 .logout-btn:hover{background:var(--red-light);color:var(--red)}
-
+ 
 .main-area{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .topbar-title{font-size:17px;font-weight:600;color:var(--text)}
@@ -225,11 +225,11 @@ tr:hover td{background:#f9fdfb}
 .user-avatar{width:26px;height:26px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:600}
 .user-name{font-size:13px;font-weight:500}
 .main-content{flex:1;overflow-y:auto;padding:24px}
-
+ 
 /* ── SECTIONS ── */
 .section{display:none}
 .section.active{display:block}
-
+ 
 /* ── MODAL ── */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
 .modal-bg.hidden{display:none}
@@ -239,39 +239,39 @@ tr:hover td{background:#f9fdfb}
 .modal-close{width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--text2)}
 .modal-close:hover{background:var(--red-light);color:var(--red);border-color:#fca5a5}
 .modal-footer{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)}
-
+ 
 /* ── TOAST ── */
 #toast{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px}
 .toast-item{padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:var(--shadow-md);animation:slideIn .3s ease;display:flex;align-items:center;gap:8px}
 .toast-success{background:var(--green);color:#fff}
 .toast-error{background:var(--red);color:#fff}
 @keyframes slideIn{from{transform:translateX(60px);opacity:0}to{transform:translateX(0);opacity:1}}
-
+ 
 /* ── ALERT BOX ── */
 .alert{padding:12px 16px;border-radius:var(--radius);font-size:13px;margin-bottom:14px;display:flex;align-items:flex-start;gap:10px}
 .alert i{font-size:17px;flex-shrink:0;margin-top:1px}
 .alert-warning{background:var(--amber-light);color:#92400e;border:1px solid #fde68a}
 .alert-danger{background:var(--red-light);color:#991b1b;border:1px solid #fca5a5}
 .alert-info{background:var(--blue-light);color:#1e40af;border:1px solid #bfdbfe}
-
+ 
 /* ── PROFIL INFO ── */
 .info-row{display:flex;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px}
 .info-row:last-child{border-bottom:none}
 .info-label{width:160px;color:var(--text2);flex-shrink:0}
 .info-val{color:var(--text);font-weight:500}
-
+ 
 /* ── EMPTY STATE ── */
 .empty{text-align:center;padding:48px 24px;color:var(--text2)}
 .empty i{font-size:48px;color:var(--text3);margin-bottom:12px}
 .empty p{font-size:14px;margin-bottom:14px}
-
+ 
 /* ── SEARCH BAR ── */
 .search-row{display:flex;gap:10px;margin-bottom:16px;align-items:center}
 .search-input-wrap{position:relative;flex:1}
 .search-input-wrap i{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:17px;color:var(--text3)}
 .search-input-wrap input{width:100%;padding:9px 12px 9px 34px;border:1px solid var(--border);border-radius:var(--radius);font-size:13px;outline:none;font-family:inherit}
 .search-input-wrap input:focus{border-color:var(--green)}
-
+ 
 /* ── CHART (simple CSS bar) ── */
 .chart-bar-wrap{display:flex;flex-direction:column;gap:10px}
 .chart-bar-item{display:flex;align-items:center;gap:10px;font-size:12px}
@@ -279,28 +279,36 @@ tr:hover td{background:#f9fdfb}
 .chart-bar-track{flex:1;height:10px;background:var(--bg);border-radius:5px;overflow:hidden}
 .chart-bar-fill{height:100%;border-radius:5px;transition:width .5s ease}
 .chart-bar-val{width:40px;color:var(--text);font-weight:500;text-align:right;flex-shrink:0}
-
+ 
 /* ── TABS ── */
 .tabs{display:flex;gap:0;border-bottom:2px solid var(--border);margin-bottom:18px}
 .tab{padding:9px 18px;font-size:13px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:.15s}
 .tab.active{color:var(--green);border-bottom-color:var(--green)}
 .tab:hover{color:var(--text)}
-
+ 
 /* ── ARTIKEL ── */
 .artikel-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.artikel-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;background:var(--surface);cursor:pointer;transition:.15s}
+.artikel-card{border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface);cursor:pointer;transition:.15s;display:flex;flex-direction:column}
 .artikel-card:hover{border-color:var(--green);box-shadow:var(--shadow-md)}
+.artikel-thumb{width:100%;height:150px;object-fit:cover;display:block;flex-shrink:0}
+.artikel-thumb-placeholder{width:100%;height:100px;background:linear-gradient(135deg,var(--green-light),var(--green-mid));display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.artikel-thumb-placeholder i{font-size:36px;color:var(--green)}
+.artikel-card-body{padding:14px;flex:1;display:flex;flex-direction:column}
 .artikel-cat{font-size:10px;padding:2px 9px;border-radius:20px;background:var(--green-light);color:var(--green-dark);font-weight:500;display:inline-block;margin-bottom:8px}
 .artikel-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:6px}
-.artikel-meta{font-size:12px;color:var(--text2)}
+.artikel-meta{font-size:12px;color:var(--text2);margin-top:auto;padding-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .artikel-body{font-size:13px;color:var(--text2);line-height:1.7;margin-top:10px}
-
+.artikel-media-badge{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:2px 7px;border-radius:20px;background:var(--amber-light);color:#92400e;font-weight:500}
+.artikel-img-full{width:100%;border-radius:var(--radius);margin-bottom:14px;max-height:320px;object-fit:cover;display:block}
+.artikel-video-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;margin-bottom:14px;background:#000}
+.artikel-video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+ 
 /* ── JADWAL ── */
 .jadwal-item{display:flex;gap:14px;align-items:flex-start;padding:14px;background:var(--bg);border-radius:var(--radius);border-left:3px solid var(--green);margin-bottom:10px}
 .jadwal-date-box{min-width:46px;text-align:center;background:var(--green);color:#fff;border-radius:8px;padding:6px 4px;font-size:12px;font-weight:600;line-height:1.3}
 .jadwal-info-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
 .jadwal-info-meta{font-size:12px;color:var(--text2)}
-
+ 
 /* ── STUNTING RISK ── */
 .risk-card{border-radius:var(--radius-lg);padding:16px;border:1px solid}
 .risk-normal{background:#f0fdf4;border-color:#86efac}
@@ -309,7 +317,7 @@ tr:hover td{background:#f9fdfb}
 .risk-title{font-size:13px;font-weight:600;margin-bottom:4px}
 .risk-val{font-size:28px;font-weight:700}
 .risk-sub{font-size:12px;margin-top:4px}
-
+ 
 /* ── ORTU HOME ── */
 .anak-profile-banner{background:linear-gradient(135deg,var(--green),var(--green-dark));border-radius:var(--radius-lg);padding:22px 24px;color:#fff;margin-bottom:18px;position:relative;overflow:hidden}
 .anak-profile-banner::after{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08)}
@@ -321,7 +329,7 @@ tr:hover td{background:#f9fdfb}
 </style>
 </head>
 <body>
-
+ 
 <!-- ══════════ LOGIN PAGE — SPLIT SCREEN ══════════ -->
 <div id="loginPage">
   <!-- KIRI: Hero -->
@@ -397,7 +405,7 @@ tr:hover td{background:#f9fdfb}
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════ APP SHELL ══════════ -->
 <div id="app" class="hidden">
   <!-- SIDEBAR -->
@@ -417,7 +425,7 @@ tr:hover td{background:#f9fdfb}
       <div class="logout-btn" onclick="doLogout()"><i class="ti ti-logout"></i> Keluar</div>
     </div>
   </div>
-
+ 
   <!-- MAIN -->
   <div class="main-area">
     <div class="topbar">
@@ -435,12 +443,12 @@ tr:hover td{background:#f9fdfb}
     </div>
   </div>
 </div>
-
+ 
 <!-- ══════════ MODALS ══════════ -->
 <div class="modal-bg hidden" id="modalBg">
   <div class="modal" id="modalBox"></div>
 </div>
-
+ 
 <!-- TOAST -->
 <div id="toast"></div>
 <script>
@@ -487,9 +495,9 @@ const DB = {
       {id:7,idAnak:1,tanggal:'2026-03-15',bb:9.2,tb:76.0,lk:46.5,lla:14.8,zscore_bbu:-0.7,zscore_tbu:-0.8,status:'Normal',catatan:''},
     ]);
     if(!this.get('artikel')) this.set('artikel',[
-      {id:1,judul:'Mengenal Stunting: Penyebab dan Pencegahan',kategori:'Stunting',penulis:'dr. Ani Kusuma',tanggal:'2026-05-10',isi:'Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis. Anak yang mengalami stunting memiliki tinggi badan di bawah standar usianya. Pencegahan dapat dilakukan dengan pemenuhan gizi sejak 1000 Hari Pertama Kehidupan (HPK).'},
-      {id:2,judul:'Menu MPASI Bergizi untuk Bayi 6-12 Bulan',kategori:'Gizi',penulis:'Bidan Sari Dewi',tanggal:'2026-05-08',isi:'MPASI (Makanan Pendamping ASI) harus mengandung karbohidrat, protein, lemak, vitamin dan mineral. Mulai dari tekstur halus hingga bertahap padat sesuai kemampuan bayi. Contoh: bubur beras merah + ikan + sayuran.'},
-      {id:3,judul:'1000 Hari Pertama Kehidupan yang Menentukan',kategori:'Tumbuh Kembang',penulis:'dr. Budi Hartono',tanggal:'2026-05-05',isi:'Periode 1000 HPK dimulai dari masa kehamilan hingga anak berusia 2 tahun. Gizi ibu hamil dan menyusui sangat berpengaruh terhadap tumbuh kembang optimal anak.'},
+      {id:1,judul:'Mengenal Stunting: Penyebab dan Pencegahan',kategori:'Stunting',penulis:'dr. Ani Kusuma',tanggal:'2026-05-10',foto:'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=700&q=80',videoUrl:'https://www.youtube.com/embed/8pMcm9JUe-E',isi:'Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis. Anak yang mengalami stunting memiliki tinggi badan di bawah standar usianya. Pencegahan dapat dilakukan dengan pemenuhan gizi sejak 1000 Hari Pertama Kehidupan (HPK).'},
+      {id:2,judul:'Menu MPASI Bergizi untuk Bayi 6-12 Bulan',kategori:'Gizi',penulis:'Bidan Sari Dewi',tanggal:'2026-05-08',foto:'https://images.unsplash.com/photo-1619558408117-c5e43ad29e7c?w=700&q=80',videoUrl:'',isi:'MPASI (Makanan Pendamping ASI) harus mengandung karbohidrat, protein, lemak, vitamin dan mineral. Mulai dari tekstur halus hingga bertahap padat sesuai kemampuan bayi. Contoh: bubur beras merah + ikan + sayuran.'},
+      {id:3,judul:'1000 Hari Pertama Kehidupan yang Menentukan',kategori:'Tumbuh Kembang',penulis:'dr. Budi Hartono',tanggal:'2026-05-05',foto:'https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=700&q=80',videoUrl:'',isi:'Periode 1000 HPK dimulai dari masa kehamilan hingga anak berusia 2 tahun. Gizi ibu hamil dan menyusui sangat berpengaruh terhadap tumbuh kembang optimal anak.'},
     ]);
     if(!this.get('jadwal')) this.set('jadwal',[
       {id:1,judul:'Posyandu Rutin — Posyandu Melati',tanggal:'2026-05-20',waktu:'08:00 - 11:00',lokasi:'Balai Desa Sungai Durian',petugas:'Bidan Sari Dewi',keterangan:'Penimbangan, imunisasi, PMT'},
@@ -500,13 +508,13 @@ const DB = {
   }
 };
 DB.init();
-
+ 
 // ═══════════════════════════════════════
 // AUTH
 // ═══════════════════════════════════════
 let currentUser = null;
 let currentRole = 'admin';
-
+ 
 // ── NEW ROLE SYSTEM ──
 const ROLE_CFG = {
   admin: {
@@ -525,7 +533,7 @@ const ROLE_CFG = {
     showPass: false
   },
 };
-
+ 
 function setRoleNew(r){
   currentRole = r;
   ['admin','bidan','ortu'].forEach(x=>{
@@ -542,7 +550,7 @@ function setRoleNew(r){
 }
 // Backward-compat shim
 function setRole(r,el){ setRoleNew(r); }
-
+ 
 function doLogin(){
   const u = document.getElementById('loginUser').value.trim();
   const p = document.getElementById('loginPass').value.trim();
@@ -569,7 +577,7 @@ function doLogin(){
   updateLoginStats();
   initApp();
 }
-
+ 
 function updateLoginStats(){
   const anak = DB.get('anak')||[];
   const ukur = DB.get('pengukuran')||[];
@@ -582,7 +590,7 @@ function updateLoginStats(){
 }
 // Run on page load for stats
 document.addEventListener('DOMContentLoaded', updateLoginStats);
-
+ 
 function doLogout(){
   currentUser = null;
   document.getElementById('app').classList.add('hidden');
@@ -590,7 +598,7 @@ function doLogout(){
   document.getElementById('loginUser').value='';
   document.getElementById('loginPass').value='';
 }
-
+ 
 // ═══════════════════════════════════════
 // APP INIT
 // ═══════════════════════════════════════
@@ -625,10 +633,10 @@ const MENUS = {
     {sec:'profil',icon:'ti-user-circle',label:'Profil Saya',group:'Akun'},
   ]
 };
-
+ 
 const ROLE_LABELS = {admin:'Administrator',bidan:'Bidan',ortu:'Orang Tua'};
 const ROLE_ICONS = {admin:'ti-shield-check',bidan:'ti-heart-handshake',ortu:'ti-users'};
-
+ 
 function initApp(){
   const r = currentUser.role;
   document.getElementById('roleLabel').textContent = ROLE_LABELS[r];
@@ -639,7 +647,7 @@ function initApp(){
   const first = MENUS[r][0].sec;
   showSection(first);
 }
-
+ 
 function buildNav(r){
   const nav = document.getElementById('navMenu');
   nav.innerHTML='';
@@ -655,7 +663,7 @@ function buildNav(r){
       </div>`);
   });
 }
-
+ 
 function showSection(sec){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   const navEl = document.getElementById('nav-'+sec);
@@ -664,7 +672,7 @@ function showSection(sec){
   document.getElementById('topbarTitle').textContent = label;
   renderSection(sec);
 }
-
+ 
 function renderSection(sec){
   const mc = document.getElementById('mainContent');
   mc.innerHTML='';
@@ -673,7 +681,7 @@ function renderSection(sec){
   else mc.innerHTML = `<div class="empty"><i class="ti ti-hammer"></i><p>Halaman <b>${sec}</b> dalam pengembangan.</p></div>`;
   attachHandlers(sec);
 }
-
+ 
 // ═══════════════════════════════════════
 // HELPERS
 // ═══════════════════════════════════════
@@ -689,7 +697,7 @@ function statusBadge(s){
   const map={Normal:'badge-green','Perlu Pantau':'badge-amber',Stunting:'badge-red','Stunting Berat':'badge-red',Baik:'badge-green'};
   return `<span class="badge ${map[s]||'badge-gray'}">${s}</span>`;
 }
-
+ 
 function showToast(msg,type='success'){
   const t=document.getElementById('toast');
   const el=document.createElement('div');
@@ -698,19 +706,19 @@ function showToast(msg,type='success'){
   t.appendChild(el);
   setTimeout(()=>el.remove(),3000);
 }
-
+ 
 function openModal(html){
   document.getElementById('modalBox').innerHTML=html;
   document.getElementById('modalBg').classList.remove('hidden');
 }
 function closeModal(){document.getElementById('modalBg').classList.add('hidden')}
 document.getElementById('modalBg').addEventListener('click',e=>{if(e.target===document.getElementById('modalBg'))closeModal()});
-
+ 
 // ═══════════════════════════════════════
 // SECTION RENDERERS
 // ═══════════════════════════════════════
 const SECTIONS = {};
-
+ 
 // ──────────────────────────────────────
 // DASHBOARD (admin & bidan)
 // ──────────────────────────────────────
@@ -735,7 +743,7 @@ SECTIONS.dashboard = ()=>{
       <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${(wMap[w]/maxW*100)}%;background:${wMap[w]>5?'var(--red)':wMap[w]>2?'var(--amber)':'var(--green)'}"></div></div>
       <div class="chart-bar-val">${wMap[w]}</div>
     </div>`).join('');
-
+ 
   const rows=terbaru.map(u=>{
     const a=anak.find(x=>x.id===u.idAnak)||{};
     return `<tr>
@@ -746,7 +754,7 @@ SECTIONS.dashboard = ()=>{
       <td>${fmtDate(u.tanggal)}</td>
     </tr>`;
   }).join('');
-
+ 
   return `
   <div class="grid-4 mb-16">
     <div class="metric"><div class="metric-label"><i class="ti ti-users"></i>Total Balita</div><div class="metric-val">${total}</div><div class="metric-sub">Terdaftar</div></div>
@@ -773,7 +781,7 @@ SECTIONS.dashboard = ()=>{
   <div class="card"><div class="card-title"><i class="ti ti-clock"></i>Pengukuran Terbaru</div>
   <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Usia</th><th>BB (kg)</th><th>TB (cm)</th><th>Z-Score TB/U</th><th>Status</th><th>Tanggal</th></tr></thead><tbody>${rows||'<tr><td colspan=7 style="text-align:center;color:var(--text2)">Belum ada data</td></tr>'}</tbody></table></div></div>`;
 };
-
+ 
 // ──────────────────────────────────────
 // REGISTRASI ANAK
 // ──────────────────────────────────────
@@ -801,7 +809,7 @@ SECTIONS.registrasi = ()=>{
   <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Balita <span class="badge badge-green">${anak.length} anak</span></div>
   <div class="table-wrap"><table id="tblAnak"><thead><tr><th>Nama</th><th>NIK</th><th>JK</th><th>Tgl Lahir</th><th>Nama Ibu</th><th>Wilayah</th><th>Posyandu</th><th>Aksi</th></tr></thead><tbody>${rows||'<tr><td colspan=8 class="text-muted" style="text-align:center">Belum ada data</td></tr>'}</tbody></table></div></div>`;
 };
-
+ 
 function filterAnak(){
   const q=document.getElementById('searchAnak').value.toLowerCase();
   const anak=DB.get('anak')||[];
@@ -819,7 +827,7 @@ function filterAnak(){
     </div></td>
   </tr>`).join('')||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Tidak ditemukan</td></tr>';
 }
-
+ 
 function formAnak(data={}){
   const wil=(DB.get('wilayah')||[]).map(w=>w.nama);
   const pos=(DB.get('posyandu')||[]).map(p=>p.nama);
@@ -837,7 +845,7 @@ function formAnak(data={}){
     <div class="form-group"><label>Posyandu</label><select id="f_pos">${pos.length?pos.map(p=>`<option ${data.posyandu===p?'selected':''}>${p}</option>`).join(''):'<option>— Belum ada posyandu —</option>'}</select></div>
   </div>`;
 }
-
+ 
 function filterPosyanduForm(){
   const wilVal = document.getElementById('f_wil').value;
   const allPos = DB.get('posyandu')||[];
@@ -847,20 +855,20 @@ function filterPosyanduForm(){
     ? filtered.map(p=>`<option>${p.nama}</option>`).join('')
     : '<option>— Tidak ada posyandu —</option>';
 }
-
+ 
 function tambahAnak(){
   openModal(`<div class="modal-header"><div class="modal-title">Tambah Data Anak</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
   ${formAnak()}
   <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanAnak()"><i class="ti ti-check"></i>Simpan</button></div>`);
 }
-
+ 
 function editAnak(id){
   const a=DB.get('anak').find(x=>x.id===id);
   openModal(`<div class="modal-header"><div class="modal-title">Edit Data Anak</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
   ${formAnak(a)}
   <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateAnak(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);
 }
-
+ 
 function detailAnak(id){
   const a=DB.get('anak').find(x=>x.id===id);
   const ukur=DB.get('pengukuran').filter(u=>u.idAnak===id).sort((a,b)=>b.tanggal.localeCompare(a.tanggal));
@@ -879,7 +887,7 @@ function detailAnak(id){
   <div class="info-row"><div class="info-label">Status Gizi</div><div class="info-val">${statusBadge(last.status)}</div></div>`:'<div class="alert alert-info mt-12"><i class="ti ti-info-circle"></i>Belum ada data pengukuran.</div>'}
   <div class="modal-footer"><button class="btn" onclick="closeModal()">Tutup</button></div>`);
 }
-
+ 
 function getFormAnak(){
   return {nik:document.getElementById('f_nik').value.trim(),nama:document.getElementById('f_nama').value.trim(),
     tglLahir:document.getElementById('f_tgl').value,jenisKelamin:document.getElementById('f_jk').value,
@@ -887,7 +895,7 @@ function getFormAnak(){
     noHP:document.getElementById('f_hp').value.trim(),alamat:document.getElementById('f_alamat').value.trim(),
     wilayah:document.getElementById('f_wil').value,posyandu:document.getElementById('f_pos').value};
 }
-
+ 
 function simpanAnak(){
   const d=getFormAnak();if(!d.nama||!d.tglLahir){showToast('Nama dan tanggal lahir wajib diisi','error');return;}
   const anak=DB.get('anak');anak.push({...d,id:uid()});DB.set('anak',anak);
@@ -918,7 +926,7 @@ function hapusAnak(id){
   DB.set('pengukuran',DB.get('pengukuran').filter(u=>u.idAnak!==id));
   showToast('Data dihapus');renderSection('registrasi');
 }
-
+ 
 // ──────────────────────────────────────
 // PENGUKURAN FISIK
 // ──────────────────────────────────────
@@ -949,7 +957,7 @@ SECTIONS.pengukuran = ()=>{
   <div class="card"><div class="card-title"><i class="ti ti-ruler-measure"></i>Riwayat Pengukuran <span class="badge badge-green">${ukur.length} data</span></div>
   <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Nama Anak</th><th>Usia</th><th>BB (kg)</th><th>TB (cm)</th><th>LK (cm)</th><th>LLA (cm)</th><th>Z BB/U</th><th>Z TB/U</th><th>Status</th><th>Catatan</th><th>Aksi</th></tr></thead><tbody>${rows||'<tr><td colspan=12 style="text-align:center;color:var(--text2)">Belum ada data</td></tr>'}</tbody></table></div></div>`;
 };
-
+ 
 // ── WHO TB/U & BB/U tables (simplified, key months, L & P) ──
 const WHO_TBU = {
   L:{0:[49.9,1.9,3.8,5.7],3:[61.4,2.0,4.0,6.0],6:[67.6,2.1,4.2,6.3],9:[72.3,2.3,4.6,6.9],12:[75.7,2.6,5.2,7.8],15:[79.1,2.7,5.4,8.1],18:[82.3,2.8,5.6,8.4],24:[87.8,3.0,6.0,9.0],30:[91.9,3.2,6.4,9.6],36:[96.1,3.4,6.8,10.2],42:[99.9,3.5,7.0,10.5],48:[103.3,3.6,7.2,10.8],54:[106.4,3.7,7.4,11.1],60:[109.4,3.8,7.6,11.4]},
@@ -1009,7 +1017,7 @@ function formUkur(data={},anak=[]){
   <div class="form-group"><label>Status Gizi</label><select id="u_status"><option ${data.status==='Normal'?'selected':''}>Normal</option><option ${data.status==='Perlu Pantau'?'selected':''}>Perlu Pantau</option><option ${data.status==='Stunting'?'selected':''}>Stunting</option><option ${data.status==='Stunting Berat'?'selected':''}>Stunting Berat</option></select></div>
   <div class="form-group"><label>Catatan</label><textarea id="u_cat">${data.catatan||''}</textarea></div>`;
 }
-
+ 
 function getFormUkur(){
   return {idAnak:parseInt(document.getElementById('u_idAnak').value),tanggal:document.getElementById('u_tgl').value,
     bb:parseFloat(document.getElementById('u_bb').value)||0,tb:parseFloat(document.getElementById('u_tb').value)||0,
@@ -1017,7 +1025,7 @@ function getFormUkur(){
     zscore_bbu:parseFloat(document.getElementById('u_zbbu').value)||0,zscore_tbu:parseFloat(document.getElementById('u_ztbu').value)||0,
     status:document.getElementById('u_status').value,catatan:document.getElementById('u_cat').value};
 }
-
+ 
 function tambahUkur(){
   const anak=DB.get('anak')||[];
   openModal(`<div class="modal-header"><div class="modal-title">Input Pengukuran Fisik</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
@@ -1045,7 +1053,7 @@ function hapusUkur(id){
   DB.set('pengukuran',DB.get('pengukuran').filter(u=>u.id!==id));
   showToast('Data dihapus');renderSection('pengukuran');
 }
-
+ 
 // ──────────────────────────────────────
 // DETEKSI STUNTING
 // ──────────────────────────────────────
@@ -1085,7 +1093,7 @@ SECTIONS.deteksi = ()=>{
     </div>
   </div>`;
 };
-
+ 
 function switchDeteksiTab(tab,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   el.classList.add('active');
@@ -1100,18 +1108,26 @@ function switchDeteksiTab(tab,el){
     <td><button class="btn btn-sm" onclick="detailAnak(${a.id})"><i class="ti ti-eye"></i>Detail</button></td>
   </tr>`;}).join('')||'<tr><td colspan=9 style="text-align:center;color:var(--text2)">Tidak ada data</td></tr>';
 }
-
+ 
 // ──────────────────────────────────────
 // ARTIKEL
 // ──────────────────────────────────────
 SECTIONS.artikel = ()=>{
   const art=DB.get('artikel')||[];
-  const cards=art.map(a=>`
+  const cards=art.map(a=>{
+    const thumb = a.foto
+      ? `<img class="artikel-thumb" src="${a.foto}" alt="${a.judul}" onerror="this.style.display='none'">`
+      : `<div class="artikel-thumb-placeholder"><i class="ti ti-article"></i></div>`;
+    const mediaBadge = a.videoUrl ? `<span class="artikel-media-badge"><i class="ti ti-player-play" style="font-size:10px"></i> Video</span>` : '';
+    return `
     <div class="artikel-card" onclick="bacaArtikel(${a.id})">
-      <div class="artikel-cat">${a.kategori}</div>
-      <div class="artikel-title">${a.judul}</div>
-      <div class="artikel-meta"><i class="ti ti-user" style="font-size:13px"></i> ${a.penulis} · ${fmtDate(a.tanggal)}</div>
-    </div>`).join('');
+      ${thumb}
+      <div class="artikel-card-body">
+        <div><span class="artikel-cat">${a.kategori}</span>${mediaBadge ? ' '+mediaBadge : ''}</div>
+        <div class="artikel-title">${a.judul}</div>
+        <div class="artikel-meta"><i class="ti ti-user" style="font-size:13px"></i> ${a.penulis} · ${fmtDate(a.tanggal)}</div>
+      </div>
+    </div>`;}).join('');
   const canEdit = currentUser.role==='admin'||currentUser.role==='bidan';
   return `
   <div class="search-row">
@@ -1120,18 +1136,24 @@ SECTIONS.artikel = ()=>{
   </div>
   <div class="artikel-grid">${cards||'<div class="empty"><i class="ti ti-article"></i><p>Belum ada artikel.</p></div>'}</div>`;
 };
-
+ 
 function bacaArtikel(id){
   const a=DB.get('artikel').find(x=>x.id===id);
   const canEdit=currentUser.role==='admin'||currentUser.role==='bidan';
+  const fotoHtml = a.foto ? `<img class="artikel-img-full" src="${a.foto}" alt="${a.judul}" onerror="this.style.display='none'">` : '';
+  const videoHtml = a.videoUrl ? `
+    <div style="margin-bottom:4px;font-size:12px;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:6px"><i class="ti ti-player-play" style="color:var(--amber)"></i> Video Edukasi</div>
+    <div class="artikel-video-wrap"><iframe src="${a.videoUrl}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>` : '';
   openModal(`<div class="modal-header"><div class="modal-title">${a.judul}</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
   <div style="margin-bottom:10px"><span class="badge badge-green">${a.kategori}</span></div>
   <div class="artikel-meta mb-12"><i class="ti ti-user" style="font-size:13px"></i> ${a.penulis} · ${fmtDate(a.tanggal)}</div>
+  ${fotoHtml}
+  ${videoHtml}
   <div class="artikel-body">${a.isi}</div>
   <div class="modal-footer">${canEdit?`<button class="btn" onclick="editArtikel(${a.id})"><i class="ti ti-edit"></i>Edit</button><button class="btn btn-danger" onclick="hapusArtikel(${a.id})"><i class="ti ti-trash"></i>Hapus</button>`:''}
   <button class="btn btn-primary" onclick="closeModal()">Tutup</button></div>`);
 }
-
+ 
 function formArtikel(data={}){
   return `
   <div class="form-group"><label>Judul Artikel</label><input id="a_judul" value="${data.judul||''}" placeholder="Judul..."></div>
@@ -1140,9 +1162,48 @@ function formArtikel(data={}){
     <div class="form-group"><label>Penulis</label><input id="a_penulis" value="${data.penulis||currentUser.nama}" placeholder="Nama penulis"></div>
     <div class="form-group"><label>Tanggal</label><input type="date" id="a_tgl" value="${data.tanggal||new Date().toISOString().split('T')[0]}"></div>
   </div>
+  <div class="form-group">
+    <label><i class="ti ti-photo" style="font-size:13px;vertical-align:middle"></i> Foto / Gambar Artikel <span style="font-weight:400;color:var(--text3)">(wajib ada)</span></label>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <input id="a_foto" value="${data.foto||''}" placeholder="Tempel link gambar dari internet (https://...)" style="border-radius:var(--radius);padding:9px 12px;border:1px solid var(--border);font-size:13px;font-family:inherit;outline:none">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><span>— atau —</span></div>
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;padding:9px 12px;border:1px dashed var(--green);border-radius:var(--radius);background:var(--green-light);color:var(--green-dark);font-size:13px">
+        <i class="ti ti-upload"></i> Upload foto dari laptop
+        <input type="file" id="a_foto_file" accept="image/*" style="display:none" onchange="previewFotoArtikel(this)">
+      </label>
+    </div>
+    <div id="a_foto_preview" style="margin-top:6px">${data.foto?`<img src="${data.foto}" style="width:100%;max-height:140px;object-fit:cover;border-radius:var(--radius)" onerror="this.style.display='none'">`:''}  </div>
+  </div>
+  <div class="form-group">
+    <label><i class="ti ti-brand-youtube" style="font-size:13px;vertical-align:middle;color:#e00"></i> Video YouTube <span style="font-weight:400;color:var(--text3)">(opsional)</span></label>
+    <input id="a_video" value="${data.videoUrl||''}" placeholder="Tempel link YouTube, contoh: https://youtu.be/xxxx atau https://www.youtube.com/watch?v=xxxx">
+    <div style="font-size:11px;color:var(--text3);margin-top:4px">Salin link YouTube biasa — sistem akan mengubah otomatis ke format embed.</div>
+  </div>
   <div class="form-group"><label>Isi Artikel</label><textarea id="a_isi" style="min-height:140px">${data.isi||''}</textarea></div>`;
 }
-
+ 
+function previewFotoArtikel(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    document.getElementById('a_foto').value='';
+    document.getElementById('a_foto_preview').innerHTML=`<img src="${e.target.result}" style="width:100%;max-height:140px;object-fit:cover;border-radius:var(--radius)" data-base64="${e.target.result}">`;
+  };
+  reader.readAsDataURL(file);
+}
+function toYoutubeEmbed(url){
+  if(!url)return'';
+  // Already embed
+  if(url.includes('youtube.com/embed/'))return url;
+  // youtu.be/ID
+  let m=url.match(/youtu\.be\/([^?&]+)/);
+  if(m)return`https://www.youtube.com/embed/${m[1]}`;
+  // youtube.com/watch?v=ID
+  m=url.match(/[?&]v=([^&]+)/);
+  if(m)return`https://www.youtube.com/embed/${m[1]}`;
+  return url;
+}
+ 
 function tambahArtikel(){
   openModal(`<div class="modal-header"><div class="modal-title">Tulis Artikel Baru</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
   ${formArtikel()}
@@ -1154,7 +1215,14 @@ function editArtikel(id){
   ${formArtikel(a)}
   <div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateArtikel(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);
 }
-function getFormArtikel(){return{judul:document.getElementById('a_judul').value.trim(),kategori:document.getElementById('a_kat').value,penulis:document.getElementById('a_penulis').value.trim(),tanggal:document.getElementById('a_tgl').value,isi:document.getElementById('a_isi').value.trim()};}
+function getFormArtikel(){
+  // Foto: prioritaskan file upload (base64), lalu URL
+  let foto=document.getElementById('a_foto').value.trim();
+  const imgEl=document.querySelector('#a_foto_preview img[data-base64]');
+  if(imgEl)foto=imgEl.getAttribute('data-base64');
+  const rawVideo=document.getElementById('a_video').value.trim();
+  return{judul:document.getElementById('a_judul').value.trim(),kategori:document.getElementById('a_kat').value,penulis:document.getElementById('a_penulis').value.trim(),tanggal:document.getElementById('a_tgl').value,foto,videoUrl:toYoutubeEmbed(rawVideo),isi:document.getElementById('a_isi').value.trim()};
+}
 function simpanArtikel(){
   const d=getFormArtikel();if(!d.judul||!d.isi){showToast('Judul dan isi wajib diisi','error');return;}
   const art=DB.get('artikel');art.push({...d,id:uid()});DB.set('artikel',art);
@@ -1170,12 +1238,18 @@ function hapusArtikel(id){
   DB.set('artikel',DB.get('artikel').filter(a=>a.id!==id));
   closeModal();showToast('Artikel dihapus');renderSection('artikel');
 }
-
+ 
 // ──────────────────────────────────────
 // JADWAL & NOTIFIKASI
 // ──────────────────────────────────────
 SECTIONS.jadwal = ()=>{
-  const jdwl=DB.get('jadwal')||[];
+  let jdwl=DB.get('jadwal')||[];
+  if(currentUser.role==='ortu'){
+    const anak=DB.get('anak')||[];
+    const anakku=anak.find(x=>x.nikIbu===currentUser.nik)||anak[0];
+    const posyanduKu=anakku?anakku.posyandu:'';
+    jdwl=jdwl.filter(j=>!j.posyandu||j.posyandu===posyanduKu);
+  }
   const sorted=jdwl.sort((a,b)=>a.tanggal.localeCompare(b.tanggal));
   const canEdit=currentUser.role==='admin'||currentUser.role==='bidan';
   const items=sorted.map(j=>{
@@ -1184,7 +1258,7 @@ SECTIONS.jadwal = ()=>{
       <div class="jadwal-date-box">${day}<br>${mon}</div>
       <div style="flex:1">
         <div class="jadwal-info-title">${j.judul}</div>
-        <div class="jadwal-info-meta"><i class="ti ti-clock" style="font-size:13px"></i> ${j.waktu} &nbsp;·&nbsp; <i class="ti ti-map-pin" style="font-size:13px"></i> ${j.lokasi}</div>
+        <div class="jadwal-info-meta"><i class="ti ti-clock" style="font-size:13px"></i> ${j.waktu} &nbsp;·&nbsp; <i class="ti ti-building-community" style="font-size:13px"></i> ${j.posyandu||j.lokasi||'-'}</div>
         <div class="jadwal-info-meta mt-4"><i class="ti ti-user" style="font-size:13px"></i> ${j.petugas}</div>
         ${j.keterangan?`<div class="jadwal-info-meta mt-4" style="font-style:italic">${j.keterangan}</div>`:''}
       </div>
@@ -1198,25 +1272,33 @@ SECTIONS.jadwal = ()=>{
   <div class="card"><div class="card-title"><i class="ti ti-calendar-event"></i>Jadwal Kegiatan <span class="badge badge-blue">${jdwl.length} kegiatan</span></div>
   ${items||'<div class="empty"><i class="ti ti-calendar-x"></i><p>Belum ada jadwal.</p></div>'}</div>`;
 };
-
+ 
 function formJadwal(data={}){
+  const pos=(DB.get('posyandu')||[]);
+  const posOpts = pos.map(p=>`<option value="${p.nama}" ${data.posyandu===p.nama?'selected':''}>${p.nama} — ${p.wilayah||''}</option>`).join('');
   return `
   <div class="form-group"><label>Nama Kegiatan</label><input id="j_judul" value="${data.judul||''}" placeholder="Nama kegiatan posyandu..."></div>
   <div class="grid-2">
     <div class="form-group"><label>Tanggal</label><input type="date" id="j_tgl" value="${data.tanggal||''}"></div>
     <div class="form-group"><label>Waktu</label><input id="j_waktu" value="${data.waktu||''}" placeholder="08:00 - 11:00"></div>
-    <div class="form-group"><label>Lokasi</label><input id="j_lok" value="${data.lokasi||''}" placeholder="Nama tempat"></div>
+    <div class="form-group col-span-2"><label>Posyandu <span style="font-weight:400;color:var(--text3)">(lokasi mengikuti data Posyandu)</span></label>
+      <select id="j_pos"><option value="">— Pilih Posyandu —</option>${posOpts}</select>
+    </div>
     <div class="form-group"><label>Petugas</label><input id="j_pet" value="${data.petugas||''}" placeholder="Nama petugas"></div>
   </div>
   <div class="form-group"><label>Keterangan</label><textarea id="j_ket">${data.keterangan||''}</textarea></div>`;
 }
-function getFormJadwal(){return{judul:document.getElementById('j_judul').value.trim(),tanggal:document.getElementById('j_tgl').value,waktu:document.getElementById('j_waktu').value.trim(),lokasi:document.getElementById('j_lok').value.trim(),petugas:document.getElementById('j_pet').value.trim(),keterangan:document.getElementById('j_ket').value.trim()};}
+function getFormJadwal(){
+  const posNama=document.getElementById('j_pos').value.trim();
+  const posData=(DB.get('posyandu')||[]).find(p=>p.nama===posNama)||{};
+  return{judul:document.getElementById('j_judul').value.trim(),tanggal:document.getElementById('j_tgl').value,waktu:document.getElementById('j_waktu').value.trim(),posyandu:posNama,lokasi:posData.nama||posNama,wilayah:posData.wilayah||'',petugas:document.getElementById('j_pet').value.trim(),keterangan:document.getElementById('j_ket').value.trim()};
+}
 function tambahJadwal(){openModal(`<div class="modal-header"><div class="modal-title">Tambah Jadwal</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formJadwal()}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="simpanJadwal()"><i class="ti ti-check"></i>Simpan</button></div>`);}
 function editJadwal(id){const j=DB.get('jadwal').find(x=>x.id===id);openModal(`<div class="modal-header"><div class="modal-title">Edit Jadwal</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>${formJadwal(j)}<div class="modal-footer"><button class="btn" onclick="closeModal()">Batal</button><button class="btn btn-primary" onclick="updateJadwal(${id})"><i class="ti ti-check"></i>Simpan</button></div>`);}
 function simpanJadwal(){const d=getFormJadwal();if(!d.judul||!d.tanggal){showToast('Nama dan tanggal wajib diisi','error');return;}const jdwl=DB.get('jadwal');jdwl.push({...d,id:uid()});DB.set('jadwal',jdwl);closeModal();showToast('Jadwal ditambahkan');renderSection('jadwal');}
 function updateJadwal(id){const d=getFormJadwal();DB.set('jadwal',DB.get('jadwal').map(j=>j.id===id?{...j,...d}:j));closeModal();showToast('Jadwal diperbarui');renderSection('jadwal');}
 function hapusJadwal(id){if(!confirm('Hapus jadwal ini?'))return;DB.set('jadwal',DB.get('jadwal').filter(j=>j.id!==id));showToast('Jadwal dihapus');renderSection('jadwal');}
-
+ 
 // ──────────────────────────────────────
 // LAPORAN
 // ──────────────────────────────────────
@@ -1259,7 +1341,7 @@ SECTIONS.laporan = ()=>{
   <tbody>${anak.map(a=>{const u=latest[a.id];if(!u)return'';return`<tr><td>${a.nama}</td><td>${hitungUsia(a.tglLahir)} bln</td><td>${a.wilayah}</td><td>${u.bb}</td><td>${u.tb}</td><td>${u.zscore_tbu}</td><td>${statusBadge(u.status)}</td><td>${fmtDate(u.tanggal)}</td></tr>`;}).join('')}</tbody>
   </table></div></div>`;
 };
-
+ 
 // ──────────────────────────────────────
 // MANAJEMEN PENGGUNA (admin only)
 // ──────────────────────────────────────
@@ -1290,7 +1372,7 @@ SECTIONS.pengguna = ()=>{
   <div class="card"><div class="card-title"><i class="ti ti-users"></i>Daftar Pengguna</div>
   <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Role</th><th>Identitas Login</th><th>Metode Login</th><th>Aksi</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
 };
-
+ 
 function formUser(data={}, defaultRole='admin'){
   const role = data.role || defaultRole;
   const isOrtu = role==='ortu';
@@ -1329,7 +1411,7 @@ function formUser(data={}, defaultRole='admin'){
     </select></div>`:'<div class="alert alert-warning" style="margin-bottom:0"><i class="ti ti-alert-triangle"></i>Belum ada data anak. Daftarkan anak terlebih dahulu.</div>'}
   </div>`;
 }
-
+ 
 function toggleOrtuFields(){
   const role=document.getElementById('p_role').value;
   const isOrtu=role==='ortu';
@@ -1340,7 +1422,7 @@ function toggleOrtuFields(){
   document.getElementById('p_bidan_info').style.display=isBidan?'block':'none';
   document.getElementById('p_admin_fields').style.display=isAdmin?'block':'none';
 }
-
+ 
 function tambahUser(defaultRole='admin'){
   openModal(`<div class="modal-header"><div class="modal-title">Tambah Pengguna</div><div class="modal-close" onclick="closeModal()"><i class="ti ti-x"></i></div></div>
   ${formUser({},defaultRole)}
@@ -1408,7 +1490,7 @@ function updateUser(id){
   DB.set('users',users);closeModal();showToast('Pengguna diperbarui');renderSection('pengguna');
 }
 function hapusUser(id){if(!confirm('Hapus akun pengguna ini?'))return;DB.set('users',DB.get('users').filter(u=>u.id!==id));showToast('Pengguna dihapus');renderSection('pengguna');}
-
+ 
 // ──────────────────────────────────────
 // PENGATURAN WILAYAH & POSYANDU (admin only)
 // ──────────────────────────────────────
@@ -1451,7 +1533,7 @@ SECTIONS.pengaturan = ()=>{
   </div>
   <div class="alert alert-info mt-16"><i class="ti ti-info-circle"></i>Perubahan wilayah & posyandu akan langsung berpengaruh pada form registrasi anak baru. Data anak yang sudah ada tidak berubah.</div>`;
 };
-
+ 
 function formWilayah(data={}){
   return `<div class="form-group"><label>Nama Wilayah</label><input id="w_nama" value="${data.nama||''}" placeholder="Contoh: Sungai Durian"></div>`;
 }
@@ -1466,7 +1548,7 @@ function hapusWilayah(id){
   if(!confirm(`Hapus wilayah "${w.nama}"?`))return;
   DB.set('wilayah',DB.get('wilayah').filter(x=>x.id!==id));showToast('Wilayah dihapus');renderSection('pengaturan');
 }
-
+ 
 function formPosyandu(data={}){
   const wil=(DB.get('wilayah')||[]).map(w=>w.nama);
   return `
@@ -1482,7 +1564,7 @@ function getPosyanduForm(){return{nama:document.getElementById('ps_nama').value.
 function simpanPosyandu(){const d=getPosyanduForm();if(!d.nama){showToast('Nama posyandu wajib diisi','error');return;}const pos=DB.get('posyandu');pos.push({...d,id:uid()});DB.set('posyandu',pos);closeModal();showToast('Posyandu ditambahkan');renderSection('pengaturan');}
 function updatePosyandu(id){const d=getPosyanduForm();if(!d.nama){showToast('Nama posyandu wajib diisi','error');return;}DB.set('posyandu',DB.get('posyandu').map(p=>p.id===id?{...p,...d}:p));closeModal();showToast('Posyandu diperbarui');renderSection('pengaturan');}
 function hapusPosyandu(id){const p=DB.get('posyandu').find(x=>x.id===id);if(!confirm(`Hapus posyandu "${p.nama}"?`))return;DB.set('posyandu',DB.get('posyandu').filter(x=>x.id!==id));showToast('Posyandu dihapus');renderSection('pengaturan');}
-
+ 
 // ──────────────────────────────────────
 // HOME ORTU
 // ──────────────────────────────────────
@@ -1514,7 +1596,7 @@ SECTIONS.home_ortu = ()=>{
   </div>
   <div class="alert alert-info"><i class="ti ti-info-circle"></i>Jika ada pertanyaan tentang tumbuh kembang anak Anda, silakan hubungi bidan puskesmas di ${a.posyandu}.</div>`;
 };
-
+ 
 // ──────────────────────────────────────
 // PERKEMBANGAN (ortu)
 // ──────────────────────────────────────
@@ -1530,63 +1612,91 @@ SECTIONS.perkembangan = ()=>{
   <tbody>${rows||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Belum ada data pengukuran</td></tr>'}</tbody></table></div></div>
   <div class="alert alert-info"><i class="ti ti-info-circle"></i>Data pengukuran diinput oleh bidan pada setiap kegiatan posyandu. Bawa Buku KIA saat posyandu.</div>`;
 };
-
+ 
 // ──────────────────────────────────────
 // PROFIL PENGGUNA
 // ──────────────────────────────────────
 SECTIONS.profil = ()=>{
   const u=currentUser;
+  const avatarSrc=u.fotoProfil?`<img src="${u.fotoProfil}" style="width:60px;height:60px;border-radius:50%;object-fit:cover;border:2px solid var(--green)">`:`<div style="width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:700;flex-shrink:0">${u.nama.charAt(0).toUpperCase()}</div>`;
+  const avatarBig=u.fotoProfil?`<img id="profilAvatarBig" src="${u.fotoProfil}" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--green)">`:`<div id="profilAvatarBig" style="width:80px;height:80px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:34px;font-weight:700">${u.nama.charAt(0).toUpperCase()}</div>`;
   return `
   <div class="grid-2">
     <div class="card">
       <div class="card-title"><i class="ti ti-user-circle"></i>Informasi Akun</div>
       <div style="display:flex;align-items:center;gap:16px;margin-bottom:18px">
-        <div style="width:60px;height:60px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;font-weight:700;flex-shrink:0">${u.nama.charAt(0).toUpperCase()}</div>
+        ${avatarSrc}
         <div><div style="font-size:17px;font-weight:600">${u.nama}</div><div class="text-muted text-sm">${ROLE_LABELS[u.role]||u.role}</div></div>
       </div>
       <div class="info-row"><div class="info-label">Identitas Login</div><div class="info-val">
         ${u.role==='ortu'?`<span class="badge badge-gray">NIK: ${u.nik||'-'}</span>`:u.role==='bidan'?`<span class="badge badge-green">NIP: ${u.nip||'-'}</span>`:`<span class="badge badge-blue">Username: ${u.username||'-'}</span>`}
       </div></div>
-      <div class="info-row"><div class="info-label">Metode Login</div><div class="info-val text-muted" style="font-size:12px">${u.role==='ortu'?'NIK saja (tanpa password)':u.role==='bidan'?'NIP + Password':'Username + Password'}</div></div>
+      <div class="info-row"><div class="info-label">Metode Login</div><div class="info-val text-muted" style="font-size:12px">${u.role==='ortu'?'NIK saja (tanpa password)':u.role==='bidan'?'NIP saja (tanpa password)':'Username + Password'}</div></div>
     </div>
     <div class="card">
       <div class="card-title"><i class="ti ti-edit"></i>Edit Profil</div>
-      <div class="form-group mb-12"><label>Nama Lengkap</label><input id="pr_nama" value="${u.nama}" placeholder="Nama lengkap"></div>
-      <div class="form-group mb-12"><label>Username</label><input id="pr_user" value="${u.username}" placeholder="Username"></div>
-      <div class="form-group mb-12"><label>NIP / NIK</label><input id="pr_nip" value="${u.nip||u.nik||''}" placeholder="NIP atau NIK"></div>
-      <div style="border-top:1px solid var(--border);padding-top:14px;margin-top:4px">
-        <div style="font-size:12px;font-weight:500;color:var(--text2);margin-bottom:10px">Ganti Password (kosongkan jika tidak ingin ubah)</div>
-        <div class="form-group mb-12"><label>Password Baru</label><input type="password" id="pr_pass" placeholder="Password baru"></div>
-        <div class="form-group mb-16"><label>Konfirmasi Password</label><input type="password" id="pr_pass2" placeholder="Ulangi password baru"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:18px">
+        ${avatarBig}
+        <label style="cursor:pointer;display:flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--border);border-radius:var(--radius);font-size:12px;color:var(--text2);background:var(--bg)">
+          <i class="ti ti-camera"></i> Ubah Foto Profil
+          <input type="file" accept="image/*" style="display:none" onchange="uploadFotoProfil(this)">
+        </label>
+        ${u.fotoProfil?`<button class="btn btn-sm btn-danger" onclick="hapusFotoProfil()"><i class="ti ti-trash"></i> Hapus Foto</button>`:''}
       </div>
+      <div class="form-group mb-12"><label>Nama Lengkap</label><input id="pr_nama" value="${u.nama}" placeholder="Nama lengkap"></div>
+      ${u.role==='admin'?`<div class="form-group mb-12"><label>Username</label><input id="pr_user" value="${u.username||''}" placeholder="Username"></div>`:''}
+      <div class="form-group mb-16"><label>${u.role==='bidan'?'NIP':'NIK'}</label><input id="pr_nip" value="${u.nip||u.nik||''}" placeholder="${u.role==='bidan'?'NIP':'NIK'}"></div>
       <button class="btn btn-primary w-full" onclick="simpanProfil()" style="justify-content:center"><i class="ti ti-check"></i>Simpan Perubahan</button>
     </div>
   </div>`;
 };
-
+ 
+function uploadFotoProfil(input){
+  const file=input.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const src=e.target.result;
+    currentUser.fotoProfil=src;
+    const users=DB.get('users').map(u=>u.id===currentUser.id?{...u,fotoProfil:src}:u);
+    DB.set('users',users);
+    // Update avatar di topbar
+    const av=document.getElementById('userAvatar');
+    if(av)av.innerHTML=`<img src="${src}" style="width:26px;height:26px;border-radius:50%;object-fit:cover">`;
+    showToast('Foto profil diperbarui');
+    renderSection('profil');
+  };
+  reader.readAsDataURL(file);
+}
+ 
+function hapusFotoProfil(){
+  if(!confirm('Hapus foto profil?'))return;
+  currentUser.fotoProfil='';
+  const users=DB.get('users').map(u=>u.id===currentUser.id?{...u,fotoProfil:''}:u);
+  DB.set('users',users);
+  const av=document.getElementById('userAvatar');
+  if(av)av.textContent=currentUser.nama.charAt(0).toUpperCase();
+  showToast('Foto profil dihapus');
+  renderSection('profil');
+}
+ 
 function simpanProfil(){
   const nama=document.getElementById('pr_nama').value.trim();
-  const username=document.getElementById('pr_user').value.trim();
+  const usernameEl=document.getElementById('pr_user');
+  const username=usernameEl?usernameEl.value.trim():(currentUser.username||'');
   const nip=document.getElementById('pr_nip').value.trim();
-  const pass=document.getElementById('pr_pass').value;
-  const pass2=document.getElementById('pr_pass2').value;
-  if(!nama||!username){showToast('Nama dan username wajib diisi','error');return;}
-  if(pass&&pass!==pass2){showToast('Konfirmasi password tidak cocok','error');return;}
+  if(!nama){showToast('Nama wajib diisi','error');return;}
   const users=DB.get('users').map(u=>{
     if(u.id!==currentUser.id)return u;
-    const updated={...u,nama,username,nip};
-    if(pass)updated.password=pass;
-    return updated;
+    return {...u,nama,username,nip};
   });
   DB.set('users',users);
   currentUser={...currentUser,nama,username,nip};
-  if(pass)currentUser.password=pass;
   document.getElementById('userName').textContent=nama;
   document.getElementById('userAvatar').textContent=nama.charAt(0).toUpperCase();
   showToast('Profil berhasil diperbarui');
   renderSection('profil');
 }
-
+ 
 // ──────────────────────────────────────
 // GRAFIK PERKEMBANGAN (SVG Chart)
 // ──────────────────────────────────────
@@ -1610,7 +1720,7 @@ function buatGrafikSVG(ukurList, field, label, color, unit){
     <text x="${padL}" y="11" font-size="11" font-weight="600" fill="${color}">${label} (${unit})</text>
   </svg>`;
 }
-
+ 
 // Override SECTIONS.perkembangan untuk tambah grafik
 SECTIONS.perkembangan = ()=>{
   const anak=DB.get('anak')||[];
@@ -1628,7 +1738,7 @@ SECTIONS.perkembangan = ()=>{
   <tbody>${rows||'<tr><td colspan=8 style="text-align:center;color:var(--text2)">Belum ada data pengukuran</td></tr>'}</tbody></table></div></div>
   <div class="alert alert-info"><i class="ti ti-info-circle"></i>Data pengukuran diinput oleh bidan pada setiap kegiatan posyandu. Bawa Buku KIA saat posyandu.</div>`;
 };
-
+ 
 // ──────────────────────────────────────
 // GRAFIK di DETAIL ANAK (untuk admin/bidan)
 // ──────────────────────────────────────
@@ -1641,7 +1751,23 @@ function grafikAnak(id){
   <div class="mb-12"><div class="card-title" style="margin-bottom:8px"><i class="ti ti-trending-up"></i>Z-Score TB/U</div>${buatGrafikSVG(ukur,'zscore_tbu','Z-Score TB/U','#d97706','SD')}</div>
   <div class="modal-footer"><button class="btn btn-primary" onclick="closeModal()">Tutup</button></div>`);
 }
-
+ 
+// ──────────────────────────────────────
+// UNDUH LAPORAN CSV
+// ──────────────────────────────────────
+function unduhLaporan(){
+  const anak=DB.get('anak')||[];
+  const ukur=DB.get('pengukuran')||[];
+  const latest={};ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const header='Nama Anak,JK,Usia (bln),Wilayah,Posyandu,BB (kg),TB (cm),Z TB/U,Status,Tgl Ukur';
+  const rows=anak.map(a=>{const u=latest[a.id];return[a.nama,a.jenisKelamin,hitungUsia(a.tglLahir),a.wilayah,a.posyandu,u?u.bb:'',u?u.tb:'',u?u.zscore_tbu:'',u?u.status:'',u?u.tanggal:''].join(',');});
+  const csv=[header,...rows].join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=`Laporan_SiGizi_${new Date().toISOString().slice(0,10)}.csv`;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  showToast('File CSV berhasil diunduh');
+}
+ 
 // ──────────────────────────────────────
 // PRINT / EXPORT LAPORAN
 // ──────────────────────────────────────
@@ -1669,16 +1795,17 @@ function printLaporan(){
   </body></html>`);
   win.document.close();
 }
-
+ 
 // Override SECTIONS.laporan to add print button
 const _oldLaporan = SECTIONS.laporan;
 SECTIONS.laporan = ()=>{
   const base = _oldLaporan();
-  return `<div class="search-row" style="justify-content:flex-end;margin-bottom:16px">
-    <button class="btn btn-primary" onclick="printLaporan()"><i class="ti ti-printer"></i> Cetak / Export PDF</button>
+  return `<div class="search-row" style="justify-content:flex-end;margin-bottom:16px;gap:8px">
+    <button class="btn" onclick="unduhLaporan()"><i class="ti ti-download"></i> Unduh CSV</button>
+    <button class="btn btn-primary" onclick="printLaporan()"><i class="ti ti-printer"></i> Cetak / PDF</button>
   </div>`+base;
 };
-
+ 
 // Override detailAnak to add grafik button
 const _oldDetailAnak = detailAnak;
 function detailAnak(id){
@@ -1699,7 +1826,7 @@ function detailAnak(id){
   <div class="info-row"><div class="info-label">Status Gizi</div><div class="info-val">${statusBadge(last.status)}</div></div>`:'<div class="alert alert-info mt-12"><i class="ti ti-info-circle"></i>Belum ada data pengukuran.</div>'}
   <div class="modal-footer"><button class="btn" onclick="grafikAnak(${id})" style="gap:6px"><i class="ti ti-chart-line"></i>Lihat Grafik</button><button class="btn btn-primary" onclick="closeModal()">Tutup</button></div>`);
 }
-
+ 
 // ──────────────────────────────────────
 // ATTACH HANDLERS
 // ──────────────────────────────────────
