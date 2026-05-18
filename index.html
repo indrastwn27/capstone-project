@@ -85,19 +85,116 @@ tr:hover td{background:#f9fdfb}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,127,.1)}
 .form-group textarea{resize:vertical;min-height:80px}
 
-/* ── LOGIN PAGE ── */
-#loginPage{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0e7a60 0%,#16a37f 50%,#1dd9a3 100%)}
+/* ── LOGIN PAGE — Split Screen ── */
+#loginPage{
+  min-height:100vh;display:flex;
+}
+/* Sisi kiri: foto + overlay info */
+.login-left{
+  flex:1.1;position:relative;overflow:hidden;
+  background:linear-gradient(160deg,#0e7a60 0%,#16a37f 60%,#1dd9a3 100%);
+}
+.login-left-bg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=80') center/cover no-repeat;
+  opacity:.35;
+}
+.login-left-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(14,122,96,.85) 0%,rgba(22,163,127,.6) 100%);
+}
+.login-left-content{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;justify-content:space-between;
+  height:100%;padding:48px 44px;color:#fff;
+}
+.login-brand{display:flex;align-items:center;gap:14px}
+.login-brand-icon{
+  width:52px;height:52px;background:rgba(255,255,255,.15);
+  border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:26px;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.2);
+}
+.login-brand-name{font-family:'DM Serif Display',serif;font-size:28px;letter-spacing:.5px}
+.login-brand-sub{font-size:12px;opacity:.75;margin-top:2px}
+
+.login-hero{margin:auto 0}
+.login-hero-tag{
+  display:inline-block;background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.3);border-radius:20px;
+  padding:4px 14px;font-size:12px;font-weight:500;margin-bottom:20px;
+  backdrop-filter:blur(4px);
+}
+.login-hero h1{
+  font-family:'DM Serif Display',serif;font-size:40px;line-height:1.2;
+  margin-bottom:14px;color:#fff;
+}
+.login-hero h1 span{color:#a7f3d0}
+.login-hero p{font-size:14px;opacity:.85;line-height:1.7;max-width:360px}
+
+.login-stats{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;
+}
+.login-stat{
+  background:rgba(255,255,255,.12);border-radius:12px;
+  padding:14px 16px;backdrop-filter:blur(4px);
+  border:1px solid rgba(255,255,255,.15);
+}
+.login-stat-val{font-size:22px;font-weight:700;color:#fff}
+.login-stat-label{font-size:11px;opacity:.75;margin-top:2px}
+
+.login-footer-loc{
+  display:flex;align-items:center;gap:8px;font-size:12px;opacity:.7;
+  padding-top:16px;border-top:1px solid rgba(255,255,255,.15);margin-top:16px;
+}
+.login-footer-loc i{font-size:16px}
+
+/* Sisi kanan: form */
+.login-right{
+  width:440px;min-width:380px;
+  background:#fff;display:flex;align-items:center;justify-content:center;
+  padding:48px 44px;overflow-y:auto;
+}
+.login-form-wrap{width:100%;max-width:340px}
+.login-form-wrap h2{
+  font-family:'DM Serif Display',serif;font-size:28px;color:var(--text);margin-bottom:6px;
+}
+.login-form-wrap > p{font-size:13px;color:var(--text2);margin-bottom:28px}
+
+/* Role pilih — card style */
+.login-roles-label{font-size:12px;font-weight:600;color:var(--text2);margin-bottom:10px;letter-spacing:.05em;text-transform:uppercase}
+.login-roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+.role-card{
+  border:2px solid var(--border);border-radius:12px;
+  padding:12px 8px;text-align:center;cursor:pointer;
+  transition:.15s all;background:#f9fdfb;
+}
+.role-card:hover{border-color:var(--green);background:var(--green-light)}
+.role-card.active{border-color:var(--green);background:var(--green-light);color:var(--green-dark)}
+.role-card i{font-size:22px;display:block;margin-bottom:4px;color:var(--text2)}
+.role-card.active i{color:var(--green)}
+.role-card span{font-size:12px;font-weight:500;color:var(--text2)}
+.role-card.active span{color:var(--green-dark)}
+
+.login-role-info{
+  background:var(--blue-light);border:1px solid #bfdbfe;border-radius:var(--radius);
+  padding:10px 13px;font-size:12px;color:#1e40af;
+  display:flex;gap:8px;align-items:flex-start;margin-bottom:16px;
+}
+.login-role-info i{font-size:16px;flex-shrink:0;margin-top:1px}
+
+.login-card h2{font-size:18px;font-weight:600;margin-bottom:18px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif}
+.login-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
+
+/* Legacy (keep for compat) */
 .login-wrap{width:380px}
 .login-card{background:#fff;border-radius:20px;padding:36px 32px;box-shadow:0 20px 60px rgba(0,0,0,.15)}
 .login-logo{text-align:center;margin-bottom:24px}
 .login-logo-icon{width:60px;height:60px;background:var(--green-light);border-radius:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:28px;color:var(--green)}
 .login-logo h1{font-size:26px;color:var(--text)}
 .login-logo p{font-size:12px;color:var(--text2);margin-top:2px}
-.login-card h2{font-size:18px;font-weight:600;margin-bottom:18px;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif}
 .login-role-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:18px}
 .role-tab{flex:1;padding:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;color:var(--text2);background:#f9fdfb;border:none;transition:.15s all}
 .role-tab.active{background:var(--green);color:#fff}
-.login-hint{font-size:11px;color:var(--text3);text-align:center;margin-top:12px}
 
 /* ── APP SHELL ── */
 #app{display:flex;height:100vh}
@@ -225,39 +322,77 @@ tr:hover td{background:#f9fdfb}
 </head>
 <body>
 
-<!-- ══════════ LOGIN PAGE ══════════ -->
+<!-- ══════════ LOGIN PAGE — SPLIT SCREEN ══════════ -->
 <div id="loginPage">
-  <div class="login-wrap">
-    <div class="login-logo">
-      <div class="login-logo-icon"><i class="ti ti-heart-rate-monitor"></i></div>
-      <h1>SiGizi</h1>
-      <p>Sistem Informasi Gizi — Puskesmas Sungai Durian</p>
-    </div>
-    <div class="login-card">
-      <h2>Masuk ke Akun</h2>
-      <div class="login-role-tabs">
-        <button class="role-tab active" onclick="setRole('admin',this)">Admin</button>
-        <button class="role-tab" onclick="setRole('bidan',this)">Bidan</button>
-        <button class="role-tab" onclick="setRole('ortu',this)">Orang Tua</button>
+  <!-- KIRI: Hero -->
+  <div class="login-left">
+    <div class="login-left-bg"></div>
+    <div class="login-left-overlay"></div>
+    <div class="login-left-content">
+      <div class="login-brand">
+        <div class="login-brand-icon"><i class="ti ti-heart-rate-monitor"></i></div>
+        <div>
+          <div class="login-brand-name">SiGizi</div>
+          <div class="login-brand-sub">Puskesmas Sungai Durian</div>
+        </div>
       </div>
-      <div id="roleInfoBox" style="border-radius:var(--radius);padding:10px 13px;margin-bottom:14px;font-size:12px;display:flex;gap:8px;align-items:flex-start;background:var(--blue-light);border:1px solid #bfdbfe;color:#1e40af">
-        <i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0;margin-top:1px"></i>
-        <span id="roleInfoText">Masuk dengan username dan password akun admin.</span>
+      <div class="login-hero">
+        <div class="login-hero-tag"><i class="ti ti-shield-check" style="font-size:11px"></i> Aplikasi Monitoring Balita</div>
+        <h1>Pantau Tumbuh<br>Kembang <span>Balita</span><br>Lebih Cerdas</h1>
+        <p>Sistem Informasi terintegrasi untuk deteksi dini stunting, pemantauan antropometrica, dan laporan gizi berbasis data WHO.</p>
+        <div class="login-stats" style="margin-top:28px">
+          <div class="login-stat"><div class="login-stat-val" id="statBalita">—</div><div class="login-stat-label">Balita Terdaftar</div></div>
+          <div class="login-stat"><div class="login-stat-val" id="statStunting">—</div><div class="login-stat-label">Risiko Stunting</div></div>
+          <div class="login-stat"><div class="login-stat-val">8×</div><div class="login-stat-label">Posyandu Aktif</div></div>
+          <div class="login-stat"><div class="login-stat-val">3</div><div class="login-stat-label">Peran Pengguna</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="login-footer-loc">
+          <i class="ti ti-map-pin"></i>
+          <span>Puskesmas Sungai Durian — Kab. Kubu Raya, Kalimantan Barat</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- KANAN: Form -->
+  <div class="login-right">
+    <div class="login-form-wrap">
+      <h2>Selamat Datang</h2>
+      <p>Masuk ke akun <b>SIGIZI</b> Anda untuk memulai pemantauan balita.</p>
+      <div class="login-roles-label">Masuk sebagai :</div>
+      <div class="login-roles">
+        <div class="role-card active" id="roleCard_admin" onclick="setRoleNew('admin')">
+          <i class="ti ti-shield-check"></i><span>Admin</span>
+        </div>
+        <div class="role-card" id="roleCard_bidan" onclick="setRoleNew('bidan')">
+          <i class="ti ti-stethoscope"></i><span>Bidan</span>
+        </div>
+        <div class="role-card" id="roleCard_ortu" onclick="setRoleNew('ortu')">
+          <i class="ti ti-users"></i><span>Orang Tua</span>
+        </div>
+      </div>
+      <div class="login-role-info">
+        <i class="ti ti-info-circle"></i>
+        <span id="roleInfoText">Admin masuk menggunakan username dan password.</span>
       </div>
       <div class="form-group mb-12">
         <label id="loginUserLabel">Username</label>
-        <input type="text" id="loginUser" placeholder="Masukkan username" onkeydown="if(event.key==='Enter')doLogin()">
+        <input type="text" id="loginUser" placeholder="Masukkan username" onkeydown="if(event.key==='Enter')doLogin()" style="padding:11px 14px;font-size:14px">
       </div>
-      <div class="form-group mb-16" id="loginPassWrap">
-        <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Masukkan password" onkeydown="if(event.key==='Enter')doLogin()">
+      <div class="form-group mb-20" id="loginPassWrap">
+        <label>Kata Sandi</label>
+        <input type="password" id="loginPass" placeholder="Masukkan password" onkeydown="if(event.key==='Enter')doLogin()" style="padding:11px 14px;font-size:14px">
       </div>
-      <button class="btn btn-primary w-full" onclick="doLogin()" style="justify-content:center">
-        <i class="ti ti-login"></i> Masuk
+      <button class="btn btn-primary w-full" onclick="doLogin()" style="justify-content:center;padding:13px;font-size:14px;border-radius:var(--radius)">
+        <i class="ti ti-login"></i> LOGIN
       </button>
-      <p class="login-hint" id="loginHint" style="color:var(--text3);font-size:11px;text-align:center;margin-top:10px"></p>
-      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);text-align:center">
-        <b style="color:var(--text2)">Demo:</b> Admin → user: <code>admin</code> / pass: <code>admin123</code> &nbsp;|&nbsp; Bidan → NIP: <code>9876543210</code> &nbsp;|&nbsp; Ortu → NIK: <code>6101234567890001</code>
+      <p id="loginHint" style="color:var(--red);font-size:12px;text-align:center;margin-top:10px;min-height:18px"></p>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);font-size:11px;color:var(--text3);text-align:center">
+        Belum punya akun? <a href="#" style="color:var(--green);font-weight:500" onclick="return false">Hubungi Puskesmas</a>
+      </div>
+      <div style="margin-top:10px;padding:10px;background:#f9fdfb;border-radius:var(--radius);font-size:11px;color:var(--text3);text-align:center">
+        <b style="color:var(--text2)">Demo:</b> Admin → <code>admin</code>/<code>admin123</code> &nbsp;|&nbsp; Bidan → NIP <code>9876543210</code> &nbsp;|&nbsp; Ortu → NIK <code>6101234567890001</code>
       </div>
     </div>
   </div>
@@ -372,16 +507,31 @@ DB.init();
 let currentUser = null;
 let currentRole = 'admin';
 
-const ROLE_LOGIN_INFO = {
-  admin: {label:'Username', placeholder:'Masukkan username', hint:'Masuk menggunakan username dan password akun admin.', showPass:true},
-  bidan: {label:'NIP (Nomor Induk Pegawai)', placeholder:'Masukkan NIP Anda', hint:'Bidan masuk menggunakan NIP. Password diberikan oleh admin.', showPass:true},
-  ortu: {label:'NIK (Nomor Induk Kependudukan)', placeholder:'Masukkan 16 digit NIK', hint:'Orang tua cukup masuk dengan NIK — akun dibuat otomatis saat bidan mendaftarkan anak.', showPass:false},
+// ── NEW ROLE SYSTEM ──
+const ROLE_CFG = {
+  admin: {
+    label:'Username', placeholder:'Masukkan username',
+    hint:'Admin masuk menggunakan username dan password.',
+    showPass: true
+  },
+  bidan: {
+    label:'NIP (Nomor Induk Pegawai)', placeholder:'Masukkan NIP Anda',
+    hint:'Bidan masuk hanya menggunakan NIP — tanpa password. NIP diinput oleh admin.',
+    showPass: false
+  },
+  ortu: {
+    label:'NIK Ibu (16 digit)', placeholder:'Masukkan 16 digit NIK Ibu',
+    hint:'Orang tua masuk hanya dengan NIK — akun dibuat otomatis saat bidan mendaftarkan anak.',
+    showPass: false
+  },
 };
-function setRole(r,el){
+
+function setRoleNew(r){
   currentRole = r;
-  document.querySelectorAll('.role-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  const cfg = ROLE_LOGIN_INFO[r];
+  ['admin','bidan','ortu'].forEach(x=>{
+    document.getElementById('roleCard_'+x).classList.toggle('active', x===r);
+  });
+  const cfg = ROLE_CFG[r];
   document.getElementById('loginUserLabel').textContent = cfg.label;
   document.getElementById('loginUser').placeholder = cfg.placeholder;
   document.getElementById('loginUser').value = '';
@@ -390,6 +540,8 @@ function setRole(r,el){
   document.getElementById('roleInfoText').textContent = cfg.hint;
   document.getElementById('loginPassWrap').style.display = cfg.showPass ? '' : 'none';
 }
+// Backward-compat shim
+function setRole(r,el){ setRoleNew(r); }
 
 function doLogin(){
   const u = document.getElementById('loginUser').value.trim();
@@ -399,18 +551,37 @@ function doLogin(){
   if(currentRole === 'admin'){
     user = users.find(x=>x.username===u && x.password===p && x.role==='admin');
   } else if(currentRole === 'bidan'){
-    // Bidan login pakai NIP + password
-    user = users.find(x=>x.nip===u && x.password===p && x.role==='bidan');
+    // Bidan login HANYA pakai NIP (tanpa password)
+    user = users.find(x=>x.nip===u && x.role==='bidan');
   } else if(currentRole === 'ortu'){
-    // Ortu login hanya pakai NIK (tanpa password)
+    // Ortu login HANYA pakai NIK (tanpa password)
     user = users.find(x=>x.nik===u && x.role==='ortu');
   }
-  if(!user){showToast('Data login tidak ditemukan','error');return;}
+  if(!user){
+    document.getElementById('loginHint').textContent = 'Data login tidak ditemukan. Periksa kembali.';
+    return;
+  }
+  document.getElementById('loginHint').textContent = '';
   currentUser = user;
   document.getElementById('loginPage').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
+  // Update live stats
+  updateLoginStats();
   initApp();
 }
+
+function updateLoginStats(){
+  const anak = DB.get('anak')||[];
+  const ukur = DB.get('pengukuran')||[];
+  const latest = {};
+  ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
+  const stunt = Object.values(latest).filter(u=>u.status==='Stunting'||u.status==='Stunting Berat').length;
+  const el1=document.getElementById('statBalita'), el2=document.getElementById('statStunting');
+  if(el1) el1.textContent = anak.length;
+  if(el2) el2.textContent = anak.length ? Math.round(stunt/anak.length*100)+'%' : '0%';
+}
+// Run on page load for stats
+document.addEventListener('DOMContentLoaded', updateLoginStats);
 
 function doLogout(){
   currentUser = null;
@@ -1099,7 +1270,7 @@ SECTIONS.pengguna = ()=>{
     <td>${u.nama}</td>
     <td><span class="badge ${u.role==='admin'?'badge-blue':u.role==='bidan'?'badge-green':'badge-gray'}">${ROLE_LABELS[u.role]||u.role}</span></td>
     <td style="font-family:monospace;font-size:12px">${u.role==='ortu'?`<span class="badge badge-gray">NIK: ${u.nik||'-'}</span>`:u.role==='bidan'?`<span class="badge badge-green">NIP: ${u.nip||'-'}</span>`:`<span class="badge badge-blue">user: ${u.username||'-'}</span>`}</td>
-    <td style="color:var(--text3);font-size:12px">${u.role==='ortu'?'Login: NIK saja':u.role==='bidan'?`Login: NIP + password`:'Login: username + password'}</td>
+    <td style="color:var(--text3);font-size:12px">${u.role==='ortu'?'Login: NIK saja':u.role==='bidan'?'Login: NIP saja (tanpa password)':'Login: username + password'}</td>
     <td><div class="table-action">
       <button class="btn btn-sm btn-icon" title="Edit" onclick="editUser(${u.id})"><i class="ti ti-edit"></i></button>
       ${u.id!==currentUser.id?`<button class="btn btn-sm btn-danger btn-icon" title="Hapus" onclick="hapusUser(${u.id})"><i class="ti ti-trash"></i></button>`:''}
@@ -1107,7 +1278,7 @@ SECTIONS.pengguna = ()=>{
   </tr>`).join('');
   const ortuCount=users.filter(u=>u.role==='ortu').length;
   return `
-  <div class="alert alert-info mb-16"><i class="ti ti-info-circle"></i><div><b>Sistem Login:</b> <b>Bidan</b> login dengan <b>NIP + Password</b> (default password = NIP). <b>Orang Tua</b> login hanya dengan <b>NIK</b> — akun dibuat <i>otomatis</i> saat bidan mendaftarkan anak, atau tambahkan manual di sini.</div></div>
+  <div class="alert alert-info mb-16"><i class="ti ti-info-circle"></i><div><b>Sistem Login:</b> <b>Bidan</b> login hanya dengan <b>NIP</b> (tanpa password) — admin cukup input NIP bidan. <b>Orang Tua</b> login hanya dengan <b>NIK Ibu</b> — akun dibuat <i>otomatis</i> saat bidan mendaftarkan anak, atau tambahkan manual di sini.</div></div>
   <div class="search-row" style="justify-content:flex-end;gap:10px">
     <button class="btn" onclick="tambahUser('bidan')"><i class="ti ti-user-plus"></i>Tambah Bidan</button>
     <button class="btn btn-primary" onclick="tambahUser('ortu')"><i class="ti ti-user-plus"></i>Buat Akun Orang Tua</button>
@@ -1139,8 +1310,7 @@ function formUser(data={}, defaultRole='admin'){
     </div>
   </div>
   <div id="p_bidan_info" ${!isBidan?'style="display:none"':''}>
-    <div class="alert alert-info" style="margin-bottom:12px"><i class="ti ti-info-circle"></i>Bidan login menggunakan <b>NIP</b>. Password default = NIP (bidan dapat mengubah di profil).</div>
-    <div class="form-group"><label>Password <span style="color:var(--text3);font-size:11px">(kosong = gunakan NIP)</span></label><input type="password" id="p_pass" placeholder="Biarkan kosong untuk default NIP"></div>
+    <div class="alert alert-info" style="margin-bottom:12px"><i class="ti ti-info-circle"></i>Bidan login hanya menggunakan <b>NIP</b> — tanpa password. Cukup input NIP bidan di bawah.</div>
   </div>
   <div id="p_admin_fields" ${(isOrtu||isBidan)?'style="display:none"':''}>
     <div class="grid-2">
@@ -1195,8 +1365,7 @@ function getFormUser(){
   } else if(role==='bidan'){
     d.nip=document.getElementById('p_nip').value.trim();
     d.username=d.nip; // username = NIP untuk bidan
-    const passEl=document.getElementById('p_pass');
-    d.password=passEl&&passEl.value?passEl.value:d.nip; // default password = NIP
+    d.password=d.nip; // password disimpan = NIP (tidak dipakai untuk login, hanya internal)
   } else {
     // admin
     const userEl=document.getElementById('p_user');
@@ -1220,7 +1389,7 @@ function simpanUser(){
   if(d.role==='admin'&&users.find(u=>u.username===d.username)){showToast('Username sudah digunakan','error');return;}
   users.push({...d,id:uid()});DB.set('users',users);
   closeModal();
-  if(d.role==='bidan') showToast(`Akun bidan dibuat. Login: NIP ${d.nip}, Password: ${d.password}`,'success');
+  if(d.role==='bidan') showToast(`Akun bidan dibuat. Login cukup dengan NIP: ${d.nip}`,'success');
   else if(d.role==='ortu') showToast(`Akun orang tua dibuat. Login cukup dengan NIK: ${d.nik}`,'success');
   else showToast('Akun berhasil dibuat','success');
   renderSection('pengguna');
@@ -1231,7 +1400,7 @@ function updateUser(id){
     if(u.id!==id)return u;
     const updated={...u,...d};
     // password: jika bidan dan password kosong, pertahankan password lama
-    if(d.role==='bidan'){const passEl=document.getElementById('p_pass');if(!passEl||!passEl.value)updated.password=u.password;}
+    if(d.role==='bidan'){updated.password=d.nip;} // bidan password always = NIP (unused)
     // admin: jika password kosong, pertahankan
     if(d.role==='admin'){const passEl=document.getElementById('p_pass_admin');if(!passEl||!passEl.value)updated.password=u.password;}
     return updated;
