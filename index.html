@@ -42,6 +42,7 @@ h1,h2,h3{font-family:'DM Serif Display',serif;font-weight:400}
 .badge-red{background:var(--red-light);color:#991b1b}
 .badge-blue{background:var(--blue-light);color:#1e40af}
 .badge-gray{background:#f1f5f2;color:var(--text2)}
+.badge-blue{background:var(--blue-light);color:#1e40af}
  
 /* ── BUTTON ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:.15s all}
@@ -1302,44 +1303,346 @@ function hapusJadwal(id){if(!confirm('Hapus jadwal ini?'))return;DB.set('jadwal'
 // ──────────────────────────────────────
 // LAPORAN
 // ──────────────────────────────────────
+
+// DATA SPM 5 — Pelayanan Kesehatan Usia Pendidikan Dasar (Jan–Apr 2026)
+const SPM5_DATA = [
+  {desa:'Arang Limbung', sasaran:3654, jan:172, feb:362, mar:395, apr:1671, total:2600},
+  {desa:'Kuala Dua',     sasaran:4853, jan:270, feb:356, mar:96,  apr:807,  total:1529},
+  {desa:'Sungai Ambangah',sasaran:977, jan:0,   feb:0,   mar:0,   apr:0,    total:0},
+  {desa:'Tebang Kacang', sasaran:813,  jan:0,   feb:0,   mar:0,   apr:0,    total:0},
+  {desa:'Limbung',       sasaran:2837, jan:69,  feb:316, mar:240, apr:1811, total:2436},
+  {desa:'Teluk Kapuas',  sasaran:2363, jan:0,   feb:0,   mar:0,   apr:81,   total:81},
+  {desa:'Madu Sari',     sasaran:616,  jan:0,   feb:0,   mar:0,   apr:0,    total:0},
+  {desa:'Mekar Sari',    sasaran:2198, jan:0,   feb:293, mar:433, apr:0,    total:726},
+];
+const SPM5_SASARAN_TOTAL = SPM5_DATA.reduce((s,d)=>s+d.sasaran,0);
+const SPM5_CAPAIAN_TOTAL = SPM5_DATA.reduce((s,d)=>s+d.total,0);
+const SPM5_PCT = Math.round(SPM5_CAPAIAN_TOTAL/SPM5_SASARAN_TOTAL*100*10)/10;
+
+// DATA SISWA SMAN 04 Sungai Raya (Limbung) — Pemeriksaan Kesehatan 2026
+const SMAN_DATA = {
+  kelas10: {total:111, L:62, P:49, serumen:90, infeksi:0, mataNormal:89, visus:22, butaWarna:0, gigiNormal:2,  caries:108, giziBaik:80, giziKurang:10, giziLebih:14, obesitas:7},
+  kelas11: {total:120, L:62, P:58, serumen:101,infeksi:0, mataNormal:100,visus:19, butaWarna:0, gigiNormal:28, caries:93,  giziBaik:74, giziKurang:27, giziLebih:11, obesitas:8},
+  kelas12: {total:130, L:65, P:65, serumen:114,infeksi:0, mataNormal:105,visus:25, butaWarna:0, gigiNormal:32, caries:98,  giziBaik:79, giziKurang:29, giziLebih:16, obesitas:6},
+};
+const SMAN_TOT = {
+  total: 361, L:189, P:172,
+  serumen:305, infeksi:0, mataNormal:294, visus:66, butaWarna:0,
+  gigiNormal:62, caries:299,
+  giziBaik:233, giziKurang:66, giziLebih:41, obesitas:21
+};
+
+// Tab state
+let laporanTab = 'spm5';
+
+function switchLapTab(tab){
+  laporanTab = tab;
+  document.querySelectorAll('.lap-tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===tab));
+  document.querySelectorAll('.lap-pane').forEach(p=>p.classList.toggle('hidden', p.dataset.pane!==tab));
+}
+
 SECTIONS.laporan = ()=>{
-  const anak=DB.get('anak')||[];const ukur=DB.get('pengukuran')||[];
-  const latest={};ukur.sort((a,b)=>b.tanggal.localeCompare(a.tanggal)).forEach(u=>{if(!latest[u.idAnak])latest[u.idAnak]=u;});
-  const statuses=Object.values(latest).map(u=>u.status);
-  const total=anak.length,stunt=statuses.filter(s=>s==='Stunting'||s==='Stunting Berat').length;
-  const pantau=statuses.filter(s=>s==='Perlu Pantau').length,normal=statuses.filter(s=>s==='Normal').length;
-  const wilMaster=(DB.get('wilayah')||[]).map(w=>w.nama);
-  // sertakan wilayah dari data anak yg ada
-  anak.forEach(a=>{if(a.wilayah&&!wilMaster.includes(a.wilayah))wilMaster.push(a.wilayah);});
-  const wData=wilMaster.map(w=>{
-    const anakW=anak.filter(a=>a.wilayah===w);
-    const stuntW=anakW.filter(a=>latest[a.id]&&(latest[a.id].status==='Stunting'||latest[a.id].status==='Stunting Berat')).length;
-    return{w,total:anakW.length,stunt:stuntW,pct:anakW.length?Math.round(stuntW/anakW.length*100):0};
-  });
-  const maxS=Math.max(...wData.map(d=>d.stunt),1);
+  // ── SPM 5 HTML
+  const spmRows = SPM5_DATA.map(d=>{
+    const pct = d.sasaran>0 ? Math.round(d.total/d.sasaran*1000)/10 : 0;
+    const cls = pct>=70?'badge-green':pct>=30?'badge-amber':'badge-red';
+    return `<tr>
+      <td>${d.desa}</td>
+      <td style="text-align:center">${d.sasaran.toLocaleString('id-ID')}</td>
+      <td style="text-align:center">${d.jan}</td>
+      <td style="text-align:center">${d.feb}</td>
+      <td style="text-align:center">${d.mar}</td>
+      <td style="text-align:center">${d.apr}</td>
+      <td style="text-align:center;font-weight:600">${d.total.toLocaleString('id-ID')}</td>
+      <td style="text-align:center"><span class="badge ${cls}">${pct}%</span></td>
+      <td style="min-width:90px">
+        <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+          <div style="height:100%;width:${Math.min(pct,100)}%;background:${pct>=70?'var(--green)':pct>=30?'var(--amber)':'var(--red)'};border-radius:4px"></div>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Chart bar SPM per desa
+  const maxSPM = Math.max(...SPM5_DATA.map(d=>d.sasaran));
+  const spmBars = SPM5_DATA.map(d=>{
+    const pct = d.sasaran>0 ? Math.round(d.total/d.sasaran*1000)/10 : 0;
+    const clr = pct>=70?'var(--green)':pct>=30?'var(--amber)':'var(--red)';
+    return `<div class="chart-bar-item">
+      <div class="chart-bar-label" style="width:110px;font-size:11px">${d.desa}</div>
+      <div class="chart-bar-track" style="flex:1"><div class="chart-bar-fill" style="width:${d.total/d.sasaran*100}%;background:${clr}"></div></div>
+      <div class="chart-bar-val" style="width:80px;font-size:11px">${d.total}/${d.sasaran} <span style="color:${clr};font-weight:600">${pct}%</span></div>
+    </div>`;
+  }).join('');
+
+  // ── SMAN HTML
+  const klsRows = ['kelas10','kelas11','kelas12'].map((k,i)=>{
+    const d = SMAN_DATA[k];
+    const pctGiziBaik = Math.round(d.giziBaik/d.total*100);
+    const pctCaries   = Math.round(d.caries/d.total*100);
+    const pctSerumen  = Math.round(d.serumen/d.total*100);
+    const pctVisus    = Math.round(d.visus/d.total*100);
+    return `<tr>
+      <td style="font-weight:600">Kelas ${10+i}</td>
+      <td style="text-align:center">${d.total} <span class="text-muted">(L:${d.L}/P:${d.P})</span></td>
+      <td style="text-align:center"><span class="badge ${pctSerumen>50?'badge-amber':'badge-green'}">${d.serumen} (${pctSerumen}%)</span></td>
+      <td style="text-align:center">${d.infeksi}</td>
+      <td style="text-align:center">${d.mataNormal} / <span style="color:var(--amber)">${d.visus}</span></td>
+      <td style="text-align:center">${d.butaWarna}</td>
+      <td style="text-align:center">${d.gigiNormal} / <span style="color:var(--red)">${d.caries} (${pctCaries}%)</span></td>
+      <td style="text-align:center"><span class="badge badge-green">${d.giziBaik}</span></td>
+      <td style="text-align:center"><span class="badge ${d.giziKurang>0?'badge-amber':'badge-green'}">${d.giziKurang}</span></td>
+      <td style="text-align:center"><span class="badge ${d.giziLebih>0?'badge-amber':'badge-gray'}">${d.giziLebih}</span></td>
+      <td style="text-align:center"><span class="badge ${d.obesitas>0?'badge-red':'badge-green'}">${d.obesitas}</span></td>
+    </tr>`;
+  }).join('');
+
+  // Total baris SMAN
+  const tD = SMAN_TOT;
+  const smanTotalRow = `<tr style="font-weight:600;background:#f9fdfb">
+    <td>TOTAL</td>
+    <td style="text-align:center">${tD.total} (L:${tD.L}/P:${tD.P})</td>
+    <td style="text-align:center"><span class="badge badge-amber">${tD.serumen} (${Math.round(tD.serumen/tD.total*100)}%)</span></td>
+    <td style="text-align:center">${tD.infeksi}</td>
+    <td style="text-align:center">${tD.mataNormal} / <span style="color:var(--amber)">${tD.visus}</span></td>
+    <td style="text-align:center">${tD.butaWarna}</td>
+    <td style="text-align:center">${tD.gigiNormal} / <span style="color:var(--red)">${tD.caries} (${Math.round(tD.caries/tD.total*100)}%)</span></td>
+    <td style="text-align:center"><span class="badge badge-green">${tD.giziBaik}</span></td>
+    <td style="text-align:center"><span class="badge badge-amber">${tD.giziKurang}</span></td>
+    <td style="text-align:center"><span class="badge badge-amber">${tD.giziLebih}</span></td>
+    <td style="text-align:center"><span class="badge badge-red">${tD.obesitas}</span></td>
+  </tr>`;
+
+  // Gizi bar chart SMAN
+  const giziTotal = tD.giziBaik+tD.giziKurang+tD.giziLebih+tD.obesitas;
+  const giziBars = [
+    ['Gizi Baik', tD.giziBaik, 'var(--green)'],
+    ['Gizi Kurang', tD.giziKurang, 'var(--amber)'],
+    ['Gizi Lebih', tD.giziLebih, '#3b82f6'],
+    ['Obesitas', tD.obesitas, 'var(--red)'],
+  ].map(([l,v,c])=>`<div class="chart-bar-item">
+    <div class="chart-bar-label" style="width:90px;font-size:11px">${l}</div>
+    <div class="chart-bar-track" style="flex:1"><div class="chart-bar-fill" style="width:${Math.round(v/giziTotal*100)}%;background:${c}"></div></div>
+    <div class="chart-bar-val" style="width:70px;font-size:11px">${v} siswa <span style="color:${c};font-weight:600">(${Math.round(v/giziTotal*100)}%)</span></div>
+  </div>`).join('');
+
   return `
-  <div class="grid-4 mb-16">
-    <div class="metric"><div class="metric-label">Total Balita</div><div class="metric-val">${total}</div></div>
-    <div class="metric"><div class="metric-label" style="color:var(--red)">Stunting</div><div class="metric-val" style="color:var(--red)">${stunt} (${total?Math.round(stunt/total*100):0}%)</div></div>
-    <div class="metric"><div class="metric-label" style="color:var(--amber)">Perlu Pantau</div><div class="metric-val" style="color:var(--amber)">${pantau}</div></div>
-    <div class="metric"><div class="metric-label" style="color:var(--green)">Normal</div><div class="metric-val" style="color:var(--green)">${normal}</div></div>
+  <!-- TAB NAV -->
+  <div style="display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px;max-width:480px">
+    <div class="lap-tab role-tab active" data-tab="spm5" onclick="switchLapTab('spm5')" style="flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;cursor:pointer;color:var(--text2);background:#f9fdfb;border:none;transition:.15s all">
+      <i class="ti ti-chart-bar" style="margin-right:4px"></i>SPM 5 — Usia Pendidikan Dasar
+    </div>
+    <div class="lap-tab role-tab" data-tab="sman" onclick="switchLapTab('sman')" style="flex:1;padding:10px;text-align:center;font-size:13px;font-weight:500;cursor:pointer;color:var(--text2);background:#f9fdfb;border:none;transition:.15s all">
+      <i class="ti ti-school" style="margin-right:4px"></i>SMAN 04 Sungai Raya
+    </div>
   </div>
-  <div class="grid-2">
-    <div class="card"><div class="card-title"><i class="ti ti-chart-bar"></i>Prevalensi Stunting per Wilayah</div>
-    <div class="chart-bar-wrap">${wData.map(d=>`<div class="chart-bar-item">
-      <div class="chart-bar-label">${d.w}</div>
-      <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${d.stunt/maxS*100}%;background:${d.pct>20?'var(--red)':d.pct>10?'var(--amber)':'var(--green)'}"></div></div>
-      <div class="chart-bar-val">${d.stunt}/${d.total}</div>
-    </div>`).join('')}</div></div>
-    <div class="card"><div class="card-title"><i class="ti ti-table"></i>Rekap per Wilayah</div>
-    <table><thead><tr><th>Wilayah</th><th>Total Balita</th><th>Stunting</th><th>Prevalensi</th></tr></thead>
-    <tbody>${wData.map(d=>`<tr><td>${d.w}</td><td>${d.total}</td><td><span class="badge ${d.stunt>0?'badge-red':'badge-green'}">${d.stunt}</span></td><td>${d.pct}%</td></tr>`).join('')}</tbody>
-    </table></div>
+
+  <!-- PANE SPM 5 -->
+  <div class="lap-pane" data-pane="spm5">
+    <div class="alert alert-info mb-16" style="background:var(--blue-light);border-color:#bfdbfe;color:#1e40af">
+      <i class="ti ti-info-circle"></i>
+      <div><b>Laporan Cakupan SPM 5 — Pelayanan Kesehatan Usia Pendidikan Dasar</b><br>
+      Puskesmas Sungai Durian · Bulan Januari – April 2026 · Sumber: Data Dukung SPM 5 April 2026</div>
+    </div>
+
+    <!-- Ringkasan Metrics -->
+    <div class="grid-4 mb-16">
+      <div class="metric">
+        <div class="metric-label"><i class="ti ti-users"></i>Total Sasaran</div>
+        <div class="metric-val">${SPM5_SASARAN_TOTAL.toLocaleString('id-ID')}</div>
+        <div class="metric-sub">Anak usia pendidikan dasar</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label"><i class="ti ti-check"></i>Capaian s.d April</div>
+        <div class="metric-val" style="color:var(--green)">${SPM5_CAPAIAN_TOTAL.toLocaleString('id-ID')}</div>
+        <div class="metric-sub">Sudah dilayani</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label" style="color:${SPM5_PCT>=70?'var(--green)':SPM5_PCT>=30?'var(--amber)':'var(--red)'}"><i class="ti ti-percentage"></i>Persentase Capaian</div>
+        <div class="metric-val" style="color:${SPM5_PCT>=70?'var(--green)':SPM5_PCT>=30?'var(--amber)':'var(--red)'}">${SPM5_PCT}%</div>
+        <div class="metric-sub">Target: 100%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label" style="color:var(--amber)"><i class="ti ti-alert-triangle"></i>Belum Terlayani</div>
+        <div class="metric-val" style="color:var(--amber)">${(SPM5_SASARAN_TOTAL-SPM5_CAPAIAN_TOTAL).toLocaleString('id-ID')}</div>
+        <div class="metric-sub">Sisa ${Math.round((1-SPM5_PCT/100)*100)}% dari target</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-16">
+      <!-- Chart Bar per Desa -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-chart-bar"></i>Capaian per Desa (% dari Sasaran)</div>
+        <div class="chart-bar-wrap">${spmBars}</div>
+        <div class="mt-12" style="font-size:11px;color:var(--text3);display:flex;gap:12px">
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--green);margin-right:4px"></span>≥70%</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--amber);margin-right:4px"></span>30–69%</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--red);margin-right:4px"></span>&lt;30%</span>
+        </div>
+      </div>
+
+      <!-- Capaian Bulanan (Stacked) -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-calendar-stats"></i>Capaian Bulanan (Total Semua Desa)</div>
+        ${(()=>{
+          const bulan = [
+            {b:'Januari', v:SPM5_DATA.reduce((s,d)=>s+d.jan,0)},
+            {b:'Februari',v:SPM5_DATA.reduce((s,d)=>s+d.feb,0)},
+            {b:'Maret',   v:SPM5_DATA.reduce((s,d)=>s+d.mar,0)},
+            {b:'April',   v:SPM5_DATA.reduce((s,d)=>s+d.apr,0)},
+          ];
+          const maxB = Math.max(...bulan.map(x=>x.v),1);
+          return '<div class="chart-bar-wrap">'+bulan.map(x=>`<div class="chart-bar-item">
+            <div class="chart-bar-label" style="width:72px;font-size:12px">${x.b}</div>
+            <div class="chart-bar-track" style="flex:1"><div class="chart-bar-fill" style="width:${x.v/maxB*100}%;background:var(--blue)"></div></div>
+            <div class="chart-bar-val" style="width:60px;font-size:12px;color:var(--blue);font-weight:600">${x.v.toLocaleString('id-ID')}</div>
+          </div>`).join('')+'</div>';
+        })()}
+        <div class="alert alert-info mt-12" style="padding:8px 12px;font-size:11px">
+          <i class="ti ti-info-circle" style="font-size:13px"></i>
+          April: libur cuti bersama &amp; ujian sekolah (angka masih sebagian)
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabel Lengkap SPM -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-table"></i>Rekap Capaian SPM 5 per Desa — Januari s.d April 2026</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Desa</th><th style="text-align:center">Sasaran</th>
+              <th style="text-align:center">Jan</th><th style="text-align:center">Feb</th>
+              <th style="text-align:center">Mar</th><th style="text-align:center">Apr</th>
+              <th style="text-align:center">Total</th><th style="text-align:center">%</th>
+              <th style="min-width:90px">Progress</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${spmRows}
+            <tr style="font-weight:600;background:#f9fdfb;border-top:2px solid var(--border)">
+              <td>JUMLAH</td>
+              <td style="text-align:center">${SPM5_SASARAN_TOTAL.toLocaleString('id-ID')}</td>
+              <td style="text-align:center">${SPM5_DATA.reduce((s,d)=>s+d.jan,0).toLocaleString('id-ID')}</td>
+              <td style="text-align:center">${SPM5_DATA.reduce((s,d)=>s+d.feb,0).toLocaleString('id-ID')}</td>
+              <td style="text-align:center">${SPM5_DATA.reduce((s,d)=>s+d.mar,0).toLocaleString('id-ID')}</td>
+              <td style="text-align:center">${SPM5_DATA.reduce((s,d)=>s+d.apr,0).toLocaleString('id-ID')}</td>
+              <td style="text-align:center">${SPM5_CAPAIAN_TOTAL.toLocaleString('id-ID')}</td>
+              <td style="text-align:center"><span class="badge badge-amber">${SPM5_PCT}%</span></td>
+              <td>
+                <div style="height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+                  <div style="height:100%;width:${SPM5_PCT}%;background:var(--amber);border-radius:4px"></div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-12" style="font-size:11px;color:var(--text3)">
+        Plt. Kepala Puskesmas: <b>dr. Evi Aprilia</b> (NIP. 19880411 201503 2 001) &nbsp;·&nbsp;
+        Pemegang Program: <b>Yenny Sri Mardiyani, A.Md.Kep</b> (NIP. 19810223 201710 2 011)
+      </div>
+    </div>
   </div>
-  <div class="card mt-16"><div class="card-title"><i class="ti ti-list"></i>Rekap Lengkap — Semua Pengukuran</div>
-  <div class="table-wrap"><table><thead><tr><th>Nama Anak</th><th>Usia</th><th>Wilayah</th><th>BB</th><th>TB</th><th>Z TB/U</th><th>Status</th><th>Tgl Ukur</th></tr></thead>
-  <tbody>${anak.map(a=>{const u=latest[a.id];if(!u)return'';return`<tr><td>${a.nama}</td><td>${hitungUsia(a.tglLahir)} bln</td><td>${a.wilayah}</td><td>${u.bb}</td><td>${u.tb}</td><td>${u.zscore_tbu}</td><td>${statusBadge(u.status)}</td><td>${fmtDate(u.tanggal)}</td></tr>`;}).join('')}</tbody>
-  </table></div></div>`;
+
+  <!-- PANE SMAN -->
+  <div class="lap-pane hidden" data-pane="sman">
+    <div class="alert alert-info mb-16" style="background:var(--blue-light);border-color:#bfdbfe;color:#1e40af">
+      <i class="ti ti-info-circle"></i>
+      <div><b>Laporan Pemeriksaan Kesehatan Siswa SMAN 04 Sungai Raya (Desa Limbung)</b><br>
+      Puskesmas Sungai Durian · Kecamatan Sungai Raya · Tahun 2026</div>
+    </div>
+
+    <!-- Metric SMAN -->
+    <div class="grid-4 mb-16">
+      <div class="metric">
+        <div class="metric-label"><i class="ti ti-users"></i>Total Siswa Diperiksa</div>
+        <div class="metric-val">${tD.total}</div>
+        <div class="metric-sub">L: ${tD.L} · P: ${tD.P}</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label"><i class="ti ti-tooth"></i>Karies Gigi</div>
+        <div class="metric-val" style="color:var(--red)">${tD.caries}</div>
+        <div class="metric-sub">${Math.round(tD.caries/tD.total*100)}% dari total siswa</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label"><i class="ti ti-ear"></i>Serumen Telinga</div>
+        <div class="metric-val" style="color:var(--amber)">${tD.serumen}</div>
+        <div class="metric-sub">${Math.round(tD.serumen/tD.total*100)}% dari total siswa</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label" style="color:var(--green)"><i class="ti ti-heart"></i>Gizi Baik</div>
+        <div class="metric-val" style="color:var(--green)">${tD.giziBaik}</div>
+        <div class="metric-sub">${Math.round(tD.giziBaik/tD.total*100)}% dari total siswa</div>
+      </div>
+    </div>
+
+    <div class="grid-2 mb-16">
+      <!-- Gizi Chart -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-chart-donut"></i>Status Gizi Siswa (Total)</div>
+        <div class="chart-bar-wrap">${giziBars}</div>
+        <div style="display:flex;gap:16px;margin-top:14px;flex-wrap:wrap">
+          ${[['Gizi Baik',tD.giziBaik,'badge-green'],['Gizi Kurang',tD.giziKurang,'badge-amber'],['Gizi Lebih',tD.giziLebih,'badge-blue'],['Obesitas',tD.obesitas,'badge-red']].map(([l,v,c])=>`
+          <div style="text-align:center">
+            <div class="metric-val" style="font-size:20px">${v}</div>
+            <span class="badge ${c}">${l}</span>
+          </div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Masalah Kesehatan per Kelas -->
+      <div class="card">
+        <div class="card-title"><i class="ti ti-activity"></i>Masalah Kesehatan per Kelas</div>
+        <div class="chart-bar-wrap">
+          ${['kelas10','kelas11','kelas12'].map((k,i)=>{
+            const d=SMAN_DATA[k];
+            return `<div style="margin-bottom:10px">
+              <div style="font-size:12px;font-weight:600;color:var(--text2);margin-bottom:4px">Kelas ${10+i}</div>
+              ${[['Karies',d.caries,d.total,'var(--red)'],['Serumen',d.serumen,d.total,'var(--amber)'],['Visus',d.visus,d.total,'var(--blue)'],['Gizi Kurang',d.giziKurang+d.giziLebih+d.obesitas,d.total,'var(--amber)']].map(([l,v,t,c])=>`
+              <div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                <div style="width:72px;font-size:11px;color:var(--text2)">${l}</div>
+                <div style="flex:1;height:7px;background:var(--bg);border-radius:4px;overflow:hidden">
+                  <div style="height:100%;width:${Math.round(v/t*100)}%;background:${c};border-radius:4px"></div>
+                </div>
+                <div style="font-size:11px;width:44px;color:${c};font-weight:600">${v} (${Math.round(v/t*100)}%)</div>
+              </div>`).join('')}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabel per Kelas -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-table"></i>Rekap Pemeriksaan Kesehatan per Kelas</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Kelas</th><th style="text-align:center">Jumlah</th>
+              <th style="text-align:center">Serumen</th><th style="text-align:center">Infeksi Telinga</th>
+              <th style="text-align:center">Mata Normal/Visus</th><th style="text-align:center">Buta Warna</th>
+              <th style="text-align:center">Gigi Normal/Karies</th>
+              <th style="text-align:center">Gizi Baik</th><th style="text-align:center">Gizi Kurang</th>
+              <th style="text-align:center">Gizi Lebih</th><th style="text-align:center">Obesitas</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${klsRows}
+            ${smanTotalRow}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="alert mt-16" style="background:#f9fdfb;border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;font-size:12px;color:var(--text2)">
+      <i class="ti ti-info-circle" style="color:var(--green)"></i>
+      Pemeriksaan dilakukan di SMA Negeri 04 Sungai Raya (Desa Limbung) · Kelas 10, 11, dan 12 ·
+      Mencakup pemeriksaan: telinga, mata, gigi, status gizi, tekanan darah, HB, dan GDS.
+    </div>
+  </div>`;
 };
  
 // ──────────────────────────────────────
@@ -1796,13 +2099,18 @@ function printLaporan(){
   win.document.close();
 }
  
+// Laporan tab styling — inject active class handling
+const _lapStyle = document.createElement('style');
+_lapStyle.textContent = `.lap-tab.active{background:var(--green)!important;color:#fff!important}`;
+document.head.appendChild(_lapStyle);
+
 // Override SECTIONS.laporan to add print button
 const _oldLaporan = SECTIONS.laporan;
 SECTIONS.laporan = ()=>{
   const base = _oldLaporan();
-  return `<div class="search-row" style="justify-content:flex-end;margin-bottom:16px;gap:8px">
-    <button class="btn" onclick="unduhLaporan()"><i class="ti ti-download"></i> Unduh CSV</button>
-    <button class="btn btn-primary" onclick="printLaporan()"><i class="ti ti-printer"></i> Cetak / PDF</button>
+  return `<div class="search-row" style="justify-content:flex-end;margin-bottom:0;gap:8px">
+    <button class="btn btn-sm" onclick="unduhLaporan()"><i class="ti ti-download"></i> Unduh CSV Gizi</button>
+    <button class="btn btn-sm btn-primary" onclick="printLaporan()"><i class="ti ti-printer"></i> Cetak / PDF</button>
   </div>`+base;
 };
  
